@@ -84,7 +84,21 @@ class OllamaClient:
 
         context_lines = []
         for exchange in self.history:
-            context_lines.append(f"--- {exchange['timestamp']} ---")
-            context_lines.append(f"👤 Vous : {exchange['prompt']}")
-            context_lines.append(f"🤖 Ollama : {exchange['response']}\n")
+            # 📌 Gestion des messages système (role/content)
+            if "role" in exchange and "content" in exchange:
+                ts = exchange.get("timestamp", None)
+                if ts:
+                    context_lines.append(f"--- {ts} ---")
+                context_lines.append(f"[{exchange['role'].upper()}] : {exchange['content']}\n")
+                continue
+
+            # 📌 Gestion des échanges classiques (prompt/response)
+            ts = exchange.get("timestamp", "")
+            if ts:
+                context_lines.append(f"--- {ts} ---")
+            if "prompt" in exchange:
+                context_lines.append(f"👤 Vous : {exchange['prompt']}")
+            if "response" in exchange:
+                context_lines.append(f"🤖 Ollama : {exchange['response']}\n")
+
         return "\n".join(context_lines).strip()

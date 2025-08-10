@@ -7,8 +7,8 @@ from config import (
     PRESET_MESSAGES,
     WELCOME_MESSAGE,
     EMPTY_PROMPT_WARNING,
+    DEFAULT_SYSTEM_PROMPT,  # 📌 Ajout du prompt système
 )
-
 
 class ChatManager:
     def __init__(self, model=DEFAULT_MODEL, save_dir=SAVE_DIR):
@@ -19,6 +19,10 @@ class ChatManager:
         # 📌 Création immédiate du fichier de sauvegarde vide s'il n'existe pas encore
         if not self.save_manager.session_file.exists():
             self.save_manager.session_file.write_text("", encoding="utf-8")
+
+        # 📌 Ajout du prompt système si c'est une nouvelle session
+        if not self.client.history:  # Pas encore d'historique → première utilisation
+            self.client.history.append({"role": "system", "content": DEFAULT_SYSTEM_PROMPT})
 
     def start_chat(self):
         print(WELCOME_MESSAGE)

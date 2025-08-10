@@ -1,0 +1,12 @@
+---  ---
+👤 Vous : 
+🤖 Ollama : 
+
+--- 2025-08-10 11:24:20 ---
+👤 Vous : donne une ville aussi grosse que paris ?
+🤖 Ollama : Marseille
+
+--- 2025-08-10 11:24:28 ---
+👤 Vous : pourquoi ?
+🤖 Ollama : La population de Marseille est la plus importante en France après celle de Paris.
+

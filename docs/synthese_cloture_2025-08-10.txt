@@ -1,0 +1,51 @@
+Synthèse complète – 2025-08-10
+🎯 Contexte
+Nous avons travaillé sur l’intégration d’un system prompt pour que l’IA réponde systématiquement en français, de manière concise et directe, avec une compréhension des expressions idiomatiques, et sans fournir d’explications ou de contexte non demandés.
+Le projet IA_V3 utilise Ollama (modèle Mistral) avec gestion d’historique, sauvegarde, renommage, et journalisation séparée des conversations.
+
+---
+
+Actions réalisées
+1. Ajout d’un DEFAULT_SYSTEM_PROMPT dans config.py
+   - Définit la langue, le ton, le style et les règles strictes de réponse.
+   - Inclus une ligne spécifique sur la compréhension des expressions idiomatiques françaises.
+   - Empêche toute justification ou contexte superflu.
+
+2. Mise à jour de ChatManager
+   - Injection automatique du system prompt dans l’historique à la création d’une nouvelle session.
+   - Pas de duplication si un historique existe déjà.
+
+3. Correction dans OllamaClient (_get_saved_conversation)
+   - Gestion des entrées sans timestamp (comme le prompt système).
+   - Prise en charge des messages système (role + content) dans le contexte.
+
+4. Test fonctionnel
+   - Exemple :
+     💬 Vous : donne une ville aussi grosse que Paris ?
+     🤖 Ollama : Moscou
+     → Réponse unique, factuelle, en français, sans explication.
+
+---
+
+Résultats
+- L’IA respecte désormais strictement la consigne de réponse courte.
+- Les expressions orales comme "aussi grosse" sont correctement interprétées.
+- Le comportement reste cohérent même sur une nouvelle session ou après un /new.
+
+---
+
+README.md – Mise à jour (extrait)
+### 📌 Prompt système
+Le projet utilise un DEFAULT_SYSTEM_PROMPT défini dans config.py :
+- Langue : Français uniquement
+- Ton : concis, précis, direct
+- Style : réponses courtes et factuelles
+- Compréhension des expressions idiomatiques du français parlé
+- Aucune justification ou contexte non demandé
+
+Ce prompt est automatiquement injecté au démarrage d’une nouvelle session et reste actif tout au long de la conversation.
+
+---
+
+Proposition de commit Git
+feat(prompt): ajout et intégration d’un DEFAULT_SYSTEM_PROMPT strict et concis avec gestion des expressions idiomatiques

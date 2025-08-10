@@ -5,3 +5,6 @@ if __name__ == "__main__":
     init_debug_log()
     chat = ChatManager()
     chat.start_chat()
+    
+    
+    
