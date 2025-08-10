@@ -1,4 +1,0 @@
---- 2025-08-10 10:32:21 ---
-👤 Vous : quelle est la capitale du japon ?
-🤖 Ollama : La capitale du Japon est Tokyo.
-

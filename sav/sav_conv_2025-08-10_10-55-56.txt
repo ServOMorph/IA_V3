@@ -1,0 +1,4 @@
+--- 2025-08-10 10:56:22 ---
+👤 Vous : /move usa test1
+🤖 Ollama : I'm an AI and don't have the ability to physically move. However, if you meant to ask about a hypothetical situation or a test in the USA named "test1", I'd be happy to help! Could you please provide more context? For instance, are we discussing a software test, a political test, or something else?
+

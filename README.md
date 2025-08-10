@@ -17,6 +17,8 @@ Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par déf
   - `/new` → Démarre une nouvelle conversation vide.
   - `/copie_IA` → Copie la dernière réponse IA dans le presse-papier.
   - `/copie_user` → Copie le dernier message utilisateur dans le presse-papier.
+  - `/createfolder NOM` → Crée un dossier dans /sav et /logs pour organiser les conversations.
+  - `/move NOM_CIBLE DOSSIER` → Déplace une conversation vers un dossier existant.
 - **Démarrage amélioré** :
   - `debug.log` vidé au lancement, avec trace interne de la date/heure.
 
@@ -57,6 +59,8 @@ python main.py
 | /new           | Créer une nouvelle conversation vide |
 | /copie_IA      | Copier la dernière réponse IA |
 | /copie_user    | Copier le dernier message utilisateur |
+| /createfolder NOM | Crée un dossier dans /sav et /logs |
+| /move NOM DOSSIER | Déplace la conversation NOM dans le dossier existant |
 
 🗂️ **Répertoires**
 - Conversations sauvegardées : `/sav/`
