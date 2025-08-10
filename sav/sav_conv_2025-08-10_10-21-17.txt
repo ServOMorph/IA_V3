@@ -1,0 +1,29 @@
+--- 2025-08-10 10:21:24 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-10 10:21:54 ---
+👤 Vous : ecri sun proème de 20 lignes sur cette ville
+🤖 Ollama : Voici un poème en français de vingt lignes sur Paris, la magnifique capitale française :
+
+Paris, cité lumière où les rêves s'envolent,
+Tu nous offres des moments inoubliables.
+Sur les berges de Seine où fleurit le jasmin,
+Les amants se croisent sous l'aile d'un souffle d'amour.
+
+Les ponts de fer et d'osier t'éclatent dans la nuit,
+Tandis que tes étoiles brillantes te couronnent.
+L'arc de triomphe, symbole de nos grandes batailles,
+Est le temple d'une gloire qui ne s'effacera jamais.
+
+Les Notre-Dame et Sainte-Chapelle, monuments divins,
+Font vibrer au cœur des spectateurs leur grand mystère.
+Tu possèdes un patrimoine historique incomparable,
+Et dans tes rues, tes musées et tes jardins,
+La culture se mêle à l'innovation en une harmonie merveilleuse.
+
+Paris, cité d'amour, de créativité et d'art,
+Tu nous révelles chaque jour un mystère enchanté.
+Et bien que tu sois la capitale du monde entier,
+C'est pour moi que tu luis le plus brillamment.
+

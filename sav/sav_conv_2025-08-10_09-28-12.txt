@@ -1,4 +1,0 @@
---- 2025-08-10 09:28:20 ---
-👤 Vous : Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler
-🤖 Ollama : "Ville ancienne, Rome, capitale d'Empires."
-

@@ -5,57 +5,60 @@ Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par déf
 - La sauvegarde des conversations (`/sav`)
 - Le chargement de sessions précédentes
 - Le renommage des conversations
+- La suppression de conversations
+- La copie des derniers messages (IA ou utilisateur) dans le presse-papier
 - La conservation du contexte à chaque échange
 - Des logs détaillés dans des fichiers séparés
+- Un démarrage propre avec vidage de `debug.log`
 
 ## 🚀 Nouveautés
-- **Centralisation des constantes** dans `config.py` :
-  - Paramètres Ollama (`OLLAMA_BASE_URL`, `DEFAULT_MODEL`, `OLLAMA_TIMEOUT`)
-  - Répertoires (`SAVE_DIR`, `LOGS_DIR`)
-  - Formats de fichiers de sauvegarde
-  - Messages système et pré-enregistrés
-- **Réorganisation des loggers** :
-  - `core/logging/logger.py` → Logger global (`debug.log`)
-  - `core/logging/conv_logger.py` → Logger conversationnel (par session)
+- **Commandes ajoutées** :
+  - `/suppr NOM` → Supprime la conversation et son log.
+  - `/new` → Démarre une nouvelle conversation vide.
+  - `/copie_IA` → Copie la dernière réponse IA dans le presse-papier.
+  - `/copie_user` → Copie le dernier message utilisateur dans le presse-papier.
+- **Démarrage amélioré** :
+  - `debug.log` vidé au lancement, avec trace interne de la date/heure.
 
 ## 📂 Structure du projet
 IA_V3/
 │
 ├── core/
-│ ├── chat_manager.py
-│ ├── ollama_client.py
-│ ├── sav_manager.py
-│ ├── commands.py
-│ ├── logging/
-│ │ ├── logger.py
-│ │ └── conv_logger.py
-│
+│   ├── chat_manager.py
+│   ├── ollama_client.py
+│   ├── sav_manager.py
+│   ├── commands.py
+│   ├── startup_utils.py
+│   └── logging/
+│       ├── logger.py
+│       └── conv_logger.py
 ├── logs/
 ├── sav/
 ├── config.py
 ├── main.py
 └── README.md
 
-
 ## 🖥️ Utilisation
 ```bash
 python main.py
+```
 
-📜 Commandes disponibles
-Commande	Description
-/q	Sauvegarder la conversation et quitter
-/exit	Quitter sans sauvegarder
-/help	Afficher la liste des commandes
-/rename NOM	Renommer la conversation actuelle
-/msg1	Demande pré-enregistrée 1
-/msg2	Demande pré-enregistrée 2
-/load NOM	Charger une conversation sauvegardée
-🗂️ Sauvegardes & Logs
+📜 **Commandes disponibles**  
+| Commande       | Description |
+|----------------|-------------|
+| /q             | Sauvegarder la conversation et quitter |
+| /exit          | Quitter sans sauvegarder |
+| /help          | Afficher la liste des commandes |
+| /rename NOM    | Renommer la conversation actuelle |
+| /msg1          | Demande pré-enregistrée 1 |
+| /msg2          | Demande pré-enregistrée 2 |
+| /load NOM      | Charger une conversation sauvegardée |
+| /suppr NOM     | Supprimer une conversation et son log |
+| /new           | Créer une nouvelle conversation vide |
+| /copie_IA      | Copier la dernière réponse IA |
+| /copie_user    | Copier le dernier message utilisateur |
 
-    Conversations : sav/
-
-    Logs techniques : debug.log
-
-    Logs conversationnels : logs/
-
-
+🗂️ **Répertoires**
+- Conversations sauvegardées : `/sav/`
+- Logs techniques : `debug.log`
+- Logs conversationnels : `/logs/`

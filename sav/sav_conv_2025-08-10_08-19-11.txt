@@ -1,4 +1,0 @@
---- 2025-08-10 08:19:23 ---
-👤 Vous : capitale de l'autriche
-🤖 Ollama : La capitale dell'Austria è Vienna. È situata nella parte orientale del paese e è nota per essere una città culturale, artistica e storica di rilievo internazionale.
-

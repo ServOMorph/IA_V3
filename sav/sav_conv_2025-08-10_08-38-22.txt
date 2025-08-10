@@ -1,4 +1,0 @@
---- 2025-08-10 08:38:45 ---
-👤 Vous : de quelle ville parle t'on ?
-🤖 Ollama : Je ne parle pas de manière informelle. Cependant, je suis un assistant assistant et mon code est écrit en anglais. Pour répondre à votre question : les conversations qui ont lieu sur ce site sont généralement basées à New York, bien que l'emplacement précis ne soit pas spécifié.
-

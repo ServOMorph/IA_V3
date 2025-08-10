@@ -1,8 +1,0 @@
---- 2025-08-10 09:36:54 ---
-👤 Vous : Quelle est la capitale de la France ?
-🤖 Ollama : La capitale de la France est Paris.
-
---- 2025-08-10 09:37:05 ---
-👤 Vous : Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler
-🤖 Ollama : "Paris - Amour, lumière, art et révolution."
-
