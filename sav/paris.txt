@@ -1,0 +1,8 @@
+--- 2025-08-10 08:54:25 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris. C'est une des villes les plus célèbres au monde, réputée pour ses monuments historiques tels que la Tour Eiffel, le Louvre et Notre-Dame de Paris. Elle est également connue pour sa culture, son art, sa gastronomie et son style de vie.
+
+--- 2025-08-10 08:54:55 ---
+👤 Vous : combien d'habitant à Paris ?
+🤖 Ollama : La population de Paris est estimée à plus ou moins 2,1 million d'habitants en 2021, mais si l'on prend en compte sa région, la population totale atteint environ 12 millions. Cela fait de Paris l'agglomération la plus peuplée de France et l'une des plus grandes au monde.
+

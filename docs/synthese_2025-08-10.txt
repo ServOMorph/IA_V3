@@ -1,0 +1,66 @@
+Synthèse du projet – 2025-08-10
+
+Contexte :
+Mise en place d’un système Python pour interagir avec un serveur Ollama (modèle Mistral), avec gestion d’historique, sauvegarde automatique des conversations, chargement, renommage et journalisation.
+
+Étapes réalisées :
+
+    Base du client Ollama (ollama_client.py)
+
+        Création d’une classe OllamaClient pour envoyer des prompts à Ollama et récupérer les réponses.
+
+        Ajout d’une gestion d’historique interne.
+
+        Timeout initial remplacé par un délai long (3600s).
+
+        Intégration d’un contexte en relisant le fichier de session pour conserver la cohérence des réponses.
+
+    Gestion des sauvegardes (sav_manager.py)
+
+        Sauvegarde automatique après chaque échange dans un fichier TXT.
+
+        Format : sav_conv_YYYY-MM-DD_HH-MM-SS.txt.
+
+        Fonctions pour renommer une conversation et charger un fichier existant.
+
+    Gestion des commandes (commands.py)
+
+        Commandes implémentées :
+
+        /q       → Sauvegarder et quitter
+        /exit    → Quitter sans sauvegarde
+        /help    → Liste des commandes
+        /rename  → Renommer la session
+        /msg1    → "Quelle est la capitale de la France ?"
+        /msg2    → "Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler"
+        /load    → Charger une conversation sauvegardée
+
+    Gestion de chat (chat_manager.py)
+
+        Boucle interactive gérant toutes les commandes et l’envoi de prompts.
+
+        Chargement d’une conversation qui devient immédiatement le contexte pour l’IA.
+
+    Journalisation
+
+        logger.py : logs techniques dans debug.log.
+
+        conv_logger.py : logs conversationnels (prompts envoyés + réponses reçues) dans un fichier par conversation.
+
+    Tests
+
+        tests/test_logger.py : vérification du système de logs.
+
+        tests/test_full_flow.py : simulation d’un flux complet (/msg1, /msg2, /rename, /load).
+
+        Tous les tests passent avec succès.
+
+Points notables :
+
+    Chaque message envoyé à l’IA inclut tout le contexte déjà sauvegardé.
+
+    Les logs permettent de relire les échanges et le contenu exact des prompts envoyés.
+
+    La structure est modulaire (core/ pour le cœur, tests/ pour les tests).
+
+    Le système est prêt pour ajout futur de commandes ou d’export dans d’autres formats (JSON, etc.).

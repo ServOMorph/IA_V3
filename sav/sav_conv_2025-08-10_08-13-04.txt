@@ -1,0 +1,4 @@
+--- 2025-08-10 08:13:15 ---
+👤 Vous : capitale de la france
+🤖 Ollama : Le capitale de la France est Paris. Paris est situé dans le nord-est de la France et est une ville célèbre pour son histoire, ses monuments culturels importants tels que l'Église Notre-Dame de Paris, le Louvre et l'Arc de Triomphe, ainsi que sa vie urbaine et son importance économique.
+

@@ -1,0 +1,12 @@
+--- 2025-08-10 09:12:21 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-10 09:12:32 ---
+👤 Vous : Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler
+🤖 Ollama : Paris, "Ville-lumière", éclate au cœur des Lumières.
+
+--- 2025-08-10 09:12:51 ---
+👤 Vous : de quelle ville parle t'on ?
+🤖 Ollama : On parle de Paris, la capitale française connue sous le nom de "Ville-lumière". C'est une ville historique et culturelle qui a été un moteur important pour les Lumières au XVIIIe siècle.
+

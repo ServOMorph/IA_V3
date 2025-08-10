@@ -1,0 +1,8 @@
+--- 2025-08-10 09:01:33 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-10 09:01:50 ---
+👤 Vous : quelle est la capitale des USA ?
+🤖 Ollama : La capitale des États-Unis d'Amérique est Washington D.C. (District of Columbia). Cependant, il n'y a pas de capitale unique pour les États-Unis car chaque État dispose de sa propre capitale pour l'administration de ses lois et des affaires de l'État. La cité de Washington D.C., où se trouve la Maison-Blanche et le Congrès, est la capitale fédérale où siègent le président et les deux chambres du Congrès.
+

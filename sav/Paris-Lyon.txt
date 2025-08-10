@@ -1,0 +1,8 @@
+--- 2025-08-10 08:57:30 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-10 08:58:04 ---
+👤 Vous : quelle est la deucième ville de france en taille de population ?
+🤖 Ollama : Lyon est la deuxième ville de France en termes de population, juste après Paris.
+
