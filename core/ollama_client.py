@@ -1,12 +1,14 @@
 import requests
 import logging
 from pathlib import Path
-from core.conv_logger import setup_conv_logger
+from core.logging.conv_logger import setup_conv_logger
 from datetime import datetime
 import json
+from config import OLLAMA_BASE_URL, DEFAULT_MODEL, OLLAMA_TIMEOUT
+
 
 class OllamaClient:
-    def __init__(self, base_url="http://localhost:11434", model="mistral", timeout=3600, session_file=None):
+    def __init__(self, base_url=OLLAMA_BASE_URL, model=DEFAULT_MODEL, timeout=OLLAMA_TIMEOUT, session_file=None):
         self.base_url = base_url
         self.model = model
         self.timeout = timeout

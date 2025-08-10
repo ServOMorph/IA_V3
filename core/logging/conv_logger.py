@@ -1,7 +1,8 @@
 import logging
 from pathlib import Path
+from config import LOGS_DIR
 
-def setup_conv_logger(session_name: str, log_dir="logs"):
+def setup_conv_logger(session_name: str, log_dir=LOGS_DIR):
     """
     Configure un logger dédié à la conversation IA.
     Le fichier .log porte le même nom que la sauvegarde .txt.

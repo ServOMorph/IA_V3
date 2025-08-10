@@ -2,15 +2,16 @@ import logging
 from pathlib import Path
 from datetime import datetime
 import shutil
+from config import SAVE_DIR, SAVE_FILE_PREFIX, SAVE_FILE_DATETIME_FORMAT, LOGS_DIR
 
 class SaveManager:
     """
     Sauvegarde les conversations dans un fichier dédié à la session.
     """
-    def __init__(self, save_dir="sav"):
+    def __init__(self, save_dir=SAVE_DIR):
         self.save_dir = Path(save_dir)
         self.save_dir.mkdir(parents=True, exist_ok=True)
-        self.session_file = self.save_dir / f"sav_conv_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt"
+        self.session_file = self.save_dir / f"{SAVE_FILE_PREFIX}{datetime.now().strftime(SAVE_FILE_DATETIME_FORMAT)}.txt"
 
     def save_txt(self, history):
         """Sauvegarde ou met à jour l'historique complet dans le fichier de session."""
@@ -49,9 +50,9 @@ class SaveManager:
             shutil.move(str(old_txt_file), str(new_txt_file))
 
             # Renommer le fichier .log correspondant s'il existe
-            old_log_file = Path("logs") / f"{old_txt_file.stem}.log"
+            old_log_file = Path(LOGS_DIR) / f"{old_txt_file.stem}.log"
             if old_log_file.exists():
-                new_log_file = Path("logs") / f"{new_name}.log"
+                new_log_file = Path(LOGS_DIR) / f"{new_name}.log"
                 shutil.move(str(old_log_file), str(new_log_file))
                 logging.info(f"Fichier log renommé : {new_log_file.resolve()}")
 

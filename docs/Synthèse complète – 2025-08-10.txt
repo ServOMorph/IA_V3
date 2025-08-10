@@ -1,0 +1,100 @@
+Synthèse complète – 2025-08-10
+🎯 Contexte
+
+Nous avons réorganisé le projet IA_V3 pour centraliser les constantes dans un fichier unique config.py et structurer la gestion des logs.
+Le projet interagit avec un serveur Ollama (modèle Mistral), avec gestion de l’historique, sauvegarde, renommage et journalisation.
+🔹 Actions réalisées
+
+    Centralisation des constantes
+
+        Création de config.py contenant :
+
+            Paramètres Ollama (OLLAMA_BASE_URL, DEFAULT_MODEL, OLLAMA_TIMEOUT)
+
+            Répertoires (SAVE_DIR, LOGS_DIR)
+
+            Formats et préfixes de fichiers de sauvegarde
+
+            Messages système (WELCOME_MESSAGE, etc.)
+
+            Messages pré-enregistrés /msg1, /msg2
+
+        Modification de :
+
+            chat_manager.py
+
+            conv_logger.py
+
+            logger.py
+
+            ollama_client.py
+
+            sav_manager.py
+
+            main.py
+
+        Toutes les valeurs codées en dur ont été remplacées par des références à config.py.
+
+    Réorganisation de la structure des logs
+
+        Création du dossier core/logging/
+
+        Déplacement de :
+
+            logger.py → Logger global (debug.log)
+
+            conv_logger.py → Logger conversationnel (par session)
+
+        Mise à jour des imports dans les fichiers concernés :
+
+            from core.logging.logger import setup_logger
+
+            from core.logging.conv_logger import setup_conv_logger
+
+    Ajustements d’imports
+
+        Suppression des problèmes de ModuleNotFoundError grâce à la bonne structure des packages.
+
+        Uniformisation des chemins d’import pour éviter les confusions entre logger global et logger conversationnel.
+
+    Tests
+
+        Proposition de test_logger.py pour vérifier :
+
+            Création et écriture dans debug.log
+
+            Affichage console limité aux niveaux WARNING+
+
+        Nettoyage du dossier tests/ pour repartir sur une base propre.
+
+Strucutre
+
+IA_V3/
+│
+├── core/
+│   ├── chat_manager.py
+│   ├── ollama_client.py
+│   ├── sav_manager.py
+│   ├── commands.py
+│   ├── logging/
+│   │   ├── __init__.py
+│   │   ├── logger.py          # Logger global (debug.log)
+│   │   └── conv_logger.py     # Logger conversationnel
+│
+├── docs/                      # Documentation et synthèses
+│   ├── synthese_2025-08-10.txt
+│
+├── logs/                      # Fichiers de logs conversationnels
+├── sav/                       # Fichiers de sauvegarde de conversations
+├── config.py                   # Constantes globales
+├── main.py                     # Point d’entrée
+├── README.md                   # README principal du projet
+└── debug.log                   # Log technique global
+
+✅ Résultats
+
+    Les paramètres sont désormais faciles à modifier dans un seul fichier (config.py).
+
+    Les logs sont mieux structurés avec une séparation claire entre les logs techniques et conversationnels.
+
+    La maintenance du projet est facilitée et les futures évolutions (nouvelles commandes, nouveaux modèles Ollama) seront plus simples à intégrer.

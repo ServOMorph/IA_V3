@@ -1,27 +1,29 @@
 from core.ollama_client import OllamaClient
 from core.sav_manager import SaveManager
 from core.commands import show_commands
-from core.conv_logger import setup_conv_logger  # pour recréer le logger après /rename
+from core.logging.conv_logger import setup_conv_logger  # pour recréer le logger après /rename
+from config import DEFAULT_MODEL, SAVE_DIR, PRESET_MESSAGES, WELCOME_MESSAGE, EXIT_SAVE_MESSAGE, EXIT_NO_SAVE_MESSAGE, EMPTY_PROMPT_WARNING
+
 
 class ChatManager:
-    def __init__(self, model="mistral", save_dir="sav"):
+    def __init__(self, model=DEFAULT_MODEL, save_dir=SAVE_DIR):
         self.save_manager = SaveManager(save_dir=save_dir)
         self.client = OllamaClient(model=model, session_file=self.save_manager.session_file)
 
     def start_chat(self):
-        print("💬 Session de chat démarrée (tapez /help pour voir les commandes)")
+        print(WELCOME_MESSAGE)
 
         while True:
             user_prompt = input("\n💬 Vous : ").strip()
 
             # Sauvegarder et quitter
             if user_prompt.lower() == "/q":
-                print("✅ Conversation sauvegardée et session terminée.")
+                print(EXIT_SAVE_MESSAGE)
                 break
 
-            # Quitter sans sauvegarder
+            # Quitter sans sauvegarde
             if user_prompt.lower() in {"/exit", "exit", "quit"}:
-                print("🚪 Session terminée sans sauvegarde supplémentaire.")
+                print(EXIT_NO_SAVE_MESSAGE)
                 break
 
             # Afficher l'aide
@@ -48,16 +50,14 @@ class ChatManager:
 
             # Message pré-enregistré 1
             if user_prompt.lower() == "/msg1":
-                msg = "Quelle est la capitale de la France ?"
-                answer = self.client.send_prompt(msg)
+                answer = self.client.send_prompt(PRESET_MESSAGES["msg1"])
                 print(f"🤖 Ollama : {answer}")
                 self.save_manager.save_txt(self.client.history)
                 continue
-            
+
             # Message pré-enregistré 2
             if user_prompt.lower() == "/msg2":
-                msg = "Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler"
-                answer = self.client.send_prompt(msg)
+                answer = self.client.send_prompt(PRESET_MESSAGES["msg2"])
                 print(f"🤖 Ollama : {answer}")
                 self.save_manager.save_txt(self.client.history)
                 continue
@@ -87,7 +87,7 @@ class ChatManager:
 
             # Empêcher les prompts vides
             if not user_prompt:
-                print("⚠️ Prompt vide, veuillez entrer un texte.")
+                print(EMPTY_PROMPT_WARNING)
                 continue
 
             # Envoyer la question à l'IA avec le contexte du fichier de sauvegarde

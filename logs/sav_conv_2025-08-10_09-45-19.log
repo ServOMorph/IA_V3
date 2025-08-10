@@ -1,0 +1,18 @@
+2025-08-10 09:45:22 - ------ NOUVEL ÉCHANGE ------
+2025-08-10 09:45:22 - [PROMPT ENVOYÉ À MISTRAL]
+Quelle est la capitale de la France ?
+2025-08-10 09:45:26 - [RÉPONSE DE MISTRAL]
+La capitale de la France est Paris.
+
+2025-08-10 09:45:34 - ------ NOUVEL ÉCHANGE ------
+2025-08-10 09:45:34 - [PROMPT ENVOYÉ À MISTRAL]
+--- 2025-08-10 09:45:26 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+---
+👤 Vous : Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler
+🤖 Ollama :
+2025-08-10 09:45:38 - [RÉPONSE DE MISTRAL]
+"Paris, 'Ville Lumière', amoureuse de l'art et des romantiques."
+

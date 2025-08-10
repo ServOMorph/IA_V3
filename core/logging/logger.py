@@ -1,7 +1,8 @@
 import logging
 from pathlib import Path
+from config import DEBUG_LOG_FILE
 
-def setup_logger(log_file="debug.log"):
+def setup_logger(log_file=DEBUG_LOG_FILE):
     """
     Configure le logger :
     - Tous les logs (DEBUG, INFO, WARNING, ERROR) → debug.log à la racine
