@@ -2,7 +2,7 @@ import os
 import ctypes
 from ctypes import wintypes
 import pygame
-import config
+import config_ui  # ton fichier de config
 
 # --- Win32
 user32 = ctypes.windll.user32
@@ -21,18 +21,18 @@ def get_screen_size():
     return user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
 
 def compute_window_geometry():
-    screen_w, screen_h = get_screen_size()
+    """Toujours moitié gauche de l'écran utilisable (sans barre des tâches)."""
+    SM_CXSCREEN = 0
+    SM_CXFULLSCREEN = 16
+    SM_CYFULLSCREEN = 17
+
+    screen_w = user32.GetSystemMetrics(SM_CXSCREEN)
+    usable_h = user32.GetSystemMetrics(SM_CYFULLSCREEN)
+
     win_w = screen_w // 2
-    win_h = screen_h
-
-    # Appliquer réduction hauteur
-    win_h += getattr(config, "WINDOW_HEIGHT_ADJUST", 0)
-
-    align = (getattr(config, "WINDOW_ALIGN", "left") or "left").lower()
-    pos_x = screen_w - win_w if align == "right" else 0
-    pos_x += getattr(config, "WINDOW_X_OFFSET", 0)
-
-    pos_y = getattr(config, "WINDOW_Y_OFFSET", 0)
+    win_h = usable_h
+    pos_x = -6
+    pos_y = 0
 
     return pos_x, pos_y, win_w, win_h
 
@@ -50,7 +50,16 @@ def main():
 
     pygame.init()
     window = pygame.display.set_mode((win_w, win_h), pygame.RESIZABLE)
-    pygame.display.set_caption("IA_V3 - Interface Pygame (moitié d'écran)")
+    pygame.display.set_caption("IA_V3 - Interface Pygame (moitié gauche écran)")
+
+    # Charger l'image de fond
+    try:
+        bg_path = os.path.join("assets", "images", "fond_window.png")
+        background = pygame.image.load(bg_path).convert()
+        background = pygame.transform.scale(background, (win_w, win_h))
+    except pygame.error as e:
+        print(f"Erreur chargement image de fond : {e}")
+        background = None
 
     # Forcer la position
     try:
@@ -67,8 +76,17 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.VIDEORESIZE:
+                win_w, win_h = event.w, event.h
+                if background:
+                    background = pygame.image.load(bg_path).convert()
+                    background = pygame.transform.scale(background, (win_w, win_h))
 
-        window.fill(getattr(config, "WINDOW_BG_COLOR", (30, 30, 30)))
+        if background:
+            window.blit(background, (0, 0))
+        else:
+            window.fill(getattr(config_ui, "WINDOW_BG_COLOR", (30, 30, 30)))
+
         pygame.display.flip()
         clock.tick(60)
 

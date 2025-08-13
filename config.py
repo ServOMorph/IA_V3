@@ -55,12 +55,5 @@ Tu es une IA francophone.
 - Si une expression peut avoir plusieurs significations, choisir celle qui correspond le mieux au sens commun en contexte
 """
 
-# Position de la fenêtre : "left" ou "right"
-WINDOW_ALIGN = "left"  # ou "right"
-WINDOW_X_OFFSET = -8    # décalage horizontal en pixels
-WINDOW_Y_OFFSET = 0    # décalage vertical en pixels
-WINDOW_HEIGHT_ADJUST = 0  # valeur négative pour réduire la hauteur
 
-# Couleur de fond par défaut
-WINDOW_BG_COLOR = (30, 30, 30)
 
