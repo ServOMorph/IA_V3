@@ -1,0 +1,8 @@
+---  ---
+👤 Vous : 
+🤖 Ollama : 
+
+--- 2025-08-10 12:16:18 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris
+
