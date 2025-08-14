@@ -1,4 +1,4 @@
-# IA_V3 – Chat IA avec Ollama et gestion avancée des conversations
+# IA_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface Kivy
 
 ## 📌 Description
 Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par défaut `mistral`), tout en gérant automatiquement :
@@ -10,6 +10,7 @@ Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par déf
 - La conservation du contexte à chaque échange
 - Des logs détaillés dans des fichiers séparés
 - Un démarrage propre avec vidage de `debug.log`
+- **Une interface graphique (UI) développée avec Kivy**, affichant un fond personnalisé
 
 ## 🚀 Nouveautés
 - **Commandes ajoutées** :
@@ -21,8 +22,16 @@ Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par déf
   - `/move NOM_CIBLE DOSSIER` → Déplace une conversation vers un dossier existant.
 - **Démarrage amélioré** :
   - `debug.log` vidé au lancement, avec trace interne de la date/heure.
+- **Interface graphique Kivy** :
+  - Fenêtre configurable en taille et position via `ui/config_ui.py`
+  - Fond personnalisé depuis `assets/images/fond_window.png` (chemin absolu pour éviter les erreurs)
+  - Nettoyage des logs Kivy dans la console
+  - Structure du code séparée (`main_ui.py` pour le lancement, `ui/interface_main.py` pour l’interface)
+  - Configuration centralisée (`ui/config_ui.py`)
+  - Suppression du label et du bouton par défaut pour un fond pur
 
 ## 📂 Structure du projet
+```
 IA_V3/
 │
 ├── core/
@@ -34,15 +43,28 @@ IA_V3/
 │   └── logging/
 │       ├── logger.py
 │       └── conv_logger.py
+├── ui/
+│   ├── config_ui.py         # constantes et paramètres UI
+│   └── interface_main.py    # classe MainUI (interface Kivy)
+├── assets/
+│   └── images/
+│       └── fond_window.png  # image de fond
 ├── logs/
 ├── sav/
 ├── config.py
 ├── main.py
+├── main_ui.py               # point d’entrée de l’interface Kivy
 └── README.md
+```
 
 ## 🖥️ Utilisation
+### Interface en ligne de commande
 ```bash
 python main.py
+```
+### Interface graphique Kivy
+```bash
+python main_ui.py
 ```
 
 📜 **Commandes disponibles**  
@@ -66,3 +88,4 @@ python main.py
 - Conversations sauvegardées : `/sav/`
 - Logs techniques : `debug.log`
 - Logs conversationnels : `/logs/`
+- Ressources graphiques : `/assets/images/`
