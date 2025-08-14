@@ -1,15 +1,94 @@
-from kivy.app import App
-from kivy.core.window import Window
-import ui.config_ui as cfg
-from ui.interface_main import MainUI
+from ui.config_ui import *
 
-class MainApp(App):
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.core.window import Window
+from kivy.graphics import Color, Rectangle
+
+class BackgroundBox(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        with self.canvas.before:
+            self._bg = Rectangle(source=BACKGROUND_IMAGE, size=self.size, pos=self.pos)
+        self.bind(size=self._sync, pos=self._sync)
+    def _sync(self, *_):
+        self._bg.size, self._bg.pos = self.size, self.pos
+
+class ColoredBox(BoxLayout):
+    def __init__(self, title="", bg_color=(1,1,1,0.28), **kwargs):
+        super().__init__(**kwargs)
+        self._rect = None
+        if SHOW_COLORS:
+            with self.canvas.before:
+                Color(*bg_color)
+                self._rect = Rectangle(size=self.size, pos=self.pos)
+            self.bind(size=self._upd, pos=self._upd)
+        if SHOW_LABELS and title:
+            self.add_widget(Label(text=title, font_size='18sp'))
+    def _upd(self, *_):
+        if self._rect:
+            self._rect.size, self._rect.pos = self.size, self.pos
+
+class MyApp(App):
     def build(self):
-        Window.size = cfg.WINDOW_SIZE
-        Window.left, Window.top = cfg.WINDOW_POSITION
-        Window.clearcolor = cfg.BG_COLOR
-        self.title = cfg.WINDOW_TITLE
-        return MainUI()
+        Window.size = WINDOW_SIZE
+        Window.left, Window.top = WINDOW_POSITION
+        Window.title = WINDOW_TITLE
+
+        main_layout = BackgroundBox(orientation='horizontal')
+
+        # ---- Colonne gauche ----
+        zone_gauche = BoxLayout(orientation='vertical', size_hint=(None, 1), width=ZONE_GAUCHE_WIDTH)
+
+        zone_liste_conv_gauche = ColoredBox(
+            title=AREA_NAME_LEFT_TOP,
+            bg_color=COLOR_ZONE_LISTE_CONV_GAUCHE,
+            orientation='vertical', size_hint=(1, None), height=ZONE_GAUCHE_HAUT_HEIGHT
+        )
+        zone_param_gauche = ColoredBox(
+            title=AREA_NAME_LEFT_BOTTOM,
+            bg_color=COLOR_ZONE_PARAM_GAUCHE,
+            orientation='vertical', size_hint=(1, 1)
+        )
+        zone_gauche.add_widget(zone_liste_conv_gauche)
+        zone_gauche.add_widget(zone_param_gauche)
+
+        # ---- Colonne droite ----
+        zone_droite = BoxLayout(orientation='vertical', size_hint=(1, 1))
+
+        # >>> zone droite haut = zone_chat
+        zone_chat = ColoredBox(
+            title=AREA_NAME_RIGHT_TOP,
+            bg_color=COLOR_ZONE_CHAT_DROITE,
+            orientation='vertical', size_hint=(1, None), height=ZONE_DROITE_HAUT_HEIGHT
+        )
+
+        # >>> zone droite bas
+        zone_droite_bas = BoxLayout(orientation='vertical', size_hint=(1, 1))
+
+        zone_message = ColoredBox(
+            title=AREA_NAME_RIGHT_BOTTOM_TOP,
+            bg_color=COLOR_ZONE_MESSAGE,
+            orientation='vertical', size_hint=(1, None), height=ZONE_DROITE_BAS_HAUT_HEIGHT
+        )
+
+        # >>> zone droite bas bas = zone_info
+        zone_info = ColoredBox(
+            title=AREA_NAME_RIGHT_BOTTOM_BOTTOM,
+            bg_color=COLOR_ZONE_INFO_DROITE,
+            orientation='vertical', size_hint=(1, 1)
+        )
+
+        zone_droite_bas.add_widget(zone_message)
+        zone_droite_bas.add_widget(zone_info)
+
+        zone_droite.add_widget(zone_chat)
+        zone_droite.add_widget(zone_droite_bas)
+
+        main_layout.add_widget(zone_gauche)
+        main_layout.add_widget(zone_droite)
+        return main_layout
 
 if __name__ == "__main__":
-    MainApp().run()
+    MyApp().run()
