@@ -44,8 +44,7 @@ IA_V3/
 │       ├── logger.py
 │       └── conv_logger.py
 ├── ui/
-│   ├── config_ui.py         # constantes et paramètres UI
-│   └── interface_main.py    # classe MainUI (interface Kivy)
+│   └── config_ui.py         # constantes et paramètres UI
 ├── assets/
 │   └── images/
 │       └── fond_window.png  # image de fond
@@ -53,7 +52,7 @@ IA_V3/
 ├── sav/
 ├── config.py
 ├── main.py
-├── main_ui.py               # point d’entrée de l’interface Kivy
+├── main_ui.py               # classe MainUI (interface Kivy)
 └── README.md
 ```
 
