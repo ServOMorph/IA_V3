@@ -4,7 +4,6 @@ from ui.config_ui import (
     ZONE_LISTE_Y,
     ZONE_LISTE_WIDTH,
     ZONE_LISTE_HEIGHT,
-    ZONE_LISTE_BG_COLOR,
 )
 
 class ZoneListeConv(ZoneBase):
@@ -15,6 +14,4 @@ class ZoneListeConv(ZoneBase):
             ZONE_LISTE_Y,
             ZONE_LISTE_WIDTH,
             ZONE_LISTE_HEIGHT,
-            ZONE_LISTE_BG_COLOR,
-            nom_zone="Conversations sauvegardées"
         )

@@ -6,7 +6,7 @@ import ui.config_ui
 from ui.zones.zone_chat import ZoneChat
 from ui.zones.zone_liste_conv import ZoneListeConv
 from ui.zones.zone_param import ZoneParam
-from ui.zones.zone_message import ZoneMessage
+from ui.zones.zone_message import ZoneMessage  # version Pygame pur
 from ui.zones.zone_info import ZoneInfo
 
 # --- Win32
@@ -78,10 +78,9 @@ def main():
     zone_chat = ZoneChat(window)
     zone_liste_conv = ZoneListeConv(window)
     zone_param = ZoneParam(window)
-    zone_message = ZoneMessage(window)
+    zone_message = ZoneMessage(window)  # Pygame pur → plus de ui_manager
     zone_info = ZoneInfo(window)
     
-
     running = True
     clock = pygame.time.Clock()
 
@@ -95,12 +94,15 @@ def main():
                     background = pygame.image.load(bg_path).convert()
                     background = pygame.transform.scale(background, (win_w, win_h))
 
+            # Gestion saisie clavier pour ZoneMessage
+            zone_message.handle_event(event)
+        
         if background:
             window.blit(background, (0, 0))
         else:
             window.fill(getattr(ui.config_ui, "WINDOW_BG_COLOR", (30, 30, 30)))
 
-        # Affichage de la zone de chat
+        # Affichage des zones
         zone_chat.afficher()
         zone_liste_conv.afficher()
         zone_param.afficher()

@@ -4,7 +4,6 @@ from ui.config_ui import (
     ZONE_INFO_Y,
     ZONE_INFO_WIDTH,
     ZONE_INFO_HEIGHT,
-    ZONE_INFO_BG_COLOR,
 )
 
 class ZoneInfo(ZoneBase):
@@ -15,6 +14,4 @@ class ZoneInfo(ZoneBase):
             ZONE_INFO_Y,
             ZONE_INFO_WIDTH,
             ZONE_INFO_HEIGHT,
-            ZONE_INFO_BG_COLOR,
-            nom_zone="Info"
         )

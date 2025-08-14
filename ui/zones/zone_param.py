@@ -4,7 +4,6 @@ from ui.config_ui import (
     ZONE_PARAM_Y,
     ZONE_PARAM_WIDTH,
     ZONE_PARAM_HEIGHT,
-    ZONE_PARAM_BG_COLOR,
 )
 
 class ZoneParam(ZoneBase):
@@ -15,6 +14,4 @@ class ZoneParam(ZoneBase):
             ZONE_PARAM_Y,
             ZONE_PARAM_WIDTH,
             ZONE_PARAM_HEIGHT,
-            ZONE_PARAM_BG_COLOR,
-            nom_zone="Paramètres"
         )
