@@ -1,6 +1,10 @@
 # Couleur de fond par défaut
 WINDOW_BG_COLOR = (30, 30, 30)
 
+# --- Couleur du texte pour les titres de zones ---
+ZONE_TITRE_TEXT_COLOR = (255, 255, 255)  # Blanc
+
+
 # --- Zone Chat ---
 ZONE_CHAT_X = 241
 ZONE_CHAT_Y = 0
@@ -21,3 +25,17 @@ ZONE_PARAM_Y = 778
 ZONE_PARAM_WIDTH = 236
 ZONE_PARAM_HEIGHT = 222
 ZONE_PARAM_BG_COLOR = (180, 180, 180)
+
+# --- Zone Message ---
+ZONE_MESSAGE_X = 241
+ZONE_MESSAGE_Y = 778
+ZONE_MESSAGE_WIDTH = 718
+ZONE_MESSAGE_HEIGHT = 100
+ZONE_MESSAGE_BG_COLOR = (235, 235, 235)
+
+# --- Zone Info ---
+ZONE_INFO_X = 241
+ZONE_INFO_Y = 880
+ZONE_INFO_WIDTH = 718
+ZONE_INFO_HEIGHT = 95
+ZONE_INFO_BG_COLOR = (210, 210, 210)

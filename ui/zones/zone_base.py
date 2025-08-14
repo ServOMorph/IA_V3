@@ -1,4 +1,5 @@
 import pygame
+from ui.config_ui import ZONE_TITRE_TEXT_COLOR
 
 class ZoneBase:
     def __init__(self, surface, x, y, width, height, bg_color, nom_zone="Zone"):
@@ -13,12 +14,9 @@ class ZoneBase:
         self.font = pygame.font.Font(None, 24)  # 24 px
 
     def afficher(self):
-        """Dessine uniquement le fond de la zone."""
-        pygame.draw.rect(self.surface, self.bg_color, self.rect)
-
-         # Titre
-        texte_surface = self.font.render(self.nom_zone, True, (0, 0, 0))  # Noir
-        self.surface.blit(
-            texte_surface,
-            (self.rect.x + 2, self.rect.y + 2)  # un petit décalage du bord
-        )
+            """Dessine uniquement le titre de la zone (pas de fond)."""
+            texte_surface = self.font.render(self.nom_zone, True, ZONE_TITRE_TEXT_COLOR)
+            self.surface.blit(
+                texte_surface,
+                (self.rect.x + 2, self.rect.y + 2)  # petit décalage
+            )
