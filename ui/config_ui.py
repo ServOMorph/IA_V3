@@ -1,0 +1,23 @@
+# Couleur de fond par défaut
+WINDOW_BG_COLOR = (30, 30, 30)
+
+# --- Zone Chat ---
+ZONE_CHAT_X = 241
+ZONE_CHAT_Y = 0
+ZONE_CHAT_WIDTH = 722
+ZONE_CHAT_HEIGHT = 773
+ZONE_CHAT_BG_COLOR = (255, 192, 203)   # Rose clair
+
+# --- Zone Liste Conversations ---
+ZONE_LISTE_X = 0
+ZONE_LISTE_Y = 0
+ZONE_LISTE_WIDTH = 236
+ZONE_LISTE_HEIGHT = 773
+ZONE_LISTE_BG_COLOR = (200, 200, 200)  # Gris clair
+
+# --- Zone Paramètres ---
+ZONE_PARAM_X = 0
+ZONE_PARAM_Y = 778
+ZONE_PARAM_WIDTH = 236
+ZONE_PARAM_HEIGHT = 222
+ZONE_PARAM_BG_COLOR = (180, 180, 180)

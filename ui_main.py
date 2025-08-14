@@ -2,7 +2,10 @@ import os
 import ctypes
 from ctypes import wintypes
 import pygame
-import config_ui  # ton fichier de config
+import ui.config_ui  
+from ui.zones.zone_chat import ZoneChat
+from ui.zones.zone_liste_conv import ZoneListeConv
+from ui.zones.zone_param import ZoneParam
 
 # --- Win32
 user32 = ctypes.windll.user32
@@ -50,7 +53,7 @@ def main():
 
     pygame.init()
     window = pygame.display.set_mode((win_w, win_h), pygame.RESIZABLE)
-    pygame.display.set_caption("IA_V3 - Interface Pygame (moitié gauche écran)")
+    pygame.display.set_caption("ServOMorph IA - V3")
 
     # Charger l'image de fond
     try:
@@ -68,6 +71,11 @@ def main():
             force_window_pos(hwnd, pos_x, pos_y)
     except Exception:
         pass
+    
+    # --- Création des zones ---
+    zone_chat = ZoneChat(window)
+    zone_liste_conv = ZoneListeConv(window)
+    zone_param = ZoneParam(window)
 
     running = True
     clock = pygame.time.Clock()
@@ -86,6 +94,11 @@ def main():
             window.blit(background, (0, 0))
         else:
             window.fill(getattr(config_ui, "WINDOW_BG_COLOR", (30, 30, 30)))
+
+        # Affichage de la zone de chat
+        zone_chat.afficher()
+        zone_liste_conv.afficher()
+        zone_param.afficher()
 
         pygame.display.flip()
         clock.tick(60)
