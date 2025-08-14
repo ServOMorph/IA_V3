@@ -1,62 +1,28 @@
-# ui/zones/zone_message.py
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, BooleanProperty
 from kivy.uix.textinput import TextInput
-from kivy.metrics import dp
 from kivy.clock import Clock
+import os
 
-KV = '''
-<ZoneMessage>:
-    # Mise en page: texte à gauche, bouton à droite
-    orientation: 'horizontal'
-    size_hint_y: None
-    height: dp(120)
-    padding: dp(10)
-    spacing: dp(8)
-
-    SubmitTextInput:
-        id: input
-        text: root.text
-        hint_text: root.placeholder
-        multiline: True
-        cursor_blink: True
-        write_tab: False
-        size_hint_x: 1
-        on_text: root._on_text(self.text)
-
-    Button:
-        text: 'Envoyer'
-        size_hint_x: None
-        width: dp(110)
-        disabled: not root.can_send
-        on_release: root.submit()
-'''
-# Charger la règle KV une seule fois (évite les doublons/règles redéfinies)
-Builder.load_string(KV)
-
+KV_PATH = os.path.join(os.path.dirname(__file__), "zone_message.kv")
+Builder.load_file(KV_PATH)
 
 class SubmitTextInput(TextInput):
-    """Entrée: envoyer | Shift+Entrée: nouvelle ligne."""
+    """Champ d'entrée avec envoi sur Entrée."""
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
         _, key = keycode
         if key in ('enter', 'kpenter'):
-            # Shift/Alt/Ctrl + Entrée => nouvelle ligne
-            if any(m in modifiers for m in ('shift', 'alt', 'ctrl')):
-                return super().keyboard_on_key_down(window, keycode, text, modifiers)
-            # Entrée seul => submit
             parent = self.parent
-            while parent is not None and not isinstance(parent, ZoneMessage):
+            while parent and not isinstance(parent, ZoneMessage):
                 parent = getattr(parent, 'parent', None)
             if isinstance(parent, ZoneMessage):
                 parent.submit()
                 return True
         return super().keyboard_on_key_down(window, keycode, text, modifiers)
 
-
 class ZoneMessage(BoxLayout):
-    """Zone de message (UI only) — émet on_submit(message)."""
-    placeholder = StringProperty("Écrivez votre question ici… (Entrée pour envoyer, Shift+Entrée pour nouvelle ligne)")
+    placeholder = StringProperty("Poser une question")
     text = StringProperty("")
     clear_on_send = BooleanProperty(True)
     can_send = BooleanProperty(False)
@@ -67,7 +33,6 @@ class ZoneMessage(BoxLayout):
         super().__init__(**kwargs)
         Clock.schedule_once(lambda *_: self._refresh_state(), 0)
 
-    # --- API ---
     def submit(self):
         msg = (self.text or "").strip()
         if not msg:
@@ -79,11 +44,9 @@ class ZoneMessage(BoxLayout):
                 self.ids.input.text = ""
         self._refresh_state()
 
-    # Événement à binder depuis l'UI appelante
     def on_submit(self, message: str):
         pass
 
-    # --- Interne ---
     def _on_text(self, value: str):
         if self.text != value:
             self.text = value

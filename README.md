@@ -88,3 +88,43 @@ python main_ui.py
 - Logs techniques : `debug.log`
 - Logs conversationnels : `/logs/`
 - Ressources graphiques : `/assets/images/`
+
+## 🎨 Évolutions UI récentes
+
+- **Nouvelle zone de message** :
+  - Composant `ZoneMessage` créé dans `ui/zones/zone_message.py` avec son layout séparé dans `zone_message.kv`.
+  - Design inspiré des champs de saisie “pillule” modernes.
+  - **Entrée** → envoi du message, **Shift+Entrée** possible si besoin (dans version multilignes).
+  - **Bouton Envoyer** avec icône à droite, intégré dans la forme.
+  - Placeholder personnalisable (`Poser une question` par défaut).
+  - Comportement configurable : effacement automatique après envoi.
+  - Événement `on_submit(message)` déclenché pour que `main_ui.py` puisse relier au backend IA.
+
+- **Personnalisation graphique** :
+  - Fond sombre et bords arrondis (radius = hauteur/2).
+  - TextInput transparent, padding interne pour un alignement élégant.
+  - Bouton d’envoi rond, couleur dynamique selon état (actif/inactif).
+  - Icône “envoyer” à placer dans `assets/images/` (`send_icon.png`).
+
+### 📂 Fichiers ajoutés/modifiés
+ui/
+└── zones/
+├── zone_message.py # Logique Python de la zone de saisie
+└── zone_message.kv # Layout Kivy (forme pillule + bouton icône)
+assets/
+└── images/
+└── send_icon.png # Icône pour bouton Envoyer
+
+
+### ⚡ Exemple d’intégration dans `main_ui.py`
+```python
+from ui.zones.zone_message import ZoneMessage
+
+zone_message = ZoneMessage(clear_on_send=True)
+zone_message.bind(on_submit=self._on_zone_message_submit)
+zone_message_container.add_widget(zone_message)
+
+def _on_zone_message_submit(self, instance, message):
+    print(f"Message envoyé : {message}")
+    # TODO: relier au backend IA
+
