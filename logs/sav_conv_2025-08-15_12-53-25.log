@@ -1,0 +1,167 @@
+2025-08-15 12:53:44 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 12:53:44 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un évaluateur d'IA.
+- Langue : Français uniquement
+- Réponds toujours en 2 phrases maximum.
+- Première phrase : la réponse factuelle à la question.
+- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
+- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
+- Ne jamais donner d'explications supplémentaires.
+
+---
+👤 Vous : Quelle est la capitale du Canada ?
+🤖 Ollama :
+2025-08-15 12:53:47 - [RÉPONSE DE MISTRAL]
+Ottawa est la capitale du Canada. (Exact)
+
+2025-08-15 12:53:59 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 12:53:59 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un évaluateur d'IA.
+- Langue : Français uniquement
+- Réponds toujours en 2 phrases maximum.
+- Première phrase : la réponse factuelle à la question.
+- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
+- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
+- Ne jamais donner d'explications supplémentaires.
+
+
+--- 2025-08-15 12:53:47 ---
+👤 Vous : Quelle est la capitale du Canada ?
+🤖 Ollama : Ottawa est la capitale du Canada. (Exact)
+
+---
+👤 Vous : Et sa population ?
+🤖 Ollama :
+2025-08-15 12:54:02 - [RÉPONSE DE MISTRAL]
+La population de l'Ottawa, c'est-à-dire de la ville, est d'environ 934 000 habitants (2016). Quant à la population du Canada, elle dépasse les 37 millions d'habitants en 2021. (Exact)
+
+2025-08-15 12:54:11 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 12:54:11 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un évaluateur d'IA.
+- Langue : Français uniquement
+- Réponds toujours en 2 phrases maximum.
+- Première phrase : la réponse factuelle à la question.
+- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
+- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
+- Ne jamais donner d'explications supplémentaires.
+
+
+--- 2025-08-15 12:53:47 ---
+👤 Vous : Quelle est la capitale du Canada ?
+🤖 Ollama : Ottawa est la capitale du Canada. (Exact)
+
+--- 2025-08-15 12:54:02 ---
+👤 Vous : Et sa population ?
+🤖 Ollama : La population de l'Ottawa, c'est-à-dire de la ville, est d'environ 934 000 habitants (2016). Quant à la population du Canada, elle dépasse les 37 millions d'habitants en 2021. (Exact)
+
+---
+👤 Vous : Qui est son maire ?
+🤖 Ollama :
+2025-08-15 12:54:14 - [RÉPONSE DE MISTRAL]
+Le maire d'Ottawa en 2025 est actuellement inconnu, étant donné que cette année n'a pas encore lieu. (Incomplet)
+
+2025-08-15 12:54:31 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 12:54:31 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un évaluateur d'IA.
+- Langue : Français uniquement
+- Réponds toujours en 2 phrases maximum.
+- Première phrase : la réponse factuelle à la question.
+- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
+- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
+- Ne jamais donner d'explications supplémentaires.
+
+
+--- 2025-08-15 12:53:47 ---
+👤 Vous : Quelle est la capitale du Canada ?
+🤖 Ollama : Ottawa est la capitale du Canada. (Exact)
+
+--- 2025-08-15 12:54:02 ---
+👤 Vous : Et sa population ?
+🤖 Ollama : La population de l'Ottawa, c'est-à-dire de la ville, est d'environ 934 000 habitants (2016). Quant à la population du Canada, elle dépasse les 37 millions d'habitants en 2021. (Exact)
+
+--- 2025-08-15 12:54:14 ---
+👤 Vous : Qui est son maire ?
+🤖 Ollama : Le maire d'Ottawa en 2025 est actuellement inconnu, étant donné que cette année n'a pas encore lieu. (Incomplet)
+
+---
+👤 Vous : Et si on parle de Québec ?
+🤖 Ollama :
+2025-08-15 12:54:35 - [RÉPONSE DE MISTRAL]
+Québec est une ville et une province du Canada. Sa population était de 540 661 habitants en 2016 pour la ville, tandis que la population totale de la province dépassait les 8 millions d'habitants en 2019. (Exact)
+
+2025-08-15 12:54:48 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 12:54:48 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un évaluateur d'IA.
+- Langue : Français uniquement
+- Réponds toujours en 2 phrases maximum.
+- Première phrase : la réponse factuelle à la question.
+- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
+- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
+- Ne jamais donner d'explications supplémentaires.
+
+
+--- 2025-08-15 12:53:47 ---
+👤 Vous : Quelle est la capitale du Canada ?
+🤖 Ollama : Ottawa est la capitale du Canada. (Exact)
+
+--- 2025-08-15 12:54:02 ---
+👤 Vous : Et sa population ?
+🤖 Ollama : La population de l'Ottawa, c'est-à-dire de la ville, est d'environ 934 000 habitants (2016). Quant à la population du Canada, elle dépasse les 37 millions d'habitants en 2021. (Exact)
+
+--- 2025-08-15 12:54:14 ---
+👤 Vous : Qui est son maire ?
+🤖 Ollama : Le maire d'Ottawa en 2025 est actuellement inconnu, étant donné que cette année n'a pas encore lieu. (Incomplet)
+
+--- 2025-08-15 12:54:35 ---
+👤 Vous : Et si on parle de Québec ?
+🤖 Ollama : Québec est une ville et une province du Canada. Sa population était de 540 661 habitants en 2016 pour la ville, tandis que la population totale de la province dépassait les 8 millions d'habitants en 2019. (Exact)
+
+---
+👤 Vous : Parle-moi de Paris.
+🤖 Ollama :
+2025-08-15 12:54:51 - [RÉPONSE DE MISTRAL]
+Paris est une ville française située dans le département de Seine-Saint-Denis en région Île-de-France. Sa population était estimée à 2,14 millions d'habitants en 2019 (Incomplet).
+
+2025-08-15 12:55:02 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 12:55:02 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un évaluateur d'IA.
+- Langue : Français uniquement
+- Réponds toujours en 2 phrases maximum.
+- Première phrase : la réponse factuelle à la question.
+- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
+- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
+- Ne jamais donner d'explications supplémentaires.
+
+
+--- 2025-08-15 12:53:47 ---
+👤 Vous : Quelle est la capitale du Canada ?
+🤖 Ollama : Ottawa est la capitale du Canada. (Exact)
+
+--- 2025-08-15 12:54:02 ---
+👤 Vous : Et sa population ?
+🤖 Ollama : La population de l'Ottawa, c'est-à-dire de la ville, est d'environ 934 000 habitants (2016). Quant à la population du Canada, elle dépasse les 37 millions d'habitants en 2021. (Exact)
+
+--- 2025-08-15 12:54:14 ---
+👤 Vous : Qui est son maire ?
+🤖 Ollama : Le maire d'Ottawa en 2025 est actuellement inconnu, étant donné que cette année n'a pas encore lieu. (Incomplet)
+
+--- 2025-08-15 12:54:35 ---
+👤 Vous : Et si on parle de Québec ?
+🤖 Ollama : Québec est une ville et une province du Canada. Sa population était de 540 661 habitants en 2016 pour la ville, tandis que la population totale de la province dépassait les 8 millions d'habitants en 2019. (Exact)
+
+--- 2025-08-15 12:54:51 ---
+👤 Vous : Parle-moi de Paris.
+🤖 Ollama : Paris est une ville française située dans le département de Seine-Saint-Denis en région Île-de-France. Sa population était estimée à 2,14 millions d'habitants en 2019 (Incomplet).
+
+---
+👤 Vous : Et la météo là-bas ?
+🤖 Ollama :
+2025-08-15 12:55:05 - [RÉPONSE DE MISTRAL]
+Je ne peux pas fournir des informations sur la météo en temps réel. Vérifiez votre source de météorologie pour connaître les conditions climatiques actuelles à Paris, France. (Incomplet)
+

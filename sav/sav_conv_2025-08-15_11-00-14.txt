@@ -1,0 +1,8 @@
+---  ---
+👤 Vous : 
+🤖 Ollama : 
+
+--- 2025-08-15 11:00:37 ---
+👤 Vous : salut l'ia
+🤖 Ollama : Salutation réussie.
+
