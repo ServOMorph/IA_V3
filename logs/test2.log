@@ -1,0 +1,10 @@
+2025-08-15 17:49:55 - ------ NOUVEL ÉCHANGE ------
+2025-08-15 17:49:55 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : Explique en une phrase ce qu’est un itérateur en Python. Ne fournis aucun code.
+
+---
+👤 Vous : go
+🤖 Ollama :
+2025-08-15 17:50:09 - [RÉPONSE DE MISTRAL]
+Un iterateur en python est une structure qui permet d'itérer (d'effectuer une boucle) sur les éléments d'un conteneur de données, sans avoir besoin de connaître explicitement la longueur de celui-ci.
+

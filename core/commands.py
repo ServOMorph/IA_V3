@@ -1,3 +1,12 @@
+# core/commands.py
+from __future__ import annotations
+
+import os
+import re
+import shutil
+from pathlib import Path
+from typing import Tuple, List
+
 from config import (
     PRESET_MESSAGES,
     EXIT_SAVE_MESSAGE,
@@ -6,28 +15,27 @@ from config import (
     LOGS_DIR,
 )
 from core.logging.conv_logger import setup_conv_logger
-from pathlib import Path
-import os
+
 
 COMMANDS = {
-    "/q": "Sauvegarder la conversation et quitter",
+    "/q": "Sauvegarder et quitter",
     "/exit": "Quitter sans sauvegarder",
-    "/help": "Afficher la liste des commandes",
-    "/rename": "Renommer la conversation actuelle (/rename NOM)",
-    "/msg1": "Demander à l'IA : Quelle est la capitale de la France ?",
-    "/msg2": "Demander à l'IA : Raconte moi une histoire en 20 caractères sur la ville dont tu viens de parler",
-    "/load": "Charger une conversation depuis le dossier /sav (/load NOM)",
-    "/suppr": "Supprimer une conversation et son log (/suppr NOM)",
-    "/new": "Créer une nouvelle conversation vide",
-    "/copie_ia": "Copier la dernière réponse de l'IA dans le presse-papier",
-    "/copie_user": "Copier le dernier message utilisateur dans le presse-papier",
-    "/createfolder": "Créer un dossier du nom donné dans /sav et /logs (/createfolder NOM)",
-    "/move": "Déplacer une conversation vers un dossier existant (/move NOM_CIBLE DOSSIER)"
+    "/help": "Liste des commandes",
+    "/rename": "Renommer la session courante (/rename NOM)",
+    "/msg1": "Demander : capitale de la France",
+    "/msg2": "Demander : histoire 20 caractères",
+    "/load": "Charger une session (/load chemin/nom)",
+    "/suppr": "Supprimer une session et son log (/suppr chemin/nom)",
+    "/new": "Démarrer une nouvelle session",
+    "/copie_ia": "Copier la dernière réponse IA",
+    "/copie_user": "Copier le dernier message utilisateur",
+    "/createfolder": "Créer dossiers /sav et /logs (/createfolder NOM)",
+    "/move": "Déplacer une session (/move NOM dossier_cible)",
+    "/savecode": "Extraire le code de la dernière réponse IA (/savecode [base])",
 }
 
 
-def show_commands():
-    """Affiche toutes les commandes disponibles."""
+def show_commands() -> None:
     print("\n📜 Commandes disponibles :")
     for cmd, desc in COMMANDS.items():
         print(f"{cmd:<15} → {desc}")
@@ -35,10 +43,7 @@ def show_commands():
 
 
 class CommandHandler:
-    """
-    Gère l'exécution des commandes côté chat.
-    On lui passe l'instance de ChatManager pour accéder à save_manager, client, etc.
-    """
+    """Gère l'exécution des commandes côté chat."""
 
     def __init__(self, chat_manager):
         self.chat_manager = chat_manager
@@ -49,19 +54,16 @@ class CommandHandler:
     def is_command(text: str) -> bool:
         return text.startswith("/")
 
-    def handle(self, user_input: str) -> tuple[bool, bool]:
+    def handle(self, user_input: str) -> Tuple[bool, bool]:
         raw = user_input.strip()
         lower = raw.lower()
         parts = raw.split(" ", 1)
-        cmd = parts[0]
-        arg = parts[1].strip() if len(parts) == 2 else None
+        arg = parts[1].strip() if len(parts) == 2 else ""
 
-        # --------------------
-        # Commandes de sortie
-        # --------------------
+        # 1) Sortie
         if lower == "/q":
             try:
-                self.save_manager.save_txt(self.client.history)
+                self.save_manager.save_md(self.client.history)
             except Exception:
                 pass
             print(EXIT_SAVE_MESSAGE)
@@ -71,231 +73,330 @@ class CommandHandler:
             print(EXIT_NO_SAVE_MESSAGE)
             return True, True
 
-        # -------------
-        # Aide / liste
-        # -------------
+        # 2) Aide
         if lower == "/help":
             show_commands()
             return True, False
 
-        # ----------------
-        # Renommer session
-        # ----------------
+        # 3) Renommer la session courante
         if lower.startswith("/rename"):
             if not arg:
                 print("⚠️ Usage : /rename NOM")
                 return True, False
 
-            new_name = arg
-            success = self.save_manager.rename_session_file(new_name)
-            if success:
-                session_name = self.save_manager.session_file.stem
-                self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(session_name)
-                print(f"✅ Conversation renommée en : {new_name}.txt")
+            new_name = arg.replace(" ", "_")
+
+            # Libérer le .log sous Windows
+            try:
+                if getattr(self.client, "conv_logger", None):
+                    for h in list(self.client.conv_logger.handlers):
+                        try:
+                            h.flush()
+                            h.close()
+                        except Exception:
+                            pass
+                        self.client.conv_logger.removeHandler(h)
+            except Exception:
+                pass
+
+            ok = self.save_manager.rename_session_file(new_name)
+            if ok:
+                # Reconfigurer le logger
+                self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(new_name)
+                print(f"✅ Conversation renommée en : {new_name}")
             else:
-                print("⚠️ Impossible de renommer la conversation (nom déjà utilisé ou erreur).")
+                print("⚠️ Impossible de renommer la conversation.")
             return True, False
 
-        # -------------------
-        # Messages préfaits
-        # -------------------
+        # 4) Messages pré-enregistrés
         if lower == "/msg1":
             answer = self.client.send_prompt(PRESET_MESSAGES["msg1"])
             print(f"🤖 Ollama : {answer}")
-            self.save_manager.save_txt(self.client.history)
+            self.save_manager.save_md(self.client.history)
+            self.save_manager.save_python_from_response(answer)
             return True, False
 
         if lower == "/msg2":
             answer = self.client.send_prompt(PRESET_MESSAGES["msg2"])
             print(f"🤖 Ollama : {answer}")
-            self.save_manager.save_txt(self.client.history)
+            self.save_manager.save_md(self.client.history)
+            self.save_manager.save_python_from_response(answer)
             return True, False
 
-        # -----------------------
-        # Charger une sauvegarde
-        # -----------------------
+        # 5) Charger une session
         if lower.startswith("/load"):
             if not arg:
-                print("⚠️ Usage : /load NOM")
+                print("⚠️ Usage : /load chemin/nom")
                 return True, False
 
-            name = arg
-            loaded_content = self.save_manager.load_session_file(name)
-            if loaded_content is not None:
-                new_file = self.save_manager.save_dir / f"{name}.txt"
-                self.save_manager.session_file = new_file
-                self.client.session_file = new_file
-                self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(name)
+            target_dir = Path(SAVE_DIR) / arg
+            md_path = target_dir / "conversation.md"
+            if not md_path.exists():
+                print(f"⚠️ Introuvable : {md_path}")
+                return True, False
+
+            # Repointer le SaveManager
+            self.save_manager.session_dir = target_dir
+            self.save_manager.session_md = md_path
+            self.save_manager.session_name = target_dir.name
+
+            # Reconfigurer le logger (supporte sous-dossiers)
+            session_key = str(Path(arg))  # ex: "audit/test_cli"
+            self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(session_key)
+
+            try:
                 print("\n📂 Conversation chargée :\n")
-                print(loaded_content)
-            else:
-                print(f"⚠️ Impossible de charger '{name}.txt'.")
+                print(md_path.read_text(encoding="utf-8"))
+            except Exception as e:
+                print(f"⚠️ Erreur de lecture : {e}")
             return True, False
 
-        # ----------------------
-        # Supprimer une session
-        # ----------------------
+        # 6) Supprimer une session
         if lower.startswith("/suppr"):
             if not arg:
-                print("⚠️ Usage : /suppr NOM")
+                print("⚠️ Usage : /suppr chemin/nom")
                 return True, False
 
-            name = arg
-            sav_file = self.save_manager.save_dir / f"{name}.txt"
-            log_file = Path(LOGS_DIR) / f"{name}.log"
+            target_dir = Path(SAVE_DIR) / arg
+            log_file = Path(LOGS_DIR) / f"{arg}.log"
+
+            # Déterminer si c'est la session active
+            is_current = getattr(self.save_manager, "session_dir", None) and self.save_manager.session_dir.resolve() == target_dir.resolve()
+
+            # Fermer le logger si c'est la session active
+            if is_current and getattr(self.client, "conv_logger", None):
+                for h in list(self.client.conv_logger.handlers):
+                    try:
+                        h.flush()
+                        h.close()
+                    except Exception:
+                        pass
+                    self.client.conv_logger.removeHandler(h)
 
             deleted = False
-
-            # Fermer le logger si c'est le log courant
-            if self.client.conv_log_file and Path(self.client.conv_log_file).resolve() == log_file.resolve():
-                for handler in list(self.client.conv_logger.handlers):
-                    handler.close()
-                    self.client.conv_logger.removeHandler(handler)
-
-            if sav_file.exists():
+            if target_dir.exists():
                 try:
-                    sav_file.unlink()
+                    shutil.rmtree(target_dir)
                     deleted = True
                 except Exception as e:
-                    print(f"⚠️ Impossible de supprimer {sav_file.name} : {e}")
+                    print(f"⚠️ Impossible de supprimer le dossier : {e}")
 
             if log_file.exists():
                 try:
                     log_file.unlink()
                     deleted = True
                 except Exception as e:
-                    print(f"⚠️ Impossible de supprimer {log_file.name} : {e}")
+                    print(f"⚠️ Impossible de supprimer le log : {e}")
 
             if deleted:
-                print(f"🗑️ Conversation '{name}' supprimée (sauvegarde et log).")
+                print(f"🗑️ Session '{arg}' supprimée.")
+
+                # Si c'était la session active, réinitialiser vers une nouvelle session vide
+                if is_current:
+                    from core.sav_manager import SaveManager
+                    from core.ollama_client import OllamaClient
+                    self.chat_manager.save_manager = SaveManager(save_dir=Path(SAVE_DIR))
+                    self.save_manager = self.chat_manager.save_manager
+                    self.chat_manager.client = OllamaClient(model=self.client.model, session_file=self.save_manager.session_md)
+                    self.client = self.chat_manager.client
+                    self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(self.save_manager.session_dir.name)
+                    print("ℹ️ Nouvelle session vide créée car la session active a été supprimée.")
+
             else:
-                print(f"⚠️ Aucun fichier trouvé pour '{name}'.")
+                print("⚠️ Rien à supprimer.")
             return True, False
-        
-        # ----------------------
-        # Nouvelle conversation
-        # ----------------------
+
+        # 7) Nouvelle session
         if lower == "/new":
-            try:
-                self.save_manager.save_txt(self.client.history)
-            except Exception:
-                pass
+            # Fermer le logger courant
+            if getattr(self.client, "conv_logger", None):
+                for h in list(self.client.conv_logger.handlers):
+                    try:
+                        h.flush()
+                        h.close()
+                    except Exception:
+                        pass
+                    self.client.conv_logger.removeHandler(h)
 
-            if self.client.conv_logger:
-                for handler in list(self.client.conv_logger.handlers):
-                    handler.close()
-                    self.client.conv_logger.removeHandler(handler)
-
-            self.chat_manager.save_manager = self.save_manager.__class__(save_dir=self.save_manager.save_dir)
+            # Réinitialiser via ChatManager (nouveau dossier)
+            self.chat_manager.save_manager = self.save_manager.__class__(save_dir=Path(SAVE_DIR))
             self.chat_manager.client = self.client.__class__(
                 model=self.client.model,
-                session_file=self.chat_manager.save_manager.session_file
+                session_file=self.chat_manager.save_manager.session_md
             )
+            # Rebind locaux
+            self.save_manager = self.chat_manager.save_manager
+            self.client = self.chat_manager.client
 
-            self.chat_manager.save_manager.session_file.write_text("", encoding="utf-8")
+            # Logger
+            self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(self.save_manager.session_dir.name)
 
-            print(f"🆕 Nouvelle conversation démarrée : {self.chat_manager.save_manager.session_file.name}")
+            # Créer conversation.md
+            if not self.save_manager.session_md.exists():
+                self.save_manager.session_md.write_text("", encoding="utf-8")
+
+            print(f"🆕 Nouvelle session : {self.save_manager.session_dir.name}")
             return True, False
-        
-        # ----------------------
-        # Copier la dernière réponse IA
-        # ----------------------
+
+        # 8) Copier presse-papier
         if lower == "/copie_ia":
             import pyperclip
-
             if not self.client.history:
-                print("⚠️ Aucune réponse IA à copier.")
+                print("⚠️ Aucune réponse IA.")
                 return True, False
-
-            last_ai_response = self.client.history[-1].get("response", "").strip()
-            if not last_ai_response:
-                print("⚠️ La dernière réponse de l'IA est vide.")
+            content = self.client.history[-1].get("response", "").strip()
+            if not content:
+                print("⚠️ Réponse IA vide.")
                 return True, False
-
-            pyperclip.copy(last_ai_response)
-            print("📋 Dernière réponse de l'IA copiée dans le presse-papier.")
+            pyperclip.copy(content)
+            print("📋 Dernière réponse IA copiée.")
             return True, False
 
-        # ----------------------
-        # Copier le dernier message utilisateur
-        # ----------------------
         if lower == "/copie_user":
             import pyperclip
-
             if not self.client.history:
-                print("⚠️ Aucun message utilisateur à copier.")
+                print("⚠️ Aucun message utilisateur.")
                 return True, False
-
-            last_user_message = self.client.history[-1].get("prompt", "").strip()
-            if not last_user_message:
-                print("⚠️ Le dernier message utilisateur est vide.")
+            content = self.client.history[-1].get("prompt", "").strip()
+            if not content:
+                print("⚠️ Message utilisateur vide.")
                 return True, False
-
-            pyperclip.copy(last_user_message)
-            print("📋 Dernier message utilisateur copié dans le presse-papier.")
+            pyperclip.copy(content)
+            print("📋 Dernier message utilisateur copié.")
             return True, False
 
-        # ----------------------
-        # Créer un dossier dans sav/ et logs/
-        # ----------------------
+        # 9) Créer un dossier d’organisation
         if lower.startswith("/createfolder"):
             if not arg:
                 print("⚠️ Usage : /createfolder NOM")
                 return True, False
-
-            safe_name = arg.strip().replace(" ", "_")
-            save_path = Path(SAVE_DIR) / safe_name
-            logs_path = Path(LOGS_DIR) / safe_name
-
-            try:
-                os.makedirs(save_path, exist_ok=True)
-                os.makedirs(logs_path, exist_ok=True)
-                print(f"✅ Dossier '{safe_name}' créé dans /sav et /logs")
-            except Exception as e:
-                print(f"❌ Erreur lors de la création des dossiers : {e}")
+            safe = arg.replace(" ", "_")
+            (Path(SAVE_DIR) / safe).mkdir(parents=True, exist_ok=True)
+            (Path(LOGS_DIR) / safe).mkdir(parents=True, exist_ok=True)
+            print(f"✅ Dossier '{safe}' créé dans /sav et /logs")
             return True, False
 
-        # ----------------------
-        # Déplacer une conversation vers un dossier existant
-        # ----------------------
+        # 10) Déplacer une session vers un dossier
         if lower.startswith("/move"):
             if not arg:
-                print("⚠️ Usage : /move NOM_CIBLE DOSSIER")
+                print("⚠️ Usage : /move NOM dossier_cible")
                 return True, False
-
             try:
                 conv_name, folder_name = arg.split(maxsplit=1)
             except ValueError:
-                print("⚠️ Usage : /move NOM_CIBLE DOSSIER")
+                print("⚠️ Usage : /move NOM dossier_cible")
                 return True, False
 
             safe_folder = folder_name.strip().replace(" ", "_")
-            target_sav_dir = Path(SAVE_DIR) / safe_folder
-            target_logs_dir = Path(LOGS_DIR) / safe_folder
+            src_sav_dir = Path(SAVE_DIR) / conv_name
+            dst_sav_parent = Path(SAVE_DIR) / safe_folder
+            dst_sav_parent.mkdir(parents=True, exist_ok=True)
+            dst_sav_dir = dst_sav_parent / conv_name
 
-            if not target_sav_dir.exists() or not target_logs_dir.exists():
-                print(f"⚠️ Le dossier '{safe_folder}' n'existe pas. Crée-le avec /createfolder {safe_folder}")
+            src_log = Path(LOGS_DIR) / f"{conv_name}.log"
+            dst_logs_parent = Path(LOGS_DIR) / safe_folder
+            dst_logs_parent.mkdir(parents=True, exist_ok=True)
+            dst_log = dst_logs_parent / f"{conv_name}.log"
+
+            if not src_sav_dir.exists():
+                print(f"⚠️ Introuvable : {src_sav_dir}")
                 return True, False
 
-            moved = False
+            # Si c'est la session courante, fermer le logger
+            is_current = getattr(self.save_manager, "session_dir", None) and self.save_manager.session_dir.resolve() == src_sav_dir.resolve()
+            if is_current and getattr(self.client, "conv_logger", None):
+                for h in list(self.client.conv_logger.handlers):
+                    try:
+                        h.flush()
+                        h.close()
+                    except Exception:
+                        pass
+                    self.client.conv_logger.removeHandler(h)
 
-            # Déplacement du fichier .txt
-            src_txt = Path(SAVE_DIR) / f"{conv_name}.txt"
-            if src_txt.exists():
-                src_txt.rename(target_sav_dir / src_txt.name)
-                moved = True
+            # Déplacer dossier sav
+            try:
+                shutil.move(str(src_sav_dir), str(dst_sav_dir))
+            except Exception as e:
+                print(f"❌ Erreur déplacement dossier : {e}")
+                return True, False
 
-            # Déplacement du fichier .log
-            src_log = Path(LOGS_DIR) / f"{conv_name}.log"
+            # Déplacer log si présent
             if src_log.exists():
-                src_log.rename(target_logs_dir / src_log.name)
-                moved = True
+                try:
+                    shutil.move(str(src_log), str(dst_log))
+                except Exception as e:
+                    print(f"❌ Erreur déplacement log : {e}")
 
-            if moved:
-                print(f"✅ Conversation '{conv_name}' déplacée vers '{safe_folder}'")
-            else:
-                print(f"⚠️ Aucun fichier trouvé pour '{conv_name}'")
+            # Mettre à jour pointeurs si courant
+            if is_current:
+                self.save_manager.session_dir = dst_sav_dir
+                self.save_manager.session_md = dst_sav_dir / "conversation.md"
+                self.save_manager.session_name = dst_sav_dir.name
+                # Logger sur logs/<folder>/<conv>.log
+                session_key = f"{safe_folder}/{conv_name}"
+                self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(session_key)
 
+            print(f"✅ Conversation '{conv_name}' déplacée vers '{safe_folder}'")
             return True, False
 
+        # 11) Extraire code depuis la dernière réponse IA
+        if lower.startswith("/savecode"):
+            base = arg.replace(" ", "_") if arg else ""
+            if not self.client.history:
+                print("⚠️ Aucune réponse IA disponible.")
+                return True, False
+            answer = self.client.history[-1].get("response", "")
+            blocks = self._extract_python_blocks(answer)
+            if not blocks:
+                print("ℹ️ Aucun bloc ```python``` détecté.")
+                return True, False
 
+            created: List[Path] = []
+            session_dir: Path = self.save_manager.session_dir
+            session_dir.mkdir(parents=True, exist_ok=True)
+
+            if base:
+                # si plusieurs blocs, suffix _1, _2...
+                for idx, code in enumerate(blocks, start=1):
+                    name = f"{base}.py" if len(blocks) == 1 else f"{base}_{idx}.py"
+                    out = session_dir / name
+                    out.write_text(code, encoding="utf-8")
+                    created.append(out)
+            else:
+                from datetime import datetime
+                for idx, code in enumerate(blocks, start=1):
+                    ts = datetime.now().strftime("%H-%M-%S")
+                    name = f"code_{ts}.py" if len(blocks) == 1 else f"code_{ts}_{idx}.py"
+                    out = session_dir / name
+                    out.write_text(code, encoding="utf-8")
+                    created.append(out)
+
+            print("✅ Fichier(s) créé(s) :")
+            for p in created:
+                print(f" - {p.as_posix()}")
+            return True, False
+
+        # Rien traité
+        return False, False
+
+    # --- Utils ---
+
+    @staticmethod
+    def _extract_python_blocks(text: str) -> List[str]:
+        """
+        Extrait les blocs ```python ... ``` ou ``` ... ``` du texte.
+        Retourne une liste de codes Python.
+        """
+        if not text:
+            return []
+        # blocs marqués python
+        pat_py = re.compile(r"```python\s+?(.*?)```", re.DOTALL | re.IGNORECASE)
+        # blocs génériques
+        pat_any = re.compile(r"```\s*?(.*?)```", re.DOTALL)
+
+        blocks = [m.group(1).strip() for m in pat_py.finditer(text)]
+        if not blocks:
+            # fallback: blocs non typés
+            blocks = [m.group(1).strip() for m in pat_any.finditer(text)]
+        # nettoyer éventuels ``` résiduels
+        return [b.replace("\r\n", "\n").strip() for b in blocks if b.strip()]

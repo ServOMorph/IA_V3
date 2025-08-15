@@ -1,27 +1,36 @@
+# core/chat_manager.py
 from core.ollama_client import OllamaClient
 from core.sav_manager import SaveManager
 from core.commands import CommandHandler
+from core.logging.conv_logger import setup_conv_logger
 from config import (
     DEFAULT_MODEL,
     SAVE_DIR,
     PRESET_MESSAGES,
     WELCOME_MESSAGE,
     EMPTY_PROMPT_WARNING,
-    DEFAULT_SYSTEM_PROMPT,  # 📌 Ajout du prompt système
+    DEFAULT_SYSTEM_PROMPT,
 )
 
 class ChatManager:
     def __init__(self, model=DEFAULT_MODEL, save_dir=SAVE_DIR):
+        # Gestion dossier de session + conversation.md
         self.save_manager = SaveManager(save_dir=save_dir)
-        self.client = OllamaClient(model=model, session_file=self.save_manager.session_file)
+
+        # Client Ollama lié au fichier MD de la session
+        self.client = OllamaClient(model=model, session_file=self.save_manager.session_md)
+
+        # Forcer le logger sur le nom du dossier de session
+        self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(self.save_manager.session_dir.name)
+
         self.commands = CommandHandler(self)
 
-        # 📌 Création immédiate du fichier de sauvegarde vide s'il n'existe pas encore
-        if not self.save_manager.session_file.exists():
-            self.save_manager.session_file.write_text("", encoding="utf-8")
+        # Créer conversation.md vide si absent
+        if not self.save_manager.session_md.exists():
+            self.save_manager.session_md.write_text("", encoding="utf-8")
 
-        # 📌 Ajout du prompt système si c'est une nouvelle session
-        if not self.client.history:  # Pas encore d'historique → première utilisation
+        # Injecter le prompt système si nouvelle session
+        if not self.client.history:
             self.client.history.append({"role": "system", "content": DEFAULT_SYSTEM_PROMPT})
 
     def start_chat(self):
@@ -30,22 +39,24 @@ class ChatManager:
         while True:
             user_prompt = input("\n💬 Vous : ").strip()
 
-            # Empêcher les prompts vides tôt
             if not user_prompt:
                 print(EMPTY_PROMPT_WARNING)
                 continue
 
-            # Délégation des commandes
+            # Commandes
             if self.commands.is_command(user_prompt):
                 handled, should_exit = self.commands.handle(user_prompt)
                 if should_exit:
                     break
                 if handled:
-                    continue  # ne pas envoyer à l'IA si la commande a été traitée
+                    continue
 
-            # Requête classique → envoi à l'IA
+            # Requête IA
             answer = self.client.send_prompt(user_prompt)
             print(f"🤖 Ollama : {answer}")
 
-            # Sauvegarde automatique après chaque réponse
-            self.save_manager.save_txt(self.client.history)
+            # Sauvegarde conversation en MD
+            self.save_manager.save_md(self.client.history)
+
+            # Sauvegarde auto du code s'il y en a
+            self.save_manager.save_python_from_response(answer)

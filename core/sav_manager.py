@@ -1,79 +1,124 @@
 import logging
+import re
 from pathlib import Path
 from datetime import datetime
 import shutil
 from config import SAVE_DIR, SAVE_FILE_PREFIX, SAVE_FILE_DATETIME_FORMAT, LOGS_DIR
 
+_MD_HEADER = """# Conversation
+_Dossier_: {folder}
+_Démarrée_: {started_at}
+
+---
+"""
+
 class SaveManager:
     """
-    Sauvegarde les conversations dans un fichier dédié à la session.
+    Sauvegarde par dossier. Chaque session a:
+      - conversation.md
+      - 0..n fichiers .py extraits des réponses IA
     """
     def __init__(self, save_dir=SAVE_DIR):
-        self.save_dir = Path(save_dir)
-        self.save_dir.mkdir(parents=True, exist_ok=True)
-        self.session_file = self.save_dir / f"{SAVE_FILE_PREFIX}{datetime.now().strftime(SAVE_FILE_DATETIME_FORMAT)}.txt"
+        self.save_root = Path(save_dir)
+        self.save_root.mkdir(parents=True, exist_ok=True)
+        stamp = datetime.now().strftime(SAVE_FILE_DATETIME_FORMAT)
+        self.session_name = f"{SAVE_FILE_PREFIX}{stamp}"
+        self.session_dir = self.save_root / self.session_name
+        self.session_dir.mkdir(parents=True, exist_ok=True)
+        self.session_md = self.session_dir / "conversation.md"
 
+    # rétro-compat (appelé depuis ChatManager)
     def save_txt(self, history):
-        """Sauvegarde ou met à jour l'historique complet dans le fichier de session."""
+        self.save_md(history)
+
+    def save_md(self, history):
+        """Écrit l'historique complet en Markdown."""
         try:
-            with open(self.session_file, "w", encoding="utf-8") as f:
-                for exchange in history:
-                    prompt = exchange.get("prompt", "")
-                    response = exchange.get("response", "")
-                    timestamp = exchange.get("timestamp", "")
-                    f.write(f"--- {timestamp} ---\n")
-                    f.write(f"👤 Vous : {prompt}\n")
-                    f.write(f"🤖 Ollama : {response}\n\n")
-            logging.info(f"Historique mis à jour : {self.session_file.resolve()}")
+            lines = [_MD_HEADER.format(folder=self.session_dir.name,
+                                       started_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))]
+            for ex in history:
+                ts = ex.get("timestamp", "")
+                if "role" in ex and "content" in ex:
+                    lines.append(f"### {ts or ''}  \n**[{ex['role']}]**\n\n{ex['content']}\n")
+                    continue
+                user = ex.get("prompt", "")
+                ans = ex.get("response", "")
+                lines.append(f"---\n**{ts}**\n\n**Vous**:\n\n{user}\n\n**IA**:\n\n{ans}\n")
+            self.session_md.write_text("\n".join(lines), encoding="utf-8")
+            logging.info(f"Historique MD écrit: {self.session_md.resolve()}")
         except Exception as e:
-            logging.error(f"Erreur lors de la sauvegarde TXT : {e}")
+            logging.error(f"Erreur sauvegarde MD: {e}")
+
+    def extract_python_blocks(self, text: str):
+        """Retourne la liste des blocs de code Python ```python ... ```."""
+        if not text:
+            return []
+        pattern = r"```python\s+(.*?)```"
+        return re.findall(pattern, text, flags=re.S | re.I)
+
+    def save_python_from_response(self, response_text: str, base_name: str | None = None):
+        """
+        Extrait et sauvegarde tous les blocs Python de la réponse.
+        Retourne la liste des chemins créés.
+        """
+        blocks = self.extract_python_blocks(response_text)
+        if not blocks:
+            logging.info("Aucun bloc Python détecté.")
+            return []
+
+        created = []
+        ts = datetime.now().strftime("%H-%M-%S")
+        for idx, code in enumerate(blocks, start=1):
+            stem = base_name or f"code_{ts}"
+            path = self.session_dir / f"{stem}_{idx}.py" if len(blocks) > 1 else self.session_dir / f"{stem}.py"
+            path.write_text(code.strip() + "\n", encoding="utf-8")
+            created.append(path)
+            logging.info(f"Code sauvegardé: {path.resolve()}")
+        return created
 
     def rename_session_file(self, new_name):
-        """
-        Renomme le fichier de sauvegarde actuel (.txt) et son .log associé.
-        Retourne True si réussi, False sinon.
-        """
         try:
-            new_txt_file = self.save_dir / f"{new_name}.txt"
-            if new_txt_file.exists():
-                logging.error(f"Le fichier '{new_txt_file.name}' existe déjà. Renommage annulé.")
+            old_dir = self.session_dir
+            if not old_dir.exists():
+                logging.error(f"Dossier source introuvable: {old_dir}")
                 return False
 
-            # Fermer le logger de conversation avant de renommer
-            conv_logger = logging.getLogger(f"conversation_{self.session_file.stem}")
-            for handler in conv_logger.handlers[:]:
-                handler.close()
-                conv_logger.removeHandler(handler)
+            new_dir = self.save_root / new_name
+            if new_dir.exists():
+                logging.error(f"Le dossier '{new_dir.name}' existe déjà.")
+                return False
 
-            # Renommer le fichier .txt
-            old_txt_file = self.session_file
-            shutil.move(str(old_txt_file), str(new_txt_file))
+            # Renommer le dossier de session
+            shutil.move(str(old_dir), str(new_dir))
 
-            # Renommer le fichier .log correspondant s'il existe
-            old_log_file = Path(LOGS_DIR) / f"{old_txt_file.stem}.log"
+            # Renommer le .log correspondant s'il existe
+            old_log_file = Path(LOGS_DIR) / f"{old_dir.name}.log"
             if old_log_file.exists():
                 new_log_file = Path(LOGS_DIR) / f"{new_name}.log"
                 shutil.move(str(old_log_file), str(new_log_file))
                 logging.info(f"Fichier log renommé : {new_log_file.resolve()}")
+            else:
+                logging.info(f"Aucun log à renommer pour {old_dir.name}")
 
-            # Mise à jour interne
-            self.session_file = new_txt_file
-            logging.info(f"Conversation renommée : {self.session_file.resolve()}")
+            # MAJ internes
+            self.session_dir = new_dir
+            self.session_md = self.session_dir / "conversation.md"
+            self.session_name = new_name
             return True
-
         except Exception as e:
-            logging.error(f"Erreur lors du renommage : {e}")
+            logging.error(f"Erreur lors du renommage: {e}")
             return False
 
     def load_session_file(self, name):
-        """Charge une conversation sauvegardée depuis un fichier TXT."""
-        file_path = self.save_dir / f"{name}.txt"
+        """
+        Compat: renvoie le contenu de conversation.md dans le dossier 'name'.
+        """
+        file_path = self.save_root / name / "conversation.md"
         if not file_path.exists():
-            logging.error(f"Le fichier '{file_path.name}' n'existe pas.")
+            logging.error(f"'{file_path}' introuvable.")
             return None
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                return f.read()
+            return file_path.read_text(encoding="utf-8")
         except Exception as e:
-            logging.error(f"Erreur lors du chargement : {e}")
+            logging.error(f"Erreur de chargement: {e}")
             return None

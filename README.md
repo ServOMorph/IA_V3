@@ -2,129 +2,138 @@
 
 ## 📌 Description
 Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par défaut `mistral`), tout en gérant automatiquement :
-- La sauvegarde des conversations (`/sav`)
-- Le chargement de sessions précédentes
-- Le renommage des conversations
-- La suppression de conversations
-- La copie des derniers messages (IA ou utilisateur) dans le presse-papier
-- La conservation du contexte à chaque échange
-- Des logs détaillés dans des fichiers séparés
-- Un démarrage propre avec vidage de `debug.log`
-- **Une interface graphique (UI) développée avec Kivy**, affichant un fond personnalisé
+- Sauvegarde des conversations dans un **dossier dédié par session** (`/sav/<nom_session>/conversation.md`)
+- Sauvegarde automatique des blocs de code Python en `.py` dans le même dossier de session
+- Chargement de sessions précédentes
+- Renommage des sessions
+- Suppression de sessions
+- Déplacement de sessions dans des dossiers d’organisation
+- Copie des derniers messages (IA ou utilisateur) dans le presse-papier
+- Conservation du contexte à chaque échange
+- Logs conversationnels séparés par session (`/logs/<nom_session>.log`)
+- Démarrage propre avec vidage de `debug.log`
+- **Interface graphique (UI) développée avec Kivy**, affichant un fond personnalisé
 
-## 🚀 Nouveautés
-- **Commandes ajoutées** :
-  - `/suppr NOM` → Supprime la conversation et son log.
+## 🚀 Nouveautés récentes
+- **Commandes améliorées** :
+  - `/suppr chemin/NOM` → Supprime la conversation et son log ; recrée automatiquement une session vide si c’était la session active.
   - `/new` → Démarre une nouvelle conversation vide.
   - `/copie_IA` → Copie la dernière réponse IA dans le presse-papier.
   - `/copie_user` → Copie le dernier message utilisateur dans le presse-papier.
-  - `/createfolder NOM` → Crée un dossier dans /sav et /logs pour organiser les conversations.
-  - `/move NOM_CIBLE DOSSIER` → Déplace une conversation vers un dossier existant.
+  - `/createfolder NOM` → Crée un dossier d’organisation dans `/sav` et `/logs`.
+  - `/move NOM_CONV DOSSIER` → Déplace une conversation vers un dossier existant (gestion des logs sur Windows incluse).
+  - `/savecode [base]` → Extrait le code Python de la dernière réponse et le sauvegarde dans le dossier de session.
+- **Sauvegarde par dossier** :
+  - Chaque session possède son propre dossier contenant `conversation.md` et éventuellement des `.py`.
 - **Démarrage amélioré** :
-  - `debug.log` vidé au lancement, avec trace interne de la date/heure.
+  - `debug.log` vidé au lancement avec horodatage.
 - **Interface graphique Kivy** :
   - Fenêtre configurable en taille et position via `ui/config_ui.py`
-  - Fond personnalisé depuis `assets/images/fond_window.png` (chemin absolu pour éviter les erreurs)
-  - Nettoyage des logs Kivy dans la console
-  - Structure du code séparée (`main_ui.py` pour le lancement, `ui/interface_main.py` pour l’interface)
+  - Fond personnalisé depuis `assets/images/fond_window.png`
+  - Nettoyage des logs Kivy en console
+  - Structure séparée (`main_ui.py` pour le lancement)
   - Configuration centralisée (`ui/config_ui.py`)
-  - Suppression du label et du bouton par défaut pour un fond pur
+  - Suppression des éléments par défaut pour un fond pur
 
 ## 📂 Structure du projet
-```
+
 IA_V3/
 │
 ├── core/
-│   ├── chat_manager.py
-│   ├── ollama_client.py
-│   ├── sav_manager.py
-│   ├── commands.py
-│   ├── startup_utils.py
-│   └── logging/
-│       ├── logger.py
-│       └── conv_logger.py
+│ ├── chat_manager.py
+│ ├── ollama_client.py
+│ ├── sav_manager.py
+│ ├── commands.py
+│ ├── startup_utils.py
+│ └── logging/
+│ ├── logger.py
+│ └── conv_logger.py
 ├── ui/
-│   └── config_ui.py         # constantes et paramètres UI
+│ ├── config_ui.py
+│ └── zones/
+│ ├── zone_message.py
+│ └── zone_message.kv
+├── tools/
+│ └── update_system_prompt.py
 ├── assets/
-│   └── images/
-│       └── fond_window.png  # image de fond
+│ └── images/
+│ ├── fond_window.png
+│ └── send_icon.png
 ├── logs/
 ├── sav/
+├── synthèses_chatgpt/
 ├── config.py
 ├── main.py
-├── main_ui.py               # classe MainUI (interface Kivy)
+├── main_ui.py
 └── README.md
-```
+
 
 ## 🖥️ Utilisation
 ### Interface en ligne de commande
 ```bash
 python main.py
-```
-### Interface graphique Kivy
-```bash
+
+Interface graphique Kivy
+
 python main_ui.py
-```
 
-📜 **Commandes disponibles**  
-| Commande       | Description |
-|----------------|-------------|
-| /q             | Sauvegarder la conversation et quitter |
-| /exit          | Quitter sans sauvegarder |
-| /help          | Afficher la liste des commandes |
-| /rename NOM    | Renommer la conversation actuelle |
-| /msg1          | Demande pré-enregistrée 1 |
-| /msg2          | Demande pré-enregistrée 2 |
-| /load NOM      | Charger une conversation sauvegardée |
-| /suppr NOM     | Supprimer une conversation et son log |
-| /new           | Créer une nouvelle conversation vide |
-| /copie_IA      | Copier la dernière réponse IA |
-| /copie_user    | Copier le dernier message utilisateur |
-| /createfolder NOM | Crée un dossier dans /sav et /logs |
-| /move NOM DOSSIER | Déplace la conversation NOM dans le dossier existant |
+Modifier le prompt système
 
-🗂️ **Répertoires**
-- Conversations sauvegardées : `/sav/`
-- Logs techniques : `debug.log`
-- Logs conversationnels : `/logs/`
-- Ressources graphiques : `/assets/images/`
+python tools/update_system_prompt.py
 
-## 🎨 Évolutions UI récentes
+    Coller ou saisir un texte multiligne, terminer par Ctrl+Z + Entrée (Windows) ou Ctrl+D (Linux/Mac).
 
-- **Nouvelle zone de message** :
-  - Composant `ZoneMessage` créé dans `ui/zones/zone_message.py` avec son layout séparé dans `zone_message.kv`.
-  - Design inspiré des champs de saisie “pillule” modernes.
-  - **Entrée** → envoi du message, **Shift+Entrée** possible si besoin (dans version multilignes).
-  - **Bouton Envoyer** avec icône à droite, intégré dans la forme.
-  - Placeholder personnalisable (`Poser une question` par défaut).
-  - Comportement configurable : effacement automatique après envoi.
-  - Événement `on_submit(message)` déclenché pour que `main_ui.py` puisse relier au backend IA.
+    Le script met à jour DEFAULT_SYSTEM_PROMPT dans config.py.
 
-- **Personnalisation graphique** :
-  - Fond sombre et bords arrondis (radius = hauteur/2).
-  - TextInput transparent, padding interne pour un alignement élégant.
-  - Bouton d’envoi rond, couleur dynamique selon état (actif/inactif).
-  - Icône “envoyer” à placer dans `assets/images/` (`send_icon.png`).
+📜 Commandes disponibles
+Commande	Description
+/q	Sauvegarder la conversation et quitter
+/exit	Quitter sans sauvegarder
+/help	Afficher la liste des commandes
+/rename NOM	Renommer la session active
+/msg1	Message pré-enregistré 1
+/msg2	Message pré-enregistré 2
+/load chemin/NOM	Charger une session
+/suppr chemin/NOM	Supprimer une session et son log, recrée une session vide si active
+/new	Créer une nouvelle session vide
+/copie_IA	Copier la dernière réponse IA
+/copie_user	Copier le dernier message utilisateur
+/createfolder NOM	Créer un dossier d’organisation
+/move NOM_CONV DOSSIER	Déplacer la session vers un dossier existant
+/savecode [base]	Sauvegarder le code Python de la dernière réponse
 
-### 📂 Fichiers ajoutés/modifiés
-ui/
-└── zones/
-├── zone_message.py # Logique Python de la zone de saisie
-└── zone_message.kv # Layout Kivy (forme pillule + bouton icône)
-assets/
-└── images/
-└── send_icon.png # Icône pour bouton Envoyer
+🗂️ Répertoires
 
+    Sessions sauvegardées : /sav/
 
-### ⚡ Exemple d’intégration dans `main_ui.py`
-```python
-from ui.zones.zone_message import ZoneMessage
+    Logs conversationnels : /logs/
 
-zone_message = ZoneMessage(clear_on_send=True)
-zone_message.bind(on_submit=self._on_zone_message_submit)
-zone_message_container.add_widget(zone_message)
+    Ressources graphiques : /assets/images/
 
-def _on_zone_message_submit(self, instance, message):
-    print(f"Message envoyé : {message}")
-    # TODO: relier au backend IA
+    Scripts utilitaires : /tools/
 
+    Synthèses de tests ChatGPT : /synthèses_chatgpt/
+
+🎨 Évolutions UI récentes
+
+    Nouvelle zone de message (ZoneMessage dans ui/zones/zone_message.py + zone_message.kv)
+
+        Design type “pillule”
+
+        Entrée → envoi message ; Shift+Entrée → saut de ligne
+
+        Bouton envoyer rond avec icône
+
+        Placeholder personnalisable
+
+        Effacement automatique après envoi
+
+    Personnalisation graphique
+
+        Fond sombre, bords arrondis
+
+        TextInput transparent avec padding interne
+
+        Bouton envoyer couleur dynamique
+
+        Icône send_icon.png

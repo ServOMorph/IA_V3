@@ -1,3 +1,4 @@
+# core/ollama_client.py
 import requests
 import logging
 from pathlib import Path
@@ -12,11 +13,11 @@ class OllamaClient:
         self.base_url = base_url
         self.model = model
         self.timeout = timeout
-        self.history = []  # Liste des échanges en mémoire
+        self.history = []  # échanges en mémoire
         self.session_file = Path(session_file) if session_file else None
 
-        # Déterminer le nom de session sans extension
-        session_name = self.session_file.stem if self.session_file else "conversation"
+        # Nommer le logger avec le dossier de session, pas le fichier
+        session_name = self.session_file.parent.name if self.session_file else "conversation"
         self.conv_logger, self.conv_log_file = setup_conv_logger(session_name)
 
     def send_prompt(self, prompt: str) -> str:
@@ -24,16 +25,16 @@ class OllamaClient:
             logging.error("Le prompt est vide.")
             return ""
 
-        # Récupérer le contexte depuis l'historique interne
+        # Contexte depuis l'historique interne
         context = self._get_saved_conversation()
 
-        # Construire le prompt complet envoyé à l'IA
+        # Prompt complet
         if context:
             full_prompt = f"{context}\n\n---\n👤 Vous : {prompt}\n🤖 Ollama :"
         else:
             full_prompt = prompt
 
-        # Log du prompt complet
+        # Log prompt
         self.conv_logger.info("------ NOUVEL ÉCHANGE ------")
         self.conv_logger.info(f"[PROMPT ENVOYÉ À MISTRAL]\n{full_prompt}")
 
@@ -62,10 +63,10 @@ class OllamaClient:
 
         answer = data.get("response", "").strip()
 
-        # Log de la réponse complète
+        # Log réponse
         self.conv_logger.info(f"[RÉPONSE DE MISTRAL]\n{answer}\n")
 
-        # Ajout dans l'historique interne
+        # Historique interne
         self.history.append({
             "prompt": prompt,
             "response": answer,
@@ -73,32 +74,29 @@ class OllamaClient:
         })
 
         return answer
-    
+
     def _get_saved_conversation(self):
-        """
-        Reconstruit le contexte depuis l'historique interne (self.history)
-        au lieu de relire le fichier à chaque fois.
-        """
+        """Reconstruit le contexte depuis self.history."""
         if not self.history:
             return ""
 
-        context_lines = []
-        for exchange in self.history:
-            # 📌 Gestion des messages système (role/content)
-            if "role" in exchange and "content" in exchange:
-                ts = exchange.get("timestamp", None)
+        lines = []
+        for ex in self.history:
+            # Messages système (role/content)
+            if "role" in ex and "content" in ex:
+                ts = ex.get("timestamp", None)
                 if ts:
-                    context_lines.append(f"--- {ts} ---")
-                context_lines.append(f"[{exchange['role'].upper()}] : {exchange['content']}\n")
+                    lines.append(f"--- {ts} ---")
+                lines.append(f"[{ex['role'].upper()}] : {ex['content']}\n")
                 continue
 
-            # 📌 Gestion des échanges classiques (prompt/response)
-            ts = exchange.get("timestamp", "")
+            # Échanges classiques (prompt/response)
+            ts = ex.get("timestamp", "")
             if ts:
-                context_lines.append(f"--- {ts} ---")
-            if "prompt" in exchange:
-                context_lines.append(f"👤 Vous : {exchange['prompt']}")
-            if "response" in exchange:
-                context_lines.append(f"🤖 Ollama : {exchange['response']}\n")
+                lines.append(f"--- {ts} ---")
+            if "prompt" in ex:
+                lines.append(f"👤 Vous : {ex['prompt']}")
+            if "response" in ex:
+                lines.append(f"🤖 Ollama : {ex['response']}\n")
 
-        return "\n".join(context_lines).strip()
+        return "\n".join(lines).strip()

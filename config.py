@@ -44,15 +44,8 @@ SAVE_FILE_DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S"
 # Dossier des logs (pour renommage des fichiers associés)
 LOGS_DIR = "logs"
 
-DEFAULT_SYSTEM_PROMPT = """
-Tu es un évaluateur d'IA.
-- Langue : Français uniquement
-- Réponds toujours en 2 phrases maximum.
-- Première phrase : la réponse factuelle à la question.
-- Deuxième phrase : une auto-évaluation rapide de ta réponse ("Exact", "Incomplet", "Hors sujet").
-- Si la question est ambiguë, indique "Ambigu" dans la deuxième phrase.
-- Ne jamais donner d'explications supplémentaires.
-"""
+DEFAULT_SYSTEM_PROMPT = """\
+Explique en une phrase ce qu’est un itérateur en Python. Ne fournis aucun code."""
 
 
 
