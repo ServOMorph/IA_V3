@@ -36,7 +36,6 @@ class SelectableItem(ButtonBehavior, HoverBehavior, Label):
     def get_zone_liste_conv(self):
         """Traverse les parents pour retrouver l'instance ZoneListeConv"""
         parent = self.parent
-        # import local pour éviter import circulaire
         from ui.zones.zone_liste_conv import ZoneListeConv
         while parent and not isinstance(parent, ZoneListeConv):
             parent = getattr(parent, "parent", None)
@@ -133,8 +132,8 @@ class ZoneListeConv(BoxLayout):
         """Renommer un dossier de conversation"""
         popup.dismiss()
 
-        # Popup de saisie plus simple
-        box = KVBox(orientation="vertical", spacing=10, padding=10)
+        # Popup de saisie
+        box = KVBox(orientation="vertical", spacing=5, padding=10)
         ti = TextInput(text=name, multiline=False, size_hint_y=None, height=40)
         btn_layout = KVBox(orientation="horizontal", spacing=10, size_hint_y=None, height=40)
         btn_ok = Button(text="Valider")
@@ -147,7 +146,7 @@ class ZoneListeConv(BoxLayout):
         box.add_widget(btn_layout)
 
         p = Popup(
-            title="Renommer",   # titre simplifié
+            title="Renommer",
             content=box,
             size_hint=(None, None),
             size=(350, 150),
@@ -162,7 +161,7 @@ class ZoneListeConv(BoxLayout):
                 if ok:
                     print(f"Session renommée : {name} → {new_name}")
                     self.refresh()
-                    self.selected_name = new_name   # maj sélection
+                    self.selected_name = new_name
                     self._update_selection_visuals()
             p.dismiss()
 
@@ -172,11 +171,10 @@ class ZoneListeConv(BoxLayout):
         p.open()
 
     def delete_item(self, name: str, popup: Popup):
-        """Supprimer un dossier de conversation"""
+        """Supprimer un dossier de conversation (via backend)"""
         popup.dismiss()
-        target = Path(self.sav_dir) / name
-        if target.exists() and target.is_dir():
-            import shutil
-            shutil.rmtree(target)
+        app = App.get_running_app()
+        ok = app.client.delete_session(name)
+        if ok:
             print(f"Conversation supprimée : {name}")
             self.refresh()

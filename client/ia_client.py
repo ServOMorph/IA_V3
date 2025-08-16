@@ -1,3 +1,4 @@
+# client/ia_client.py
 from core.chat_manager import ChatManager
 
 
@@ -18,17 +19,17 @@ class IAClient:
         except Exception as e:
             print(f"[ERREUR SAVE] {e}")
 
-    # ===== Nouveau : renommage d'une session =====
+    # ===== Renommage d'une session =====
     def rename_session(self, old_name: str, new_name: str) -> bool:
         """
         Renomme une session existante. Retourne True si succès.
         """
         try:
-            # Si c'est la session en cours → utiliser la méthode propre de ChatManager
             if self.backend.save_manager.session_name == old_name:
+                # Session active → utiliser la méthode propre de ChatManager
                 return self.backend.rename_session(new_name)
 
-            # Sinon, renommer un autre dossier directement
+            # Sinon, renommage manuel d'une autre session
             from pathlib import Path
             from config import SAVE_DIR, LOGS_DIR
             import shutil, logging
@@ -54,4 +55,16 @@ class IAClient:
             return True
         except Exception as e:
             print(f"[ERREUR RENAME] {e}")
+            return False
+
+    # ===== Suppression d'une session =====
+    def delete_session(self, name: str) -> bool:
+        """
+        Supprime une session via le backend.
+        Retourne True si succès.
+        """
+        try:
+            return self.backend.delete_session(name)
+        except Exception as e:
+            print(f"[ERREUR DELETE] {e}")
             return False
