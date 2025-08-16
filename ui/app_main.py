@@ -48,26 +48,49 @@ class MyApp(App):
     # ====== Chargement conversation sauvegardée ======
 
     def _on_conv_selected(self, name, path: Path):
+        """Ouvre sav/<name>/conversation.md et l’affiche dans ZoneChat."""
         self.zone_chat.clear_messages()
+
         conv_md = path / "conversation.md"
         conv_txt = path / "conversation.txt"
         conv_file = conv_md if conv_md.exists() else conv_txt
         if not conv_file.exists():
             self.zone_chat.add_message("System", f"Aucun conversation.md/.txt dans {name}")
             return
+
+        last_sender = None
+
         try:
             with conv_file.open("r", encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
+                for raw_line in f:
+                    line = raw_line.strip()
                     if not line:
                         continue
-                    if line.startswith("**Vous**") or line.startswith("Vous:"):
-                        msg = line.split(":", 1)[-1].strip()
-                        self.zone_chat.add_message("Vous", msg)
-                    elif line.startswith("**IA**") or line.startswith("IA:"):
-                        msg = line.split(":", 1)[-1].strip()
-                        self.zone_chat.add_message("IA", msg)
+
+                    # Détection des rôles
+                    if line.startswith("**Vous**"):
+                        last_sender = "Vous"
+                        continue
+                    elif line.startswith("**IA**"):
+                        last_sender = "IA"
+                        continue
+
+                    # Ignorer métadonnées et prompts système
+                    if (
+                        line.startswith("#")
+                        or line.startswith("_")
+                        or line.startswith("--")
+                        or line.startswith("**[system]**")
+                        or line.startswith("**20")  # timestamp
+                        or line.lower().startswith("répond en")
+                    ):
+                        continue
+
+                    # Contenu → assigné au dernier speaker connu
+                    if last_sender:
+                        self.zone_chat.add_message(last_sender, line)
                     else:
                         self.zone_chat.add_message("System", line)
+
         except Exception as e:
             self.zone_chat.add_message("Erreur", f"Lecture impossible: {e}")
