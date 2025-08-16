@@ -8,7 +8,7 @@ BACKGROUND_IMAGE = "assets/images/fond_window.png"
 
 # ----- Toggles d’affichage -----
 SHOW_COLORS = True   # Affiche les rectangles semi-transparents
-SHOW_LABELS = True   # Affiche les noms des zones
+SHOW_LABELS = False   # Affiche les noms des zones
 
 # ----- Dimensions fixes -----
 ZONE_GAUCHE_WIDTH = 242

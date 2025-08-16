@@ -121,4 +121,31 @@ class SaveManager:
             return file_path.read_text(encoding="utf-8")
         except Exception as e:
             logging.error(f"Erreur de chargement: {e}")
-            return None
+            return 
+        
+    def save_txt_from_response(self, response_text: str, base_name: str | None = None):
+        """
+        Extrait et sauvegarde tous les blocs ```txt ... ``` de la réponse.
+        Retourne la liste des chemins créés.
+        """
+        import re
+        if not response_text:
+            return []
+
+        # Détecter les blocs TXT
+        pattern = r"```txt\s+(.*?)```"
+        blocks = re.findall(pattern, response_text, flags=re.S | re.I)
+        if not blocks:
+            return []
+
+        created = []
+        from datetime import datetime
+        ts = datetime.now().strftime("%H-%M-%S")
+        for idx, block in enumerate(blocks, start=1):
+            stem = base_name or f"doc_{ts}"
+            path = self.session_dir / f"{stem}_{idx}.txt" if len(blocks) > 1 else self.session_dir / f"{stem}.txt"
+            path.write_text(block.strip() + "\n", encoding="utf-8")
+            created.append(path)
+            logging.info(f"Document TXT sauvegardé : {path.resolve()}")
+        return created
+

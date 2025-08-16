@@ -32,6 +32,7 @@ COMMANDS = {
     "/createfolder": "Créer dossiers /sav et /logs (/createfolder NOM)",
     "/move": "Déplacer une session (/move NOM dossier_cible)",
     "/savecode": "Extraire le code de la dernière réponse IA (/savecode [base])",
+     "/savetxt": "Extraire le texte de la dernière réponse IA (/savetxt [base])",
 }
 
 
@@ -378,6 +379,48 @@ class CommandHandler:
 
         # Rien traité
         return False, False
+    
+        # 12) Extraire texte depuis la dernière réponse IA
+        if lower.startswith("/savetxt"):
+            base = arg.replace(" ", "_") if arg else ""
+            if not self.client.history:
+                print("⚠️ Aucune réponse IA disponible.")
+                return True, False
+            answer = self.client.history[-1].get("response", "")
+            from datetime import datetime
+            import re
+            pat_txt = re.compile(r"```txt\s+?(.*?)```", re.DOTALL | re.IGNORECASE)
+            blocks = [m.strip() for m in pat_txt.findall(answer)]
+            if not blocks:
+                print("ℹ️ Aucun bloc ```txt``` détecté.")
+                return True, False
+
+            created: List[Path] = []
+            session_dir: Path = self.save_manager.session_dir
+            session_dir.mkdir(parents=True, exist_ok=True)
+
+            if base:
+                for idx, doc in enumerate(blocks, start=1):
+                    name = f"{base}.txt" if len(blocks) == 1 else f"{base}_{idx}.txt"
+                    out = session_dir / name
+                    out.write_text(doc, encoding="utf-8")
+                    created.append(out)
+            else:
+                for idx, doc in enumerate(blocks, start=1):
+                    ts = datetime.now().strftime("%H-%M-%S")
+                    name = f"doc_{ts}.txt" if len(blocks) == 1 else f"doc_{ts}_{idx}.txt"
+                    out = session_dir / name
+                    out.write_text(doc, encoding="utf-8")
+                    created.append(out)
+
+            print("✅ Fichier(s) TXT créé(s) :")
+            for p in created:
+                print(f" - {p.as_posix()}")
+            return True, False
+
+        # Rien traité
+        return False, False
+
 
     # --- Utils ---
 

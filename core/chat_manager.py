@@ -60,3 +60,6 @@ class ChatManager:
 
             # Sauvegarde auto du code s'il y en a
             self.save_manager.save_python_from_response(answer)
+
+            # Sauvegarde auto des documents texte s'il y en a
+            self.save_manager.save_txt_from_response(answer)
