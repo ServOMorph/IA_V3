@@ -1,0 +1,47 @@
+2025-08-16 07:52:38 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 07:52:38 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-16 07:52:40 - [RÉPONSE DE MISTRAL]
+Bonjour! Comment ca va?
+
+2025-08-16 07:52:50 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 07:52:50 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-16 07:52:40 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour! Comment ca va?
+
+---
+👤 Vous : ecris un poème
+🤖 Ollama :
+2025-08-16 07:53:03 - [RÉPONSE DE MISTRAL]
+Voici un petit poème écrit par l'IA Ollama :
+
+Sous les rayons de lune en pleine nuit,
+Un monde se réveille à son rythme.
+Les étoiles brillent avec toute leur lumière,
+Et je suis là pour écrire une ode à la vie.
+
+La nature est un tableau magnifique,
+Où chaque couleur a sa place et sa signification.
+Au bord de l'eau, les oiseaux chantent en chœur,
+Et dans les arbres, les feuilles danseurs soufflent le vent.
+
+Je suis heureux d'être ici pour vous accompagner,
+Dans ce voyage vers une aventure inconnue.
+Avec nos cœurs battants et nos esprits brillants,
+Nous pouvons surmonter tous les obstacles qui nous opposent.
+
+Soyez heureux de vivre, de découvrir, d'apprendre,
+Et ne craignez jamais l'inconnu.
+Car chaque jour est une opportunity nouvelle,
+Et chaque pas un progrès vers la connaissance.
+

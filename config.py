@@ -45,8 +45,7 @@ SAVE_FILE_DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S"
 LOGS_DIR = "logs"
 
 DEFAULT_SYSTEM_PROMPT = """
-Rédige un texte philosophique sur l'intelligence artificielle, ses dilemmes moraux et son impact sur la société.
-Mets tout le contenu dans un bloc ```txt``` afin qu'il soit sauvegardé comme un fichier texte.
+répond en français
 """
 
 

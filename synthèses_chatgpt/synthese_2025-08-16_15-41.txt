@@ -1,0 +1,31 @@
+✅ Synthèse de la conversation (UI – zone_message)
+
+Objectif initial : améliorer la zone de saisie des messages dans l’UI Kivy.
+
+Étapes réalisées :
+
+Déplacement du champ texte + bouton en haut de la zone.
+
+Recentrage vertical dans la zone message.
+
+Suppression du fond gris du bouton → remplacement par ImageButton (ButtonBehavior+Image).
+
+Redimensionnement de l’icône envoyer (dp(24), puis dp(35)).
+
+Limitation de la longueur de la pillule avec width.
+
+Séparation de la pillule (champ texte) et du bouton envoyer.
+
+Ajout d’un contour autour de la pillule (Line 0.5 px, couleur #3c3c3c).
+
+Alignement vertical du bouton envoyer avec la pillule (pos_hint: {"center_y": 0.5}).
+
+Résultat obtenu :
+
+Zone message visuellement propre : pillule sombre avec bord fin gris foncé.
+
+Bouton envoyer (icône bleue) séparé, bien centré verticalement à côté de la pillule.
+
+Espacement de 10 px à gauche, largeur ajustable.
+
+📄 Fichier README.md mis à jour

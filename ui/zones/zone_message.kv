@@ -19,7 +19,6 @@
             size_hint_x: None
             width: dp(700)
             spacing: dp(8)
-            padding: [dp(10), 0, 0, 0]
 
             # --- Pillule uniquement pour la zone texte ---
             BoxLayout:
@@ -35,13 +34,11 @@
                         pos: self.pos
                         size: self.size
                         radius: [self.height/2]
-
-                canvas.after:
                     Color:
-                        rgba: 0.235, 0.235, 0.235, 1   # gris #3c3c3c
+                        rgba: 0.24, 0.24, 0.24, 1
                     Line:
-                        width: 0.5
                         rounded_rectangle: (self.x, self.y, self.width, self.height, self.height/2)
+                        width: 0.5
 
                 SubmitTextInput:
                     id: input
@@ -58,10 +55,12 @@
                     size_hint_x: 1
                     on_text: root._on_text(self.text)
 
-            # --- Bouton envoyer à l'extérieur ---
+            # --- Bouton envoyer ---
             ImageButton:
+                id: send_btn
                 source: 'assets/images/send_icon.png'
                 size_hint: None, None
-                size: dp(35), dp(35)
+                size: dp(35), dp(35)       # largeur fixée
+                opacity: 1 if not root.busy else 0
+                disabled: root.busy or not root.can_send
                 on_release: root.submit()
-                pos_hint: {"center_y": 0.5} 
