@@ -98,6 +98,8 @@ IA_V3/
 
 ## 🖥️ Lancer le projet
 
+lancer d'abord ollama : ollama serve
+
 ### Interface en ligne de commande (CLI)
 ```bash
 python main.py
