@@ -22,13 +22,11 @@ class IAClient:
     def rename_session(self, old_name: str, new_name: str) -> bool:
         """
         Renomme une session existante. Retourne True si succès.
-        - old_name : nom du dossier actuel
-        - new_name : nouveau nom demandé
         """
         try:
-            # Si c'est la session en cours → utiliser le save_manager courant
+            # Si c'est la session en cours → utiliser la méthode propre de ChatManager
             if self.backend.save_manager.session_name == old_name:
-                return self.backend.save_manager.rename_session_file(new_name)
+                return self.backend.rename_session(new_name)
 
             # Sinon, renommer un autre dossier directement
             from pathlib import Path

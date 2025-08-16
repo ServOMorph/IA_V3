@@ -63,3 +63,22 @@ class ChatManager:
 
             # Sauvegarde auto des documents texte s'il y en a
             self.save_manager.save_txt_from_response(answer)
+
+
+    def rename_session(self, new_name: str) -> bool:
+        """
+        Renomme la session courante en fermant le logger actif avant.
+        """
+        # Fermer le logger actif
+        if hasattr(self.client, "conv_logger"):
+            for handler in list(self.client.conv_logger.handlers):
+                handler.close()
+                self.client.conv_logger.removeHandler(handler)
+
+        ok = self.save_manager.rename_session_file(new_name)
+
+        if ok:
+            # Réinitialiser le logger avec le nouveau nom
+            self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(new_name)
+
+        return ok
