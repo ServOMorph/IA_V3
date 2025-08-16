@@ -36,3 +36,12 @@ AREA_NAME_LEFT_BOTTOM         = NAME_ZONE_PARAM         # zone gauche-bas
 AREA_NAME_RIGHT_TOP           = NAME_ZONE_CHAT          # zone droite-haut  ✅
 AREA_NAME_RIGHT_BOTTOM_TOP    = NAME_ZONE_MESSAGE       # zone droite bas haut
 AREA_NAME_RIGHT_BOTTOM_BOTTOM = NAME_ZONE_INFO          # zone droite bas bas ✅
+
+# ----- Couleurs zone_chat -----
+COLOR_USER_BUBBLE   = (0.20, 0.60, 1.00, 1)  # bulle utilisateur (bleu)
+COLOR_USER_TEXT     = (1, 1, 1, 1)           # texte utilisateur
+COLOR_IA_BUBBLE     = (0.20, 0.20, 0.20, 1)  # bulle IA (gris foncé)
+COLOR_IA_TEXT       = (1, 1, 1, 1)           # texte IA
+
+# Réutilisation curseur zone saisie
+COLOR_CURSOR        = COLOR_USER_BUBBLE

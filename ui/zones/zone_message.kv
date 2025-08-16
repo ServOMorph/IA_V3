@@ -1,6 +1,13 @@
+#:import config_ui ui.config_ui
+
+
 <ImageButton@ButtonBehavior+Image>:
     allow_stretch: True
     keep_ratio: True
+
+<SubmitTextInput>:
+    cursor_color: config_ui.COLOR_CURSOR
+    cursor_width: 2                    
 
 <ZoneMessage>:
     orientation: 'vertical'
@@ -20,7 +27,7 @@
             width: dp(700)
             spacing: dp(8)
 
-            # --- Pillule uniquement pour la zone texte ---
+            # --- Pilule uniquement pour la zone texte ---
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint_y: None
@@ -60,7 +67,7 @@
                 id: send_btn
                 source: 'assets/images/send_icon.png'
                 size_hint: None, None
-                size: dp(35), dp(35)       # largeur fixée
+                size: dp(35), dp(35)
                 opacity: 1 if not root.busy else 0
                 disabled: root.busy or not root.can_send
                 on_release: root.submit()
