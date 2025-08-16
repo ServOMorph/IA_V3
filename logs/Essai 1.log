@@ -1,0 +1,27 @@
+2025-08-16 17:37:50 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 17:37:50 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-16 17:37:57 - [RÉPONSE DE MISTRAL]
+Bonjour ! Comment ça va ?
+
+2025-08-16 17:38:27 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 17:38:27 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-16 17:37:57 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour ! Comment ça va ?
+
+---
+👤 Vous : Bien et toi ?
+🤖 Ollama :
+2025-08-16 17:38:32 - [RÉPONSE DE MISTRAL]
+Très bien merci, et toi aussi ! Comment vas-tu de ton côté ?
+

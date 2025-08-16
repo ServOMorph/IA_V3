@@ -1,3 +1,7 @@
+# === Correction rond rouge clic droit ===
+from kivy.config import Config
+Config.set("input", "mouse", "mouse,multitouch_on_demand")
+
 from threading import Thread
 from pathlib import Path
 from kivy.clock import Clock
