@@ -11,8 +11,8 @@ from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
 
-# Backend
-from core.chat_manager import ChatManager
+# Client intermédiaire
+from client.ia_client import IAClient
 
 # UI widgets
 from ui.zones.zone_message import ZoneMessage
@@ -49,7 +49,7 @@ class ColoredBox(BoxLayout):
 class MyApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.chat_manager = ChatManager()
+        self.client = IAClient()
         self.zone_chat = None
         self.zone_message = None
         self.zone_liste_conv = None
@@ -131,7 +131,7 @@ class MyApp(App):
 
         return main_layout
 
-    # ====== Flux message UI -> backend -> UI ======
+    # ====== Flux message UI -> client -> UI ======
 
     def _on_zone_message_submit(self, instance, message: str):
         # UI immédiate
@@ -142,17 +142,16 @@ class MyApp(App):
             self.thinking_label.opacity = 1
 
         # Appel modèle en thread
-        Thread(target=self._ask_backend, args=(message,), daemon=True).start()
+        Thread(target=self._ask_client, args=(message,), daemon=True).start()
 
-    def _ask_backend(self, message: str):
+    def _ask_client(self, message: str):
         try:
-            # Envoie message -> IA (ajoute automatiquement user + assistant dans history)
-            response = self.chat_manager.client.send_prompt(message)
+            response = self.client.send_message(message)
         except Exception as e:
             response = f"[Erreur backend] {e}"
 
         # Sauvegarde conversation + éventuels fichiers
-        self._backend_save(response)
+        self.client.save_conversation(response)
 
         # UI
         def _finish(dt):
@@ -162,19 +161,6 @@ class MyApp(App):
             if self.thinking_label:
                 self.thinking_label.opacity = 0
         Clock.schedule_once(_finish, 0)
-
-    # ====== Helpers backend ======
-
-    def _backend_save(self, last_response=None):
-        """Appelle SaveManager comme dans ChatManager.start_chat()."""
-        try:
-            self.chat_manager.save_manager.save_md(self.chat_manager.client.history)
-
-            if last_response:
-                self.chat_manager.save_manager.save_python_from_response(last_response)
-                self.chat_manager.save_manager.save_txt_from_response(last_response)
-        except Exception as e:
-            print(f"[ERREUR SAVE] {e}")
 
     # ====== Chargement conversation sauvegardée ======
 
