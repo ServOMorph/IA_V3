@@ -110,3 +110,8 @@ class ZoneChat(ScrollView):
 
         self.messages_box.add_widget(line)
         Clock.schedule_once(_finalize, 0)
+
+    def clear_messages(self):
+        """Efface toutes les bulles du chat."""
+        self.messages_box.clear_widgets()
+        self._sync_anchor_height()

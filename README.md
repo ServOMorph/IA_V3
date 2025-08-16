@@ -32,6 +32,7 @@ Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par déf
   - Bouton envoyer rond (`send_icon.png`)  
   - Effacement automatique après envoi  
   - Masquage du bouton pendant la génération de la réponse IA  
+
 - **ZoneChat** :
   - Messages affichés sous forme de **bulles** :
     - Utilisateur → bulle bleue à droite  
@@ -39,6 +40,7 @@ Ce projet permet d’interagir avec un modèle IA local via **Ollama** (par déf
   - ScrollView qui reste calé en bas  
   - Largeur max des bulles (≈420px)  
   - Espacement vertical uniforme  
+
 - **Indication de réflexion** :
   - Texte `"Je suis en train de réfléchir..."` affiché entre la question de l’utilisateur et la réponse IA  
   - Prévu avec animation (points clignotants)  
@@ -131,4 +133,3 @@ Commande	Description
     Scripts utilitaires : /tools/
 
     Synthèses ChatGPT : /synthèses_chatgpt/
-

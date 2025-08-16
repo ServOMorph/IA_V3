@@ -1,0 +1,47 @@
+🎯 Objectif
+
+Mettre en place une interface Kivy pour gérer les conversations sauvegardées et permettre de les recharger dans la zone de chat.
+
+✅ Étapes réalisées
+
+ZoneListeConv (liste des conversations)
+
+Création d’un widget qui liste les dossiers dans ./sav/.
+
+Ajout d’un effet visuel (hover + sélection).
+
+Suppression du changement de pointeur (jugé trop compliqué).
+
+Correction du titre Conversations qui apparaissait deux fois → affichage propre.
+
+ZoneChat (affichage des messages)
+
+Gestion des bulles de chat (👤 Vous / 🤖 IA).
+
+Ajout méthode clear_messages() pour réinitialiser la zone lors du changement de conversation.
+
+Intégration avec main_ui
+
+Ajout d’un lien entre ZoneListeConv et ZoneChat via _on_conv_selected.
+
+Quand on clique sur une conversation, son contenu est lu depuis conversation.md et affiché dans le chat.
+
+Correction d’un bug où les messages ne se sauvegardaient pas en mode UI → ajout explicite de la sauvegarde à chaque échange.
+
+Problèmes rencontrés
+
+Conflit entre l’affichage détaillé (timestamps, logs, prompts envoyés à Mistral) et l’affichage simple des messages.
+
+Après une modification, les conversations ne se chargeaient plus → retour à l’état précédent où ça fonctionnait.
+
+Décision : garder l’affichage simple (👤 Vous / 🤖 IA) pour que le clic recharge bien les conversations.
+
+📌 État final
+
+La sauvegarde fonctionne en mode console et en mode UI.
+
+Cliquer sur une conversation dans la liste recharge bien son contenu dans ZoneChat.
+
+Affichage clair des messages (sans bruit des logs techniques).
+
+Les zones UI sont bien structurées (liste, chat, saisie message, info).

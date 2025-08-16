@@ -1,6 +1,7 @@
 from ui.config_ui import *
 
 from threading import Thread
+from pathlib import Path
 from kivy.clock import Clock
 from kivy.metrics import dp
 
@@ -16,7 +17,7 @@ from core.chat_manager import ChatManager
 # UI widgets
 from ui.zones.zone_message import ZoneMessage
 from ui.zones.zone_chat import ZoneChat
-from ui.zones.zone_liste_conv import ZoneListeConv   # <-- AJOUT
+from ui.zones.zone_liste_conv import ZoneListeConv
 
 
 class BackgroundBox(BoxLayout):
@@ -51,7 +52,7 @@ class MyApp(App):
         self.chat_manager = ChatManager()
         self.zone_chat = None
         self.zone_message = None
-        self.zone_liste_conv = None   # <-- AJOUT
+        self.zone_liste_conv = None
         self.thinking_label = None
 
     def build(self):
@@ -61,10 +62,9 @@ class MyApp(App):
 
         main_layout = BackgroundBox(orientation="horizontal")
 
-        # ---- Colonne gauche ----
+        # Colonne gauche
         zone_gauche = BoxLayout(orientation="vertical", size_hint=(None, 1), width=ZONE_GAUCHE_WIDTH)
 
-        # Zone liste conv = vrai widget
         self.zone_liste_conv = ZoneListeConv(
             sav_dir="./sav",
             size_hint=(1, None),
@@ -72,15 +72,15 @@ class MyApp(App):
         )
 
         zone_param_gauche = ColoredBox(
-            title=AREA_NAME_LEFT_BOTTOM,
             bg_color=COLOR_ZONE_PARAM_GAUCHE,
             orientation="vertical",
             size_hint=(1, 1),
         )
+
         zone_gauche.add_widget(self.zone_liste_conv)
         zone_gauche.add_widget(zone_param_gauche)
 
-        # ---- Colonne droite ----
+        # Colonne droite
         zone_droite = BoxLayout(orientation="vertical", size_hint=(1, 1))
 
         self.zone_chat = ZoneChat(size_hint=(1, None), height=ZONE_DROITE_HAUT_HEIGHT)
@@ -126,25 +126,35 @@ class MyApp(App):
         main_layout.add_widget(zone_gauche)
         main_layout.add_widget(zone_droite)
 
-        # Connecter callback sur sélection conv
+        # Sélection conversation -> chargement
         self.zone_liste_conv.set_on_select(self._on_conv_selected)
 
         return main_layout
 
+    # ====== Flux message UI -> backend -> UI ======
+
     def _on_zone_message_submit(self, instance, message: str):
+        # UI immédiate
+        self.zone_chat.add_message("Vous", message)
         if self.zone_message:
             self.zone_message.set_busy(True)
         if self.thinking_label:
             self.thinking_label.opacity = 1
-        self.zone_chat.add_message("Vous", message)
+
+        # Appel modèle en thread
         Thread(target=self._ask_backend, args=(message,), daemon=True).start()
 
     def _ask_backend(self, message: str):
         try:
+            # Envoie message -> IA (ajoute automatiquement user + assistant dans history)
             response = self.chat_manager.client.send_prompt(message)
         except Exception as e:
             response = f"[Erreur backend] {e}"
 
+        # Sauvegarde conversation + éventuels fichiers
+        self._backend_save(response)
+
+        # UI
         def _finish(dt):
             self.zone_chat.add_message("IA", response)
             if self.zone_message:
@@ -153,9 +163,49 @@ class MyApp(App):
                 self.thinking_label.opacity = 0
         Clock.schedule_once(_finish, 0)
 
-    def _on_conv_selected(self, name, path):
-        # Ici tu pourras charger la conversation
-        print(f"Conversation sélectionnée: {name} ({path})")
+    # ====== Helpers backend ======
+
+    def _backend_save(self, last_response=None):
+        """Appelle SaveManager comme dans ChatManager.start_chat()."""
+        try:
+            self.chat_manager.save_manager.save_md(self.chat_manager.client.history)
+
+            if last_response:
+                self.chat_manager.save_manager.save_python_from_response(last_response)
+                self.chat_manager.save_manager.save_txt_from_response(last_response)
+        except Exception as e:
+            print(f"[ERREUR SAVE] {e}")
+
+    # ====== Chargement conversation sauvegardée ======
+
+    def _on_conv_selected(self, name, path: Path):
+        """Ouvre sav/<name>/conversation.md et l’affiche dans ZoneChat."""
+        self.zone_chat.clear_messages()
+
+        conv_md = path / "conversation.md"
+        conv_txt = path / "conversation.txt"
+        conv_file = conv_md if conv_md.exists() else conv_txt
+
+        if not conv_file.exists():
+            self.zone_chat.add_message("System", f"Aucun conversation.md/.txt dans {name}")
+            return
+
+        try:
+            with conv_file.open("r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    if line.startswith("**Vous**") or line.startswith("Vous"):
+                        msg = line.split(":", 1)[-1].strip()
+                        self.zone_chat.add_message("Vous", msg)
+                    elif line.startswith("**IA**") or line.startswith("IA"):
+                        msg = line.split(":", 1)[-1].strip()
+                        self.zone_chat.add_message("IA", msg)
+                    else:
+                        self.zone_chat.add_message("IA", line)
+        except Exception as e:
+            self.zone_chat.add_message("Erreur", f"Lecture impossible: {e}")
 
 
 if __name__ == "__main__":
