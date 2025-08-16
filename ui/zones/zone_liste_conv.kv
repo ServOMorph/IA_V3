@@ -1,0 +1,40 @@
+#:import dp kivy.metrics.dp
+
+<SelectableItem>:
+    size_hint_y: None
+    height: dp(36)
+    halign: 'left'
+    text_size: self.size
+    padding: dp(12), 0
+    color: (1,1,1,1)
+    canvas.before:
+        Color:
+            rgba: (0.25, 0.5, 0.9, 1) if self.selected else (0.3, 0.3, 0.3, 1) if self.hovered else (0.16, 0.16, 0.16, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<ZoneListeConv>:
+    orientation: 'vertical'
+    spacing: dp(6)
+    padding: dp(6)
+    BoxLayout:
+        size_hint_y: None
+        height: dp(32)
+        Label:
+            text: "Conversations"
+            bold: True
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+    RecycleView:
+        id: rv
+        viewclass: 'SelectableItem'
+        scroll_type: ['bars', 'content']
+        bar_width: dp(6)
+        RecycleBoxLayout:
+            default_size: None, dp(36)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'

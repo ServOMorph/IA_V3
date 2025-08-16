@@ -2,7 +2,7 @@ from ui.config_ui import *
 
 from threading import Thread
 from kivy.clock import Clock
-from kivy.metrics import dp   # <-- AJOUT ICI ✅
+from kivy.metrics import dp
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -15,7 +15,8 @@ from core.chat_manager import ChatManager
 
 # UI widgets
 from ui.zones.zone_message import ZoneMessage
-from ui.zones.zone_chat import ZoneChat   # <-- nouveau
+from ui.zones.zone_chat import ZoneChat
+from ui.zones.zone_liste_conv import ZoneListeConv   # <-- AJOUT
 
 
 class BackgroundBox(BoxLayout):
@@ -47,10 +48,11 @@ class ColoredBox(BoxLayout):
 class MyApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.chat_manager = ChatManager()  # backend
+        self.chat_manager = ChatManager()
         self.zone_chat = None
         self.zone_message = None
-        self.thinking_label = None  # <-- label "réfléchit"
+        self.zone_liste_conv = None   # <-- AJOUT
+        self.thinking_label = None
 
     def build(self):
         Window.size = WINDOW_SIZE
@@ -62,35 +64,31 @@ class MyApp(App):
         # ---- Colonne gauche ----
         zone_gauche = BoxLayout(orientation="vertical", size_hint=(None, 1), width=ZONE_GAUCHE_WIDTH)
 
-        zone_liste_conv_gauche = ColoredBox(
-            title=AREA_NAME_LEFT_TOP,
-            bg_color=COLOR_ZONE_LISTE_CONV_GAUCHE,
-            orientation="vertical",
+        # Zone liste conv = vrai widget
+        self.zone_liste_conv = ZoneListeConv(
+            sav_dir="./sav",
             size_hint=(1, None),
             height=ZONE_GAUCHE_HAUT_HEIGHT,
         )
+
         zone_param_gauche = ColoredBox(
             title=AREA_NAME_LEFT_BOTTOM,
             bg_color=COLOR_ZONE_PARAM_GAUCHE,
             orientation="vertical",
             size_hint=(1, 1),
         )
-        zone_gauche.add_widget(zone_liste_conv_gauche)
+        zone_gauche.add_widget(self.zone_liste_conv)
         zone_gauche.add_widget(zone_param_gauche)
 
         # ---- Colonne droite ----
         zone_droite = BoxLayout(orientation="vertical", size_hint=(1, 1))
 
-        # >>> zone droite haut = zone_chat
         self.zone_chat = ZoneChat(size_hint=(1, None), height=ZONE_DROITE_HAUT_HEIGHT)
 
-        # >>> zone droite bas
         zone_droite_bas = BoxLayout(orientation="vertical", size_hint=(1, 1))
 
-        # --- container pour "réfléchit" + zone_message ---
         zone_message_wrapper = BoxLayout(orientation="vertical", size_hint=(1, None), height=ZONE_DROITE_BAS_HAUT_HEIGHT)
 
-        # Label "réfléchit" (invisible au départ)
         self.thinking_label = Label(
             text="Je suis en train de réfléchir…",
             color=(0.7, 0.7, 0.7, 1),
@@ -101,20 +99,18 @@ class MyApp(App):
         )
         zone_message_wrapper.add_widget(self.thinking_label)
 
-        # zone_message
         zone_message_container = ColoredBox(
             bg_color=COLOR_ZONE_MESSAGE,
             orientation="vertical",
             size_hint=(1, 1)
         )
 
-        self.zone_message = ZoneMessage(clear_on_send=True)   # <-- garde la ref
+        self.zone_message = ZoneMessage(clear_on_send=True)
         self.zone_message.bind(on_submit=self._on_zone_message_submit)
         zone_message_container.add_widget(self.zone_message)
 
         zone_message_wrapper.add_widget(zone_message_container)
 
-        # >>> zone droite bas bas = zone_info
         zone_info = ColoredBox(
             bg_color=COLOR_ZONE_INFO_DROITE,
             orientation="vertical",
@@ -129,22 +125,18 @@ class MyApp(App):
 
         main_layout.add_widget(zone_gauche)
         main_layout.add_widget(zone_droite)
+
+        # Connecter callback sur sélection conv
+        self.zone_liste_conv.set_on_select(self._on_conv_selected)
+
         return main_layout
 
-    # ── Handler non bloquant ──
     def _on_zone_message_submit(self, instance, message: str):
-        # Masque le bouton envoyer
         if self.zone_message:
             self.zone_message.set_busy(True)
-
-        # Affiche "réfléchit"
         if self.thinking_label:
             self.thinking_label.opacity = 1
-
-        # 1) afficher tout de suite le message utilisateur (à droite)
         self.zone_chat.add_message("Vous", message)
-
-        # 2) lancer l'appel backend en thread
         Thread(target=self._ask_backend, args=(message,), daemon=True).start()
 
     def _ask_backend(self, message: str):
@@ -153,14 +145,17 @@ class MyApp(App):
         except Exception as e:
             response = f"[Erreur backend] {e}"
 
-        # 3) poster la réponse IA (à gauche) sur le thread UI
         def _finish(dt):
             self.zone_chat.add_message("IA", response)
             if self.zone_message:
-                self.zone_message.set_busy(False)  # <-- réaffiche le bouton
+                self.zone_message.set_busy(False)
             if self.thinking_label:
-                self.thinking_label.opacity = 0   # <-- cache "réfléchit"
+                self.thinking_label.opacity = 0
         Clock.schedule_once(_finish, 0)
+
+    def _on_conv_selected(self, name, path):
+        # Ici tu pourras charger la conversation
+        print(f"Conversation sélectionnée: {name} ({path})")
 
 
 if __name__ == "__main__":

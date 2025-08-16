@@ -17,7 +17,7 @@ ZONE_DROITE_HAUT_HEIGHT = 771
 ZONE_DROITE_BAS_HAUT_HEIGHT = 100
 
 # ----- Couleurs (RGBA) -----
-COLOR_ZONE_LISTE_CONV_GAUCHE = (0.4, 0.6, 0.9, 0.28)
+COLOR_ZONE_LISTE_CONV = (0.4, 0.6, 0.9, 0.28)
 COLOR_ZONE_PARAM_GAUCHE      = (0.6, 0.9, 0.6, 0.28)
 COLOR_ZONE_CHAT_DROITE       = (0.9, 0.7, 0.7, 0.28)  # (ex- liste_conv droite)
 COLOR_ZONE_MESSAGE           = (0.9, 0.9, 0.6, 0.28)
