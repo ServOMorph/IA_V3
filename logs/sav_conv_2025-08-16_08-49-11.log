@@ -1,0 +1,31 @@
+2025-08-16 08:49:15 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 08:49:15 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-16 08:49:21 - [RÉPONSE DE MISTRAL]
+Salut ! Comment ça va ?
+
+2025-08-16 08:49:30 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 08:49:30 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-16 08:49:21 ---
+👤 Vous : coucou
+🤖 Ollama : Salut ! Comment ça va ?
+
+---
+👤 Vous : /rename conv1
+🤖 Ollama :
+2025-08-16 08:49:43 - [RÉPONSE DE MISTRAL]
+Pour renommer un canal, utilisez la commande `/rename conv1 nouveauNom` sur votre serveur de conversation préféré. Voici une liste des serveurs de conversation supportés par Ollama:
+- Discord (discord.com)
+- Telegram (telegram.org)
+- Mattermost (mattermost.com)
+- Slack (slack.com)
+
