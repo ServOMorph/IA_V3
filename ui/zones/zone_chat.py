@@ -7,8 +7,7 @@ from kivy.graphics import Color, RoundedRectangle
 from kivy.metrics import dp
 from kivy.clock import Clock
 
-
-MAX_BUBBLE_W = dp(420)   # largeur max des bulles
+MAX_BUBBLE_W = dp(420)
 RADIUS = dp(12)
 PADX, PADY = dp(10), dp(6)
 
@@ -20,7 +19,6 @@ class ChatBubble(BoxLayout):
         self.orientation = "horizontal"
         self.spacing = dp(6)
 
-        # Si c’est l’IA → ajouter l’icône avant la bulle
         if sender == "IA":
             self.add_widget(Image(
                 source="assets/images/Logo_IA.png",
@@ -30,7 +28,6 @@ class ChatBubble(BoxLayout):
                 keep_ratio=True
             ))
 
-        # Conteneur de la bulle
         self.bubble_box = BoxLayout(size_hint=(None, None), padding=[PADX, PADY])
         self.add_widget(self.bubble_box)
 
@@ -45,7 +42,6 @@ class ChatBubble(BoxLayout):
         self.lbl.bind(texture_size=lambda *_: Clock.schedule_once(self._sync_sizes, 0))
         self.bubble_box.add_widget(self.lbl)
 
-        # Fond arrondi
         with self.bubble_box.canvas.before:
             Color(*bubble_rgba)
             self.bg = RoundedRectangle(radius=[RADIUS])
@@ -72,6 +68,11 @@ class ZoneChat(ScrollView):
         self.do_scroll_x = False
         self.do_scroll_y = True
 
+        # Conteneur ancré en bas
+        self._anchor = AnchorLayout(anchor_y="bottom", size_hint_y=None)
+        self.add_widget(self._anchor)
+
+        # Colonne des messages
         self.messages_box = BoxLayout(
             orientation="vertical",
             size_hint_y=None,
@@ -79,24 +80,33 @@ class ZoneChat(ScrollView):
             padding=[dp(10), dp(10)],
         )
         self.messages_box.bind(minimum_height=self.messages_box.setter("height"))
-        self.add_widget(self.messages_box)
+        self._anchor.add_widget(self.messages_box)
+
+        # Maintient l'ancre à au moins la hauteur visible du ScrollView
+        self.bind(size=self._sync_anchor_height)
+        self.messages_box.bind(height=lambda *_: self._sync_anchor_height())
+
+    def _sync_anchor_height(self, *args):
+        # ancre = max(vue, contenu) -> contenu collé en bas si petit
+        self._anchor.height = max(self.height, self.messages_box.height)
 
     def add_message(self, sender: str, text: str):
         if sender == "Vous":
-            bubble_rgba = (0.20, 0.60, 1.00, 1)  # bleu
+            bubble_rgba = (0.20, 0.60, 1.00, 1)
             text_rgba = (1, 1, 1, 1)
-            anchor = AnchorLayout(anchor_x="right", size_hint_y=None)
+            line = AnchorLayout(anchor_x="right", size_hint_y=None)
         else:
-            bubble_rgba = (0.20, 0.20, 0.20, 1)  # gris foncé
+            bubble_rgba = (0.20, 0.20, 0.20, 1)
             text_rgba = (1, 1, 1, 1)
-            anchor = AnchorLayout(anchor_x="left", size_hint_y=None)
+            line = AnchorLayout(anchor_x="left", size_hint_y=None)
 
         bubble = ChatBubble(text, bubble_rgba, text_rgba, sender=sender)
-        anchor.add_widget(bubble)
+        line.add_widget(bubble)
 
-        def _fit_anchor(*_):
-            anchor.height = bubble.height
+        def _finalize(*_):
+            line.height = bubble.height
+            self._sync_anchor_height()
             Clock.schedule_once(lambda __: setattr(self, "scroll_y", 0), 0)
-        Clock.schedule_once(_fit_anchor, 0)
 
-        self.messages_box.add_widget(anchor)
+        self.messages_box.add_widget(line)
+        Clock.schedule_once(_finalize, 0)

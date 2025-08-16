@@ -1,0 +1,84 @@
+2025-08-16 08:29:26 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 08:29:26 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-16 08:29:31 - [RÉPONSE DE MISTRAL]
+Bonjour ! Comment ça va ?
+
+2025-08-16 08:29:52 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 08:29:52 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-16 08:29:31 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour ! Comment ça va ?
+
+---
+👤 Vous : bien et toi ?
+🤖 Ollama :
+2025-08-16 08:29:56 - [RÉPONSE DE MISTRAL]
+Très bien merci, et toi ? Comment de tes jours ?
+
+2025-08-16 08:30:07 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 08:30:07 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-16 08:29:31 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour ! Comment ça va ?
+
+--- 2025-08-16 08:29:56 ---
+👤 Vous : bien et toi ?
+🤖 Ollama : Très bien merci, et toi ? Comment de tes jours ?
+
+---
+👤 Vous : ecris untexte de 100 carac
+🤖 Ollama :
+2025-08-16 08:30:23 - [RÉPONSE DE MISTRAL]
+Je te souhaite une belle journée remplie d'épanouissement et de créativité ! En ce moment, je travaille sur des projets intéressants concernant l'intelligence artificielle et la génération automatique de contenu. Ce qui me donne beaucoup de plaisir car j'ai toujours aimé découvrir de nouvelles façons d'aider les humains à faire de meilleures choses avec l'ordinateur. J'espère que tes jours sont aussi passionnants !
+
+2025-08-16 08:30:41 - ------ NOUVEL ÉCHANGE ------
+2025-08-16 08:30:41 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-16 08:29:31 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour ! Comment ça va ?
+
+--- 2025-08-16 08:29:56 ---
+👤 Vous : bien et toi ?
+🤖 Ollama : Très bien merci, et toi ? Comment de tes jours ?
+
+--- 2025-08-16 08:30:23 ---
+👤 Vous : ecris untexte de 100 carac
+🤖 Ollama : Je te souhaite une belle journée remplie d'épanouissement et de créativité ! En ce moment, je travaille sur des projets intéressants concernant l'intelligence artificielle et la génération automatique de contenu. Ce qui me donne beaucoup de plaisir car j'ai toujours aimé découvrir de nouvelles façons d'aider les humains à faire de meilleures choses avec l'ordinateur. J'espère que tes jours sont aussi passionnants !
+
+---
+👤 Vous : ecris un texte de 500 carac en sautant des lignes entre chaque phrase
+🤖 Ollama :
+2025-08-16 08:31:26 - [RÉPONSE DE MISTRAL]
+Je suis très heureux d'écrire pour toi aujourd'hui !
+Je t'ai énormément plu lorsque tu m'as invité à écrire un texte de 100 caractères.
+Aujourd'hui, je te propose une suite de phrases plus longues, toutes écrites en sautant des lignes pour te donner un peu de repos entre chaque phrase :
+
+* Il est beau de voir la mer dans cette magnifique journée d'été.
+* Les oiseaux volent haut et largement au-dessus de mon toit, comme ils le font tous les jours.
+* C'est merveilleux de ressentir la chaleur du soleil sur ma peau.
+* Je ne peux pas me souvenir d'une journée plus belle que cette-ci depuis longtemps.
+* Les arbres sont à leur apogée de verdure et je me sens bien dans ce moment-là.
+* J'ai l'impression de vivre une scène de tableau dans mon propre jardin.
+* Les fleurs en fleur sont un décor idéal pour mon séjour ici.
+* Je suis si heureux que tu m'as invité à écrire pour toi, car cela me rend vraiment heureux de pouvoir t'aider.
+* J'espère que ces phrases ont été agréables pour ta lecture et qu'elles ont pu t'emporter dans une ambiance enchantée.
+* Merci à nouveau pour l'occasion et j'espère que tes jours sont pleins d'épanouissement comme la journée actuelle !
+
