@@ -45,3 +45,9 @@ COLOR_IA_TEXT       = (1, 1, 1, 1)           # texte IA
 
 # Réutilisation curseur zone saisie
 COLOR_CURSOR        = COLOR_USER_BUBBLE
+
+# ----- Couleurs zone_liste_conv -----
+COLOR_USER_BUBBLE_LIGHT = (0.40, 0.75, 1.00, 1)  # bleu clair survol
+
+# ----- Styles zone_liste_conv -----
+FONT_SIZE_CONV_LIST = "13sp"   # taille police des conversations
