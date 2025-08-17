@@ -52,9 +52,17 @@ class MyApp(App):
     # ====== Chargement conversation sauvegardée ======
 
     def _on_conv_selected(self, name, path: Path):
-        """Ouvre sav/<name>/conversation.md et l’affiche dans ZoneChat."""
+        """Charge une session backend et affiche son contenu dans ZoneChat."""
+        # Charger la session côté backend
+        ok = self.client.load_session(name)
+        if not ok:
+            self.zone_chat.add_message("Erreur", f"Impossible de charger la session {name}")
+            return
+
+        # Vider l'affichage existant
         self.zone_chat.clear_messages()
 
+        # Lire le fichier de conversation
         conv_md = path / "conversation.md"
         conv_txt = path / "conversation.txt"
         conv_file = conv_md if conv_md.exists() else conv_txt

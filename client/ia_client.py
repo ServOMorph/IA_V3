@@ -30,30 +30,30 @@ class IAClient:
         except Exception as e:
             print(f"[ERREUR SAVE] {e}")
 
-def load_session(self, name: str) -> bool:
-    """Charge une session via CommandHandler et recrée le client Ollama."""
-    ok, _ = self.command_handler.handle(f"&load {name}")
-    if not ok:
-        return False
+    def load_session(self, name: str) -> bool:
+        """Charge une session via CommandHandler et recrée le client Ollama."""
+        ok, _ = self.command_handler.handle(f"&load {name}")
+        if not ok:
+            return False
 
-    # Recréer OllamaClient lié au nouveau fichier .md
-    from core.ollama_client import OllamaClient
-    self.backend.client = OllamaClient(
-        model=self.backend.client.model,
-        session_file=self.backend.save_manager.session_md
-    )
+        # Recréer OllamaClient lié au nouveau fichier .md
+        from core.ollama_client import OllamaClient
+        self.backend.client = OllamaClient(
+            model=self.backend.client.model,
+            session_file=self.backend.save_manager.session_md
+        )
 
-    # Reconfigurer le logger
-    from core.logging.conv_logger import setup_conv_logger
-    self.backend.client.conv_logger, self.backend.client.conv_log_file = setup_conv_logger(
-        self.backend.save_manager.session_name
-    )
+        # Reconfigurer le logger
+        from core.logging.conv_logger import setup_conv_logger
+        self.backend.client.conv_logger, self.backend.client.conv_log_file = setup_conv_logger(
+            self.backend.save_manager.session_name
+        )
 
-    # Réaligner les références IAClient
-    self.save_manager = self.backend.save_manager
-    self.client = self.backend.client
+        # Réaligner les références IAClient
+        self.save_manager = self.backend.save_manager
+        self.client = self.backend.client
 
-    return True
+        return True
 
     def rename_session(self, old_name: str, new_name: str) -> bool:
         if self.save_manager.session_name == old_name:
