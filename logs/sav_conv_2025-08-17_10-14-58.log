@@ -1,0 +1,47 @@
+2025-08-17 10:15:04 - ------ NOUVEL ÉCHANGE ------
+2025-08-17 10:15:04 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-17 10:15:11 - [RÉPONSE DE MISTRAL]
+Bonjour! Comment ça va ?
+
+2025-08-17 10:15:26 - ------ NOUVEL ÉCHANGE ------
+2025-08-17 10:15:26 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-17 10:15:11 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour! Comment ça va ?
+
+---
+👤 Vous : oui et toi
+🤖 Ollama :
+2025-08-17 10:15:35 - [RÉPONSE DE MISTRAL]
+Je suis très bien, merci pour ton message ! En quoi puis-je te faire une aide aujourd'hui ?
+
+2025-08-17 10:16:00 - ------ NOUVEL ÉCHANGE ------
+2025-08-17 10:16:00 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+
+--- 2025-08-17 10:15:11 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour! Comment ça va ?
+
+--- 2025-08-17 10:15:35 ---
+👤 Vous : oui et toi
+🤖 Ollama : Je suis très bien, merci pour ton message ! En quoi puis-je te faire une aide aujourd'hui ?
+
+---
+👤 Vous : il fait beau
+🤖 Ollama :
+2025-08-17 10:16:10 - [RÉPONSE DE MISTRAL]
+C'est vrai, il fait beau, le soleil brille ! 😊 En quoi me peux-tu demander de te l'aider aujourd'hui ?
+

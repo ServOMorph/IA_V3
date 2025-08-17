@@ -1,9 +1,7 @@
 # core/commands.py
 from __future__ import annotations
 
-import os
 import re
-import shutil
 from pathlib import Path
 from typing import Tuple, List
 
@@ -15,6 +13,7 @@ from config import (
     LOGS_DIR,
 )
 from core.logging.conv_logger import setup_conv_logger
+from core.session_manager import SessionManager
 
 # --- Préfixe configurable ---
 COMMAND_PREFIX = "&"
@@ -87,20 +86,8 @@ class CommandHandler:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}rename NOM")
                 return True, False
             new_name = arg.replace(" ", "_")
-            try:
-                if getattr(self.client, "conv_logger", None):
-                    for h in list(self.client.conv_logger.handlers):
-                        try:
-                            h.flush()
-                            h.close()
-                        except Exception:
-                            pass
-                        self.client.conv_logger.removeHandler(h)
-            except Exception:
-                pass
-            ok = self.save_manager.rename_session_file(new_name)
+            ok = SessionManager.rename_session(self.chat_manager, new_name)
             if ok:
-                self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(new_name)
                 print(f"✅ Conversation renommée en : {new_name}")
             else:
                 print("⚠️ Impossible de renommer la conversation.")
@@ -148,43 +135,11 @@ class CommandHandler:
             if not arg:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}suppr chemin/nom")
                 return True, False
-            target_dir = Path(SAVE_DIR) / arg
-            log_file = Path(LOGS_DIR) / f"{arg}.log"
-            is_current = getattr(self.save_manager, "session_dir", None) and self.save_manager.session_dir.resolve() == target_dir.resolve()
-            if is_current and getattr(self.client, "conv_logger", None):
-                for h in list(self.client.conv_logger.handlers):
-                    try:
-                        h.flush()
-                        h.close()
-                    except Exception:
-                        pass
-                    self.client.conv_logger.removeHandler(h)
-            deleted = False
-            if target_dir.exists():
-                try:
-                    shutil.rmtree(target_dir)
-                    deleted = True
-                except Exception as e:
-                    print(f"⚠️ Impossible de supprimer le dossier : {e}")
-            if log_file.exists():
-                try:
-                    log_file.unlink()
-                    deleted = True
-                except Exception as e:
-                    print(f"⚠️ Impossible de supprimer le log : {e}")
-            if deleted:
+            ok = SessionManager.delete_session(self.chat_manager, arg)
+            if ok:
                 print(f"🗑️ Session '{arg}' supprimée.")
-                if is_current:
-                    from core.sav_manager import SaveManager
-                    from core.ollama_client import OllamaClient
-                    self.chat_manager.save_manager = SaveManager(save_dir=Path(SAVE_DIR))
-                    self.save_manager = self.chat_manager.save_manager
-                    self.chat_manager.client = OllamaClient(model=self.client.model, session_file=self.save_manager.session_md)
-                    self.client = self.chat_manager.client
-                    self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(self.save_manager.session_dir.name)
-                    print("ℹ️ Nouvelle session vide créée.")
             else:
-                print("⚠️ Rien à supprimer.")
+                print("⚠️ Rien à supprimer ou erreur.")
             return True, False
 
         # 7) Nouvelle session
@@ -277,6 +232,7 @@ class CommandHandler:
                         pass
                     self.client.conv_logger.removeHandler(h)
             try:
+                import shutil
                 shutil.move(str(src_sav_dir), str(dst_sav_dir))
             except Exception as e:
                 print(f"❌ Erreur déplacement dossier : {e}")
