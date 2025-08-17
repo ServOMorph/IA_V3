@@ -118,6 +118,14 @@ class CommandHandler:
             if not md_path.exists():
                 print(f"⚠️ Introuvable : {md_path}")
                 return True, False
+
+            # --- Sauvegarde de la session courante avant de basculer ---
+            try:
+                self.save_manager.save_md(self.client.history)
+            except Exception as e:
+                print(f"⚠️ Erreur lors de la sauvegarde avant le chargement : {e}")
+
+            # Bascule vers la session cible
             self.save_manager.session_dir = target_dir
             self.save_manager.session_md = md_path
             self.save_manager.session_name = target_dir.name

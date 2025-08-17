@@ -1,5 +1,6 @@
 from core.chat_manager import ChatManager
 from core.session_manager import SessionManager
+from core.commands import CommandHandler
 from pathlib import Path
 from config import SAVE_DIR, LOGS_DIR
 import shutil, logging
@@ -8,21 +9,54 @@ import shutil, logging
 class IAClient:
     def __init__(self):
         self.backend = ChatManager()
+        self.command_handler = CommandHandler(self.backend)
+
+        # pour rester aligné avec le backend
+        self.save_manager = self.backend.save_manager
+        self.client = self.backend.client
 
     def send_message(self, message: str) -> str:
-        return self.backend.client.send_prompt(message)
+        answer = self.client.send_prompt(message)
+        # Sauvegarde auto dans la session active
+        self.save_conversation(answer)
+        return answer
 
     def save_conversation(self, last_response: str | None = None):
         try:
-            self.backend.save_manager.save_md(self.backend.client.history)
+            self.save_manager.save_md(self.client.history)
             if last_response:
-                self.backend.save_manager.save_python_from_response(last_response)
-                self.backend.save_manager.save_txt_from_response(last_response)
+                self.save_manager.save_python_from_response(last_response)
+                self.save_manager.save_txt_from_response(last_response)
         except Exception as e:
             print(f"[ERREUR SAVE] {e}")
 
+def load_session(self, name: str) -> bool:
+    """Charge une session via CommandHandler et recrée le client Ollama."""
+    ok, _ = self.command_handler.handle(f"&load {name}")
+    if not ok:
+        return False
+
+    # Recréer OllamaClient lié au nouveau fichier .md
+    from core.ollama_client import OllamaClient
+    self.backend.client = OllamaClient(
+        model=self.backend.client.model,
+        session_file=self.backend.save_manager.session_md
+    )
+
+    # Reconfigurer le logger
+    from core.logging.conv_logger import setup_conv_logger
+    self.backend.client.conv_logger, self.backend.client.conv_log_file = setup_conv_logger(
+        self.backend.save_manager.session_name
+    )
+
+    # Réaligner les références IAClient
+    self.save_manager = self.backend.save_manager
+    self.client = self.backend.client
+
+    return True
+
     def rename_session(self, old_name: str, new_name: str) -> bool:
-        if self.backend.save_manager.session_name == old_name:
+        if self.save_manager.session_name == old_name:
             return SessionManager.rename_session(self.backend, new_name)
 
         # Sinon, renommage d'une autre session
