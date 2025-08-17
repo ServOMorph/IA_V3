@@ -87,3 +87,16 @@ print("Pouet pouet camembert ! La somme est :", somme)
 ```
 Ce code demande à l'utilisateur de saisir les deux nombres à ajouter en utilisant la fonction `input()`, puis il convertit chaque entrée en nombre flottant (pour pouvoir effectuer une addition). Ensuite, il effectue l'addition des deux nombres et affiche le résultat final avec une nouvelle instruction `print()`. Dans ce cas-ci, le message de résumé a été remplacé par "Pouet pouet camembert !" plutôt que "La somme des deux nombres est :".
 
+2025-08-17 18:26:33 - ------ NOUVEL ÉCHANGE ------
+2025-08-17 18:26:33 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+répond en français
+
+---
+👤 Vous : &run
+🤖 Ollama :
+2025-08-17 18:26:45 - [RÉPONSE DE MISTRAL]
+Bien sûr, à vos ordres !
+
+(En anglais : Of course, at your service!)
+

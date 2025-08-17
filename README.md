@@ -25,6 +25,17 @@ Couleurs centralisées dans ui/config_ui.py.
 
 🚀 Nouveautés et changements récents
 
+Nouvelles fonctionnalités CLI :
+
+- Ajout de la commande `&run` : exécute le dernier script Python sauvegardé de la conversation en cours. 
+  → Un nouveau terminal Windows (cmd.exe) s'ouvre et lance le script (`python <fichier>`), permettant d'exécuter aussi bien 
+    des petits scripts que de gros programmes interactifs (jeux, Pygame, etc.).
+
+- Amélioration de la saisie utilisateur en mode CLI :
+  → Une ligne simple : taper Entrée envoie directement.
+  → Texte multi-lignes (ex. copier-coller de résultats de console) : terminer par une ligne vide (Entrée deux fois).
+
+
 Séparation UI / logique :
 
 Ajout d’un client intermédiaire client/ia_client.py pour découpler l’UI du backend.
@@ -80,3 +91,37 @@ CLI (commands.py) et UI (IAClient) appellent désormais ce module → cohérence
 ChatManager reste focalisé sur la logique de chat, sans embarquer la gestion de fichiers/sessions.
 
 📂 Structure du projet (mise à jour)
+📂 Structure du projet (mise à jour)
+
+.
+├── main.py                         # Point d'entrée CLI
+├── main_ui.py                      # Lanceur interface Kivy
+├── client/
+│   ├── __init__.py
+│   └── ia_client.py                # Client intermédiaire UI ↔ backend
+├── core/
+│   ├── __init__.py
+│   ├── chat_manager.py             # Gestion du chat (mode CLI)
+│   ├── commands.py                 # Commandes CLI (&...)
+│   ├── session_manager.py          # Gestion des sessions (rename, delete)
+│   ├── ollama_client.py            # Client Ollama (modèle IA local)
+│   ├── sav_manager.py              # Sauvegardes .md / .py / .txt
+│   └── logging/
+│       ├── __init__.py
+│       └── conv_logger.py          # Logs conversationnels
+├── ui/
+│   ├── __init__.py
+│   ├── app_main.py                 # Logique principale UI
+│   ├── layout_builder.py           # Construction visuelle UI
+│   ├── config_ui.py                # Couleurs, textes et constantes UI
+│   └── zones/
+│       ├── zone_chat.py
+│       ├── zone_message.py
+│       ├── zone_liste_conv.py
+│       ├── zone_param.py
+│       └── zone_info.py
+├── sav/                            # Dossiers de sauvegarde des conversations
+│   └── <nom_session>/conversation.md
+├── logs/                           # Journaux conversationnels
+│   └── <nom_session>.log
+└── README.md

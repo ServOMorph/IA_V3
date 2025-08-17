@@ -34,9 +34,9 @@ COMMANDS = {
     f"{COMMAND_PREFIX}move": f"Déplacer une session ({COMMAND_PREFIX}move NOM dossier_cible)",
     f"{COMMAND_PREFIX}savecode": f"Extraire le code de la dernière réponse IA ({COMMAND_PREFIX}savecode [base])",
     f"{COMMAND_PREFIX}savetxt": f"Extraire le texte de la dernière réponse IA ({COMMAND_PREFIX}savetxt [base])",
+    f"{COMMAND_PREFIX}run": "Exécuter le dernier script Python sauvegardé de la conversation en cours",
+
 }
-
-
 def show_commands() -> None:
     print("\n📜 Commandes disponibles :")
     for cmd, desc in COMMANDS.items():
@@ -326,8 +326,38 @@ class CommandHandler:
                 print(f" - {p.as_posix()}")
             return True, False
 
+   
+        # 13) Exécuter le dernier script Python sauvegardé dans un nouveau terminal
+        if lower == f"{COMMAND_PREFIX}run":
+            import subprocess
+
+            session_dir: Path = self.save_manager.session_dir
+            py_files = sorted(
+                session_dir.glob("*.py"),
+                key=lambda p: p.stat().st_mtime,
+                reverse=True
+            )
+            if not py_files:
+                print("⚠️ Aucun fichier Python trouvé dans cette conversation.")
+                return True, False
+
+            last_file = py_files[0]
+            print(f"▶️ Ouverture d’un nouveau terminal pour exécuter : {last_file.name}")
+
+            try:
+                subprocess.Popen(
+                    ["start", "cmd", "/k", f"python {last_file}"],
+                    shell=True
+                )
+            except Exception as e:
+                print(f"❌ Erreur lors de l’ouverture du terminal : {e}")
+
+            return True, False
+        
         # --- Si aucune commande reconnue ---
         return False, False
+
+
 
     # --- Utils ---
     @staticmethod

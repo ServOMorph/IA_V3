@@ -45,7 +45,27 @@ class ChatManager:
         print(WELCOME_MESSAGE)
 
         while True:
-            user_prompt = input("\n💬 Vous : ").strip()
+            print("\n💬 Vous (une ligne = Entrée, plusieurs lignes = Entrée deux fois) :")
+            lines = []
+            while True:
+                try:
+                    line = input()
+                except EOFError:
+                    return
+                if line == "":
+                    # Cas 1 : rien du tout → re-demander
+                    if not lines:
+                        return
+                    # Cas 2 : fin d’un bloc multi-lignes
+                    break
+                lines.append(line)
+
+            # Si une seule ligne → l’envoyer directement
+            if len(lines) == 1:
+                user_prompt = lines[0].strip()
+            else:
+                user_prompt = "\n".join(lines).strip()
+
 
             if not user_prompt:
                 print(EMPTY_PROMPT_WARNING)
