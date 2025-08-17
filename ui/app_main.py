@@ -14,6 +14,7 @@ from ui.layout_builder import build_layout
 class MyApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.title = "ServOMorph IA" 
         self.client = IAClient()
         self.zone_chat = None
         self.zone_message = None
