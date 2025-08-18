@@ -1,8 +1,0 @@
-2025-08-17 19:05:15 - ------ NOUVEL ÉCHANGE ------
-2025-08-17 19:05:15 - [PROMPT ENVOYÉ À MISTRAL]
-[SYSTEM] : 
-Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles, en respectant les critères suivants :
-
----
-👤 Vous : coucou
-🤖 Ollama :

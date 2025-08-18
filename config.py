@@ -45,7 +45,7 @@ SAVE_FILE_DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S"
 LOGS_DIR = "logs"
 
 DEFAULT_SYSTEM_PROMPT = """
-Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles, en respectant les critères suivants :
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
 """
 
 

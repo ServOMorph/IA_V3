@@ -1,8 +1,0 @@
-2025-08-17 18:49:54 - ------ NOUVEL ÉCHANGE ------
-2025-08-17 18:49:54 - [PROMPT ENVOYÉ À MISTRAL]
-[SYSTEM] : 
-Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles, en respectant les critères suivants :
-
----
-👤 Vous : Peux-tu me générer un script Python commenté qui implémente un jeu simple de type Pong ? Le jeu doit afficher une fenêtre graphique, permettre à deux joueurs de contrôler les palettes (clavier), et inclure un système de score. Le code doit être structuré, performant, et respecter les conventions PEP 8.
-🤖 Ollama :
