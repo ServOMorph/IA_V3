@@ -1,98 +1,81 @@
-IA_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface Kivy
-📌 Description
+# IA\_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface Kivy
 
-Projet backend + UI pour interagir avec un modèle IA local via Ollama (par défaut mistral), avec gestion avancée des conversations et interface Kivy.
+## 📌 Description
 
-Fonctionnalités principales :
+Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par défaut `mistral`), avec gestion avancée des conversations et interface Kivy.
 
-Dialogue avec un modèle IA local.
+### Fonctionnalités principales :
 
-Sauvegarde des conversations dans un dossier par session (/sav/<nom_session>/conversation.md).
+* Dialogue avec un modèle IA local.
+* Sauvegarde des conversations dans un **dossier par session** (`/sav/<nom_session>/conversation.md`).
+* Sauvegarde automatique des blocs de code Python extraits en `.py`.
+* Chargement, renommage, suppression et organisation des sessions.
+* Copie rapide des derniers messages dans le presse-papier (CLI).
+* Conservation du contexte conversationnel.
+* Logs techniques et conversationnels séparés (`/logs/<nom_session>.log`).
+* **Interface Kivy moderne** avec zones distinctes : liste de conversations, chat, saisie, panneau info/config.
+* Couleurs centralisées dans `ui/config_ui.py`.
 
-Sauvegarde automatique des blocs de code Python extraits en .py.
+---
 
-Chargement, renommage, suppression et organisation des sessions.
+## 🚀 Nouveautés et changements récents
 
-Copie rapide des derniers messages dans le presse-papier (CLI).
+### Nouvelles fonctionnalités CLI :
 
-Conservation du contexte conversationnel.
-
-Logs techniques et conversationnels séparés (/logs/<nom_session>.log).
-
-Interface Kivy moderne avec zones distinctes : liste de conversations, chat, saisie, panneau info/config.
-
-Couleurs centralisées dans ui/config_ui.py.
-
-🚀 Nouveautés et changements récents
-
-Nouvelles fonctionnalités CLI :
-
-- Ajout de la commande `&run` : exécute le dernier script Python sauvegardé de la conversation en cours. 
-  → Un nouveau terminal Windows (cmd.exe) s'ouvre et lance le script (`python <fichier>`), permettant d'exécuter aussi bien 
-    des petits scripts que de gros programmes interactifs (jeux, Pygame, etc.).
-
-- Amélioration de la saisie utilisateur en mode CLI :
+* Ajout de la commande `&run` : exécute le dernier script Python sauvegardé de la conversation en cours.
+  → Un nouveau terminal Windows (`cmd.exe`) s'ouvre et lance le script (`python <fichier>`), permettant d'exécuter aussi bien des petits scripts que de gros programmes interactifs (jeux, Pygame, etc.).
+* Amélioration de la saisie utilisateur en mode CLI :
   → Une ligne simple : taper Entrée envoie directement.
   → Texte multi-lignes (ex. copier-coller de résultats de console) : terminer par une ligne vide (Entrée deux fois).
 
+### Séparation UI / logique :
 
-Séparation UI / logique :
+* Ajout d’un client intermédiaire `client/ia_client.py` pour découpler l’UI du backend.
+* `main_ui.py` devient un simple lanceur.
+* UI scindée en `ui/app_main.py` (logique) et `ui/layout_builder.py` (construction visuelle).
+* `ui/` et `client/` sont des packages Python (`__init__.py`).
 
-Ajout d’un client intermédiaire client/ia_client.py pour découpler l’UI du backend.
+### Comportement des commandes `&` :
 
-main_ui.py devient un simple lanceur. UI scindée en ui/app_main.py (logique) et ui/layout_builder.py (construction visuelle).
+* Les commandes `&...` restent disponibles en CLI (via `main.py`).
+* En mode UI, elles ne sont pas exécutées. Elles sont réservées au mode CLI.
 
-ui/ et client/ sont des packages Python (fichiers __init__.py).
+### UI / zone\_chat et zone\_message :
 
-Comportement des commandes & :
+* Bulles adaptatives : largeur ajustée au texte, retour à la ligne activé.
+* Couleurs des bulles et du texte centralisées (`ui/config_ui.py`).
+* Sélection de conversation colorée avec la même teinte utilisateur.
+* Curseur (TextInput) personnalisé : couleur et largeur configurables.
+* **Ajout de commandes spéciales en UI** : `&msg1` et `&msg2` détectées et exécutées correctement côté client.
+* **Bouton "+" ajouté en haut de la liste des conversations**, avec effet hover (icône éclaircie au survol).
 
-Les commandes &... restent disponibles en CLI (via main.py).
+### Centralisation des couleurs :
 
-En mode UI, les commandes & ne sont pas exécutées. Elles sont réservées au mode CLI.
+`ui/config_ui.py` contient :
 
-UI / zone_chat :
+* `COLOR_USER_BUBBLE`, `COLOR_USER_TEXT`
+* `COLOR_IA_BUBBLE`, `COLOR_IA_TEXT`
+* `COLOR_CURSOR`
 
-Bulles adaptatives : largeur des bulles s’ajuste à la longueur du texte. Retour à la ligne activé correctement.
+### Sauvegarde / synthèse :
 
-Couleurs des bulles et du texte prises depuis ui/config_ui.py.
+* Sauvegardes MD/TXT et extraction de code gérées par le backend.
+* Commande spéciale de clôture (CLI) génère synthèse textuelle et README mis à jour.
 
-Sélection de conversation colorée avec la même teinte utilisateur.
+### Refactorisation sessions :
 
-Curseur d’édition (TextInput) personnalisé : couleur et largeur contrôlées depuis ui/config_ui.py.
+* Nouveau module `core/session_manager.py` pour gérer les sessions :
 
-Centralisation des couleurs :
+  * `rename_session(chat_manager, new_name)`
+  * `delete_session(chat_manager, name)`
+* `commands.py` (CLI) et `IAClient` (UI) passent par ce module.
+* `ChatManager` reste focalisé sur la logique de chat, sans gérer les fichiers/sessions.
 
-ui/config_ui.py contient désormais les constantes :
+---
 
-COLOR_USER_BUBBLE, COLOR_USER_TEXT
+## 📂 Structure du projet (mise à jour)
 
-COLOR_IA_BUBBLE, COLOR_IA_TEXT
-
-COLOR_CURSOR
-
-Ces constantes sont réutilisées par zone_chat, zone_message et zone_liste_conv.
-
-Sauvegarde / synthèse :
-
-Sauvegardes MD/TXT et extraction de code gérées par le backend.
-
-(Rappel) Commande spéciale de clôture (CLI) génère synthèse textuelle et README mis à jour — production de contenu à fournir à l’appel de clôture.
-
-Refactorisation sessions :
-
-Ajout d’un module core/session_manager.py qui centralise les opérations sur les sessions :
-
-rename_session(chat_manager, new_name)
-
-delete_session(chat_manager, name)
-
-CLI (commands.py) et UI (IAClient) appellent désormais ce module → cohérence totale.
-
-ChatManager reste focalisé sur la logique de chat, sans embarquer la gestion de fichiers/sessions.
-
-📂 Structure du projet (mise à jour)
-📂 Structure du projet (mise à jour)
-
+```
 .
 ├── main.py                         # Point d'entrée CLI
 ├── main_ui.py                      # Lanceur interface Kivy
@@ -117,7 +100,7 @@ ChatManager reste focalisé sur la logique de chat, sans embarquer la gestion de
 │   └── zones/
 │       ├── zone_chat.py
 │       ├── zone_message.py
-│       ├── zone_liste_conv.py
+│       ├── zone_liste_conv.py      # Liste conv + bouton + avec hover
 │       ├── zone_param.py
 │       └── zone_info.py
 ├── sav/                            # Dossiers de sauvegarde des conversations
@@ -125,3 +108,4 @@ ChatManager reste focalisé sur la logique de chat, sans embarquer la gestion de
 ├── logs/                           # Journaux conversationnels
 │   └── <nom_session>.log
 └── README.md
+```

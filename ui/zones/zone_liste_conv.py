@@ -13,6 +13,7 @@ from kivy.uix.boxlayout import BoxLayout as KVBox
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.app import App
+from kivy.uix.image import Image
 import os
 
 # HoverBehavior
@@ -20,6 +21,27 @@ from ui.behaviors.hover_behavior import HoverBehavior
 
 KV_PATH = os.path.join(os.path.dirname(__file__), "zone_liste_conv.kv")
 Builder.load_file(KV_PATH)
+
+
+class ImageButton(ButtonBehavior, Image):
+    """Bouton image basique"""
+    pass
+
+
+class PlusButton(ImageButton, HoverBehavior):
+    """Bouton + avec effet hover (plus clair)"""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.color = (1, 1, 1, 1)  # normal
+        self.bind(hovered=self._on_hover)
+
+    def _on_hover(self, *_):
+        if self.hovered:
+            # éclairci au survol
+            self.color = (1.3, 1.3, 1.3, 1)
+        else:
+            # normal
+            self.color = (1, 1, 1, 1)
 
 
 class SelectableItem(ButtonBehavior, HoverBehavior, Label):
@@ -67,12 +89,7 @@ class SelectableItem(ButtonBehavior, HoverBehavior, Label):
 
 class ZoneListeConv(BoxLayout):
     """
-    Liste scrollable des dossiers de ./sav
-    - Triée par date de modification décroissante
-    - API publique :
-        refresh() -> recharge la liste
-        set_on_select(cb: Callable[[str, Path], None]) -> callback sélection
-        selected_name -> nom du dossier sélectionné
+    Zone complète : bouton + et liste des conversations
     """
     sav_dir = StringProperty("./sav")
     items = ListProperty([])
@@ -80,7 +97,7 @@ class ZoneListeConv(BoxLayout):
     selected_name = StringProperty("")
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(orientation="vertical", **kwargs)
         Clock.schedule_once(lambda *_: self.refresh(), 0)
 
     def refresh(self) -> None:

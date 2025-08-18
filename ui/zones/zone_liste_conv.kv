@@ -19,6 +19,16 @@
 
 <ZoneListeConv>:
     orientation: "vertical"
+    spacing: dp(5)
+    padding: dp(5)
+
+    # --- Bouton + avec hover ---
+    PlusButton:
+        id: btn_plus
+        source: "assets/images/plus_icon.png"
+        size_hint_y: None
+        height: dp(40)
+        on_release: print("Bouton + cliqué")
 
     Label:
         text: "Conversations"
