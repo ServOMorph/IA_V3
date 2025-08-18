@@ -1,0 +1,11 @@
+2025-08-18 16:31:24 - ------ NOUVEL ÉCHANGE ------
+2025-08-18 16:31:24 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama :
+2025-08-18 16:31:29 - [RÉPONSE DE MISTRAL]
+La capitale de la France est Paris.
+

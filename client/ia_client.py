@@ -2,7 +2,7 @@ from core.chat_manager import ChatManager
 from core.session_manager import SessionManager
 from core.commands import CommandHandler
 from pathlib import Path
-from config import SAVE_DIR, LOGS_DIR
+from config import SAVE_DIR, LOGS_DIR, PRESET_MESSAGES
 import shutil, logging
 
 
@@ -76,3 +76,16 @@ class IAClient:
 
     def delete_session(self, name: str) -> bool:
         return SessionManager.delete_session(self.backend, name)
+
+    # === Commandes spéciales pour l'UI ===
+    def run_msg1(self) -> str:
+        """Exécute la commande &msg1 côté UI"""
+        answer = self.client.send_prompt(PRESET_MESSAGES["msg1"])
+        self.save_conversation(answer)
+        return answer
+
+    def run_msg2(self) -> str:
+        """Exécute la commande &msg2 côté UI"""
+        answer = self.client.send_prompt(PRESET_MESSAGES["msg2"])
+        self.save_conversation(answer)
+        return answer

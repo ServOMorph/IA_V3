@@ -42,8 +42,16 @@ class ZoneMessage(BoxLayout):
         msg = (self.text or "").strip()
         if not msg:
             return
-        self.busy = True                     # <-- masque bouton immédiatement
-        self.dispatch('on_submit', msg)
+        self.busy = True  # <-- masque bouton immédiatement
+
+        # Détection des commandes spéciales
+        if msg.lower() == "&msg1":
+            self.dispatch('on_submit', "__MSG1__")
+        elif msg.lower() == "&msg2":
+            self.dispatch('on_submit', "__MSG2__")
+        else:
+            self.dispatch('on_submit', msg)
+
         if self.clear_on_send:
             self.text = ""
             if 'input' in self.ids:

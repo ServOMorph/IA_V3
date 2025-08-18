@@ -27,28 +27,42 @@ class MyApp(App):
     # ====== Flux message UI -> client -> UI ======
 
     def _on_zone_message_submit(self, instance, message: str):
-        self.zone_chat.add_message("Vous", message)
         if self.zone_message:
             self.zone_message.set_busy(True)
         if self.thinking_label:
             self.thinking_label.opacity = 1
-        Thread(target=self._ask_client, args=(message,), daemon=True).start()
 
-    def _ask_client(self, message: str):
-        try:
-            response = self.client.send_message(message)
-        except Exception as e:
-            response = f"[Erreur backend] {e}"
+        def run_background():
+            # Affichage du message utilisateur dans le thread principal
+            def add_user(dt):
+                if message == "__MSG1__":
+                    self.zone_chat.add_message("Vous", "[CMD] msg1")
+                elif message == "__MSG2__":
+                    self.zone_chat.add_message("Vous", "[CMD] msg2")
+                else:
+                    self.zone_chat.add_message("Vous", message)
+            Clock.schedule_once(add_user, 0)
 
-        self.client.save_conversation(response)
+            # Calcul de la réponse en thread secondaire
+            if message == "__MSG1__":
+                response = self.client.run_msg1()
+            elif message == "__MSG2__":
+                response = self.client.run_msg2()
+            else:
+                response = self.client.send_message(message)
 
-        def _finish(dt):
-            self.zone_chat.add_message("IA", response)
-            if self.zone_message:
-                self.zone_message.set_busy(False)
-            if self.thinking_label:
-                self.thinking_label.opacity = 0
-        Clock.schedule_once(_finish, 0)
+            self.client.save_conversation(response)
+
+            # Affichage de la réponse IA dans le thread principal
+            def _finish(dt):
+                self.zone_chat.add_message("IA", response)
+                if self.zone_message:
+                    self.zone_message.set_busy(False)
+                if self.thinking_label:
+                    self.thinking_label.opacity = 0
+            Clock.schedule_once(_finish, 0)
+
+        Thread(target=run_background, daemon=True).start()
 
     # ====== Chargement conversation sauvegardée ======
 
