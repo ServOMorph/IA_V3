@@ -1,0 +1,1 @@
+Voici une simple implémentation de cette fonction en python :

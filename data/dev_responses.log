@@ -55,3 +55,174 @@ Temps moyen: 4.46 sec
 Min: 3.93 sec
 Max: 5.28 sec
 ========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:22:28
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici une implémentation de cette fonction en Python :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n == 2: 
+        return True
+    elif n % 2 == 0: # tous les nombres pairs (sauf 2) sont non premiers
+        return False
+    else:
+        for i in range(3, int(n**0.5)+1, 2): # on vérifie uniquement les diviseurs impairs jusqu'à la racine carrée de n
+            if n % i == 0:
+                return False
+    return True
+```
+Cette fonction utilise une logique simple pour déterminer si un nombre est premier ou non. Si le nombre est inférieur ou égal à 1, c'est pas premier. Si le nombre est égal à 2, c'est premier. Pour tous les autres nombres, on vérifie si le nombre est divisible par un nombre impair entre 3 et la racine carrée du nombre (c'est-à-dire que n n'a pas de factorisation en termes premiers qui dépasse cette valeur). Si aucun autre facteur ne permet de diviser le nombre sans reste, alors il est premier.
+Temps: 69.01 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:27:13
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici une simple implémentation de cette fonction en python :
+
+```python
+def is_prime(n):
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Cette fonction vérifie d'abord si le nombre est inférieur ou égal à 1 ou s'il est pair et supérieur à 2 (les seuls nombres pairs premiers sont 2). Puis elle vérifie tous les autres diviseurs possible de n, en commençant par 3 jusqu'à la racine carrée de n.
+
+Elle est efficace car le plus grand diviseur d'un nombre premier 'n' est toujours inférieur ou égal à sqrt(n). Cela signifie que si aucun autre nombre ne divise 'n', alors 'n' est un nombre premier. 
+
+Notez également que la boucle commence par 3 et passe de 2 en 2 (pour tous les nombres impairs), car le fait que n soit pair signifie qu'il existe un autre diviseur, qui serait plus petit que sqrt(n).
+Temps: 61.52 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:27:56
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici une autre version plus simple de la même fonction :
+
+```python
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+```
+Cette fonction commence par vérifier si 'n' est inférieur à 2 (le plus petit nombre premier). Puis elle vérifie tous les nombres entre 2 et la racine carrée de 'n'. Si un diviseur est trouvé, cela signifie que 'n' n'est pas premier, donc la fonction retourne False. Sinon, si aucun diviseur n'a été trouvé, alors 'n' est premier et la fonction retourne True.
+Temps: 43.36 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:28:12
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: ```python
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 15.48 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-coder:6.7b
+Exercice: is_prime
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Essais: 3
+Temps moyen: 40.12 sec
+Min: 15.48 sec
+Max: 61.52 sec
+Score moyen: 33.3%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:29:11
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici une implantation de la fonction en Python pour vérifier si un nombre est premier :
+
+```python
+def is_prime(n):
+    if n <= 1 or (n % 2 == 0 and n > 2):
+        return False
+
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+
+    return True
+```
+
+Cette fonction vérifie si le nombre `n` est inférieur ou égal à 1 (ou un multiple de 2 mais non égal à 2) ou s'il peut être divisé par un nombre impair inférieur à la racine carrée de `n`. Si c'est le cas, alors `n` n'est pas premier. Sinon, il est premier.
+Temps: 59.17 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:30:15
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici une autre implantation de la fonction `is_prime()` en Python pour vérifier si un nombre est premier :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n == 2 or n == 3:
+        return True
+    elif n % 2 == 0:
+        return False
+    else:
+        for i in range(3, int(n**0.5) + 1, 2):
+            if n % i == 0:
+                return False
+        return True
+```
+
+Cette fonction vérifie si le nombre `n` est inférieur ou égal à 1 (et retourne alors False), s'il est égal à 2 ou 3 (et retourne alors True), s'il est pair (et retourne alors False) et s'il peut être divisé par un nombre impair inférieur à la racine carrée de `n`. Si c'est le cas, alors `n` n'est pas premier. Sinon, il est premier.
+
+Il y a une différence avec l'implantation précédente qui vérifie si `n` est pair dès le début avant de vérifier les autres conditions. Cette implantation permet ainsi de réduire le nombre d'itérations dans certains cas, comme pour les nombres pairs impairs inférieurs à 3.
+Temps: 64.19 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:31:26
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici encore une implantation de la fonction `is_prime()` en Python pour vérifier si un nombre est premier :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n == 2 or n == 3:
+        return True
+    elif n % 2 == 0:
+        return n == 2
+    else:
+        for i in range(3, int(n**0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
+```
+
+Cette fonction vérifie si le nombre `n` est inférieur ou égal à 1 (et retourne alors False), s'il est égal à 2 ou 3 (et retourne alors True) et s'il est pair (et retourne True pour 2 seulement). Puis elle vérifie s'il peut être divisible par un nombre inférieur à la racine carrée de `n` (sauf pour 2 qui n'a pas de facteur premier inférieur à lui-même) et retourne False si c'est le cas. Sinon, il est premier.
+
+Cette implantation a l'avantage d'être plus simple et plus efficace pour vérifier s'il existe un facteur pair pour les nombres pairs supérieurs à 2. Elle permet également de ne pas tester un nombre impair inférieur à 3, ce qui réduit encore le nombre d'itérations dans certains cas.
+Temps: 71.32 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:latest
+Exercice: is_prime
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Essais: 3
+Temps moyen: 64.89 sec
+Min: 59.17 sec
+Max: 71.32 sec
+Score moyen: 0.0%
+========================

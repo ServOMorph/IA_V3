@@ -1,0 +1,1 @@
+Voici encore une implantation de la fonction `is_prime()` en Python pour vérifier si un nombre est premier :
