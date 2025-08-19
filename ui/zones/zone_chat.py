@@ -5,22 +5,14 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.graphics import Color, RoundedRectangle
 from kivy.metrics import dp
 from kivy.clock import Clock
-from kivy.core.clipboard import Clipboard
 from kivy.core.window import Window
-from kivy.uix.image import Image
-from kivy.uix.behaviors import ButtonBehavior
-from kivy.animation import Animation
 
 from ui import config_ui
+from ui.widgets.buttons import CopyButton
 
 MAX_BUBBLE_W = dp(420)
 RADIUS = dp(12)
 PADX, PADY = dp(10), dp(6)
-
-
-class ImageButton(ButtonBehavior, Image):
-    """Bouton basé sur une image (utilisé pour l’icône copier)."""
-    pass
 
 
 class ChatBubble(BoxLayout):
@@ -32,6 +24,7 @@ class ChatBubble(BoxLayout):
         self.text_content = text  # stocker le texte pour copier
 
         if sender == "IA":
+            from kivy.uix.image import Image
             self.add_widget(Image(
                 source="assets/images/Logo_IA.png",
                 size_hint=(None, None),
@@ -64,35 +57,13 @@ class ChatBubble(BoxLayout):
             self.bg = RoundedRectangle(radius=[RADIUS])
         self.bubble_box.bind(pos=self._update_bg, size=self._update_bg)
 
-        # bouton copier
-        self.copy_btn = ImageButton(
-            source=config_ui.ICON_COPY,
-            size_hint=(None, None),
-            size=(dp(18), dp(18)),
-            color=(1, 1, 1, 1),
-        )
+        # bouton copier centralisé
+        self.copy_btn = CopyButton(lambda: self.text_content,
+                                   size_hint=(None, None),
+                                   size=(dp(18), dp(18)))
         vbox.add_widget(self.copy_btn)
 
-        # action clic copier -> coche temporaire
-        def _on_copy_press(*_):
-            Clipboard.copy(self.text_content)
-            self.copy_btn.source = config_ui.ICON_CHECK
-            Clock.schedule_once(lambda dt: setattr(self.copy_btn, "source", config_ui.ICON_COPY), 1)
-
-        self.copy_btn.bind(on_press=_on_copy_press)
-
-        # bind souris pour hover
-        Window.bind(mouse_pos=self._on_mouse_pos)
-
         Clock.schedule_once(self._sync_sizes, 0)
-
-    def _on_mouse_pos(self, window, pos):
-        if not self.get_root_window():
-            return
-        if self.copy_btn.collide_point(*self.copy_btn.to_widget(*pos)):
-            Animation(color=config_ui.COLOR_COPY_ICON_HOVER, d=0.15).start(self.copy_btn)
-        else:
-            Animation(color=(1, 1, 1, 1), d=0.15).start(self.copy_btn)
 
     def _sync_sizes(self, *_):
         w_txt = min(self.lbl.texture_size[0], MAX_BUBBLE_W)

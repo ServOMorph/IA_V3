@@ -22,3 +22,5 @@ try:
     print(f"Archive créée : {old_zip}")
 except Exception as e:
     print(f"Erreur création zip: {e}")
+    
+    

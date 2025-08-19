@@ -13,38 +13,21 @@ from kivy.uix.boxlayout import BoxLayout as KVBox
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.app import App
-from kivy.uix.image import Image
 import os
 
-# HoverBehavior
-from ui.behaviors.hover_behavior import HoverBehavior
+from ui.widgets.buttons import HoverableImageButton
+from ui.behaviors.hover_behavior import HoverBehavior   # <-- réintégré
 
 KV_PATH = os.path.join(os.path.dirname(__file__), "zone_liste_conv.kv")
 Builder.load_file(KV_PATH)
 
 
-class ImageButton(ButtonBehavior, Image):
-    """Bouton image basique"""
+class PlusButton(HoverableImageButton):
+    """Bouton + (hérite du bouton image avec hover centralisé)."""
     pass
 
 
-class PlusButton(ImageButton, HoverBehavior):
-    """Bouton + avec effet hover (plus clair)"""
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.color = (1, 1, 1, 1)  # normal
-        self.bind(hovered=self._on_hover)
-
-    def _on_hover(self, *_):
-        if self.hovered:
-            # éclairci au survol
-            self.color = (1.3, 1.3, 1.3, 1)
-        else:
-            # normal
-            self.color = (1, 1, 1, 1)
-
-
-class SelectableItem(ButtonBehavior, HoverBehavior, Label):
+class SelectableItem(ButtonBehavior, HoverBehavior, Label):   # <-- HoverBehavior rétabli
     """Élément cliquable de la liste de conversations"""
     selected = BooleanProperty(False)
 
@@ -56,7 +39,7 @@ class SelectableItem(ButtonBehavior, HoverBehavior, Label):
         return super().on_touch_down(touch)
 
     def get_zone_liste_conv(self):
-        """Traverse les parents pour retrouver l'instance ZoneListeConv"""
+        """Traverse les parents pour retrouver l’instance ZoneListeConv"""
         parent = self.parent
         from ui.zones.zone_liste_conv import ZoneListeConv
         while parent and not isinstance(parent, ZoneListeConv):
@@ -121,7 +104,6 @@ class ZoneListeConv(BoxLayout):
             if "zone_chat" in app.root.ids:
                 app.root.ids["zone_chat"].clear_messages()
                 
-
     def refresh(self) -> None:
         """Scan du dossier sav et alimente la RecycleView"""
         base = Path(self.sav_dir)

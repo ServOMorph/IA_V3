@@ -5,13 +5,15 @@ from kivy.uix.textinput import TextInput
 from kivy.clock import Clock
 import os
 
+from ui.widgets.buttons import SendButton
+
 KV_PATH = os.path.join(os.path.dirname(__file__), "zone_message.kv")
 Builder.load_file(KV_PATH)
+
 
 class SubmitTextInput(TextInput):
     def keyboard_on_key_down(self, window, keycode, text, modifiers):
         _, key = keycode
-        # bloque l’envoi si busy
         parent = self.parent
         while parent and not isinstance(parent, ZoneMessage):
             parent = getattr(parent, 'parent', None)
@@ -23,18 +25,26 @@ class SubmitTextInput(TextInput):
                 return True
         return super().keyboard_on_key_down(window, keycode, text, modifiers)
 
+
 class ZoneMessage(BoxLayout):
     placeholder = StringProperty("Poser une question")
     text = StringProperty("")
     clear_on_send = BooleanProperty(True)
     can_send = BooleanProperty(False)
-    busy = BooleanProperty(False)            # <-- nouvel état
+    busy = BooleanProperty(False)
 
     __events__ = ('on_submit', )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         Clock.schedule_once(lambda *_: self._refresh_state(), 0)
+        Clock.schedule_once(lambda *_: self._bind_send_button(), 0)
+
+    def _bind_send_button(self):
+        """Associer le bouton envoyer (SendButton) à cette ZoneMessage."""
+        btn = self.ids.get("btn_send")
+        if isinstance(btn, SendButton):
+            btn.bind_to_zone(self)
 
     def submit(self):
         if self.busy:
@@ -42,7 +52,7 @@ class ZoneMessage(BoxLayout):
         msg = (self.text or "").strip()
         if not msg:
             return
-        self.busy = True  # <-- masque bouton immédiatement
+        self.busy = True
 
         # Détection des commandes spéciales
         if msg.lower() == "&msg1":
