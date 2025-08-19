@@ -48,6 +48,12 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 * Curseur (TextInput) personnalisé : couleur et largeur configurables.
 * **Ajout de commandes spéciales en UI** : `&msg1` et `&msg2` détectées et exécutées correctement côté client.
 * **Bouton "+" ajouté en haut de la liste des conversations**, avec effet hover (icône éclaircie au survol).
+* **Boutons copier ajoutés sous chaque bulle (utilisateur et IA)** :
+
+  * Icône copier (`copier_icon.png`).
+  * Effet hover animé (éclaircissement en douceur au survol).
+  * Au clic : copie le texte dans le presse-papier.
+  * Affichage d’une coche (`coche_icon.png`) pendant 1s pour confirmer la copie.
 * **Création de nouvelle conversation** depuis l’UI :
 
   * Un clic sur le bouton `+` crée un nouveau dossier de sauvegarde (`sav_conv_<horodatage>`).
@@ -55,13 +61,15 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
   * La zone de chat est vidée pour démarrer proprement.
 * **Filtrage du prompt système** : le message système initial (`role: system`) est conservé côté backend mais n’est plus affiché dans l’UI.
 
-### Centralisation des couleurs :
+### Centralisation des couleurs et icônes :
 
 `ui/config_ui.py` contient :
 
 * `COLOR_USER_BUBBLE`, `COLOR_USER_TEXT`
 * `COLOR_IA_BUBBLE`, `COLOR_IA_TEXT`
 * `COLOR_CURSOR`
+* `ICON_COPY`, `ICON_CHECK` (icônes copier et coche)
+* `COLOR_COPY_ICON_HOVER` (couleur de l’icône copier au survol)
 
 ### Sauvegarde / synthèse :
 
@@ -104,7 +112,7 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 │   ├── layout_builder.py           # Construction visuelle UI
 │   ├── config_ui.py                # Couleurs, textes et constantes UI
 │   └── zones/
-│       ├── zone_chat.py
+│       ├── zone_chat.py            # Bulles + bouton copier (hover + coche)
 │       ├── zone_message.py
 │       ├── zone_liste_conv.py      # Liste conv + bouton + avec hover & création conv
 │       ├── zone_param.py

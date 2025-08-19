@@ -3,18 +3,11 @@ from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
-from kivy.uix.image import Image
-from kivy.uix.behaviors import ButtonBehavior
 
 from ui.config_ui import *
 from ui.zones.zone_message import ZoneMessage
 from ui.zones.zone_chat import ZoneChat
 from ui.zones.zone_liste_conv import ZoneListeConv
-
-
-# === Bouton image basique (utile si réutilisé dans le .kv) ===
-class ImageButton(ButtonBehavior, Image):
-    pass
 
 
 class BackgroundBox(BoxLayout):

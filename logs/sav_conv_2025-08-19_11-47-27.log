@@ -1,23 +1,11 @@
-# Conversation
-_Dossier_: sav_conv_2025-08-19_11-07-06
-_Démarrée_: 2025-08-19 11:47:50
-
----
-
-###   
-**[system]**
-
-
+2025-08-19 11:47:30 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 11:47:30 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
 Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
 
-
 ---
-**2025-08-19 11:47:42**
-
-**Vous**:
-
-coucou
-
-**IA**:
-
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 11:47:42 - [RÉPONSE DE MISTRAL]
 Salut! Comment puis-je vous aider aujourd'hui? J'ai la capacité de créer des scripts Python à partir de descriptions textuelles. Quel type de script voulez-vous créer ?
+
