@@ -1,0 +1,132 @@
+2025-08-19 14:53:13 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 14:53:13 - [PROMPT ENVOYÉ À DEEPSEEK-CODER:33B]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 14:54:46 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 14:54:46 - [PROMPT ENVOYÉ À DEEPSEEK-CODER:33B]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 14:57:31 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 14:57:31 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 14:58:09 - [RÉPONSE DE MISTRAL:LATEST]
+Bonjour! Comment pouvez-je vous aider avec votre développement Python aujourd'hui? N'hésitez pas à me poser vos questions ou à me fournir une description détaillée de ce que vous souhaitez faire, et je tenterai de générer un script Python adapté pour vous.
+
+Pour améliorer le résultat, il est important d'être aussi précis que possible dans votre demande. Cela aidera à mieux comprendre vos besoins et à fournir des scripts plus appropriés pour vous.
+
+2025-08-19 15:03:24 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:03:24 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 15:03:38 - [RÉPONSE DE MISTRAL:LATEST]
+Bonjour ! Comment puis-je vous aider aujourd'hui ? Je suis capable de créer des scripts Python à partir de descriptions textuelles. Quel est le script que vous souhaitez avoir ?
+
+2025-08-19 15:04:02 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:04:02 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : Coucou
+🤖 Ollama :
+2025-08-19 15:04:20 - [RÉPONSE DE MISTRAL:LATEST]
+Bonjour! Comment puis-je vous aider aujourd'hui? Je suis Ollama, un agent IA spécialisé dans le développement Python. J'aime générer des scripts Python à partir de descriptions textuelles et répondre à vos questions relatives à la programmation Python. Quel est votre besoin en ce moment?
+
+2025-08-19 15:13:23 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:13:23 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+Quelle est la capitale de la France ?
+2025-08-19 15:14:12 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:14:12 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+Quelle est la capitale de la France ?
+2025-08-19 15:14:16 - [RÉPONSE DE MISTRAL:LATEST]
+La capitale de la France est Paris.
+
+2025-08-19 15:14:16 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:14:16 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+--- 2025-08-19 15:14:16 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama :
+2025-08-19 15:14:21 - [RÉPONSE DE MISTRAL:LATEST]
+Paris is the capital of France.
+
+2025-08-19 15:14:21 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:14:21 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+--- 2025-08-19 15:14:16 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-19 15:14:21 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris is the capital of France.
+
+---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama :
+2025-08-19 15:14:25 - [RÉPONSE DE MISTRAL:LATEST]
+Paris is the capital of France.
+
+2025-08-19 15:14:25 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:14:25 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+--- 2025-08-19 15:14:16 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-19 15:14:21 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris is the capital of France.
+
+--- 2025-08-19 15:14:25 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris is the capital of France.
+
+---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama :
+2025-08-19 15:14:30 - [RÉPONSE DE MISTRAL:LATEST]
+Paris, c'est la capitale de la France.
+
+2025-08-19 15:14:30 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 15:14:30 - [PROMPT ENVOYÉ À MISTRAL:LATEST]
+--- 2025-08-19 15:14:16 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : La capitale de la France est Paris.
+
+--- 2025-08-19 15:14:21 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris is the capital of France.
+
+--- 2025-08-19 15:14:25 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris is the capital of France.
+
+--- 2025-08-19 15:14:30 ---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama : Paris, c'est la capitale de la France.
+
+---
+👤 Vous : Quelle est la capitale de la France ?
+🤖 Ollama :
+2025-08-19 15:14:34 - [RÉPONSE DE MISTRAL:LATEST]
+Paris is the capital of France.
+

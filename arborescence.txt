@@ -13,60 +13,136 @@
             📁 cache/
                 📄 lastfailed
                 📄 nodeids
+    📁 .ruff_cache/
+        📄 .gitignore
+        📄 CACHEDIR.TAG
+        📁 0.12.9/
+            📄 11626746014999600723
+            📄 6581020007822132774
     📁 assets/
         📁 images/
-            📄 Capture d'écran 2025-08-09 133400.png
+            📄 coche_icon.png
+            📄 copier_icon.png
             📄 fond_window.png
+            📄 Logo_IA.png
+            📄 plus_icon.png
             📄 send_icon.png
+            📄 send_icon2.png
+    📁 client/
+        📄 ia_client.py
+        📄 __init__.py
     📁 core/
         📄 chat_manager.py
         📄 commands.py
         📄 ollama_client.py
         📄 sav_manager.py
+        📄 session_manager.py
         📄 startup_utils.py
         📄 __init__.py
         📁 logging/
             📄 conv_logger.py
             📄 logger.py
             📄 __init__.py
-    📁 docs/
-        📄 synthese_2025-08-10.txt
-        📄 synthese_2025-08-10_08-41-40.txt
-        📄 synthese_2025-08-10_maj_dossiers.txt
-        📄 synthese_cloture_2025-08-10.txt
-        📄 Synthèse complète – 2025-08-10.txt
+    📁 data/
+        📄 dev_responses.jsonl
+        📄 dev_responses.log
+        📄 models_list.txt
     📁 logs/
-        📄 sav_conv_2025-08-10_11-20-42.log
-        📄 sav_conv_2025-08-10_11-24-00.log
-        📄 sav_conv_2025-08-10_12-16-08.log
-        📄 sav_conv_2025-08-13_14-46-23.log
-        📄 sav_conv_2025-08-13_14-47-08.log
-        📄 test_instructions.log
-        📁 projet/
-            📄 paris.log
-        📁 test1/
-            📄 usa.log
+        📄 conversation.log
+        📄 sav_conv_2025-08-19_12-42-27.log
+        📄 sav_conv_2025-08-19_12-42-30.log
+        📄 sav_conv_2025-08-19_12-47-02.log
+        📄 sav_conv_2025-08-19_12-50-05.log
+        📄 sav_conv_2025-08-19_12-55-33.log
+        📄 sav_conv_2025-08-19_13-05-17.log
+        📄 sav_conv_2025-08-19_13-06-39.log
+        📄 sav_conv_2025-08-19_13-06-44.log
+        📄 sav_conv_2025-08-19_13-08-16.log
+        📄 sav_conv_2025-08-19_13-08-29.log
+        📄 sav_conv_2025-08-19_13-11-07.log
+        📄 sav_conv_2025-08-19_13-11-09.log
+        📄 sav_conv_2025-08-19_13-11-22.log
+        📄 sav_conv_2025-08-19_14-49-36.log
+        📄 sav_conv_2025-08-19_14-50-58.log
+        📄 sav_conv_2025-08-19_14-53-11.log
+        📄 sav_conv_2025-08-19_14-54-44.log
+        📄 sav_conv_2025-08-19_14-57-28.log
+        📄 sav_conv_2025-08-19_14-59-16.log
+        📄 sav_conv_2025-08-19_15-03-21.log
+        📄 sav_conv_2025-08-19_15-03-53.log
+        📄 test11.log
+        📄 test12.log
     📁 sav/
-        📄 sav_conv_2025-08-10_11-20-42.txt
-        📄 sav_conv_2025-08-10_11-24-00.txt
-        📄 sav_conv_2025-08-10_12-16-08.txt
-        📄 sav_conv_2025-08-13_14-46-23.txt
-        📄 sav_conv_2025-08-13_14-47-08.txt
-        📄 test_instructions.txt
-        📁 projet/
-            📄 paris.txt
-        📁 test1/
-            📄 usa.txt
+        📁 sav_conv_2025-08-19_12-50-05/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_12-55-33/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-05-17/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-06-39/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-06-44/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-08-16/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-08-29/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-11-07/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-11-09/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_13-11-22/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_14-49-36/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_14-50-58/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_14-53-11/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_14-54-44/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_14-57-28/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_14-59-16/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_15-03-21/
+            📄 conversation.md
+        📁 sav_conv_2025-08-19_15-03-53/
+            📄 conversation.md
+        📁 test11/
+            📄 code_12-43-39.py
+            📄 code_12-48-41.py
+            📄 code_12-49-24.py
+            📄 conversation.md
+        📁 test12/
+            📄 code_12-48-05_1.py
+            📄 code_12-48-05_2.py
+            📄 conversation.md
     📁 tests/
+        📄 test_ui_load.py
         📄 __init__.py
         📁 fenetre_kivy/
             📄 __init__.py
     📁 tools/
+        📄 analyze_dev_logs.py
+        📄 benchmark_responses.py
         📄 calc_fond_dims.py
+        📄 init_conv_chatgpt.py
+        📄 update_system_prompt.py
     📁 ui/
+        📄 app_main.py
         📄 config_ui.py
+        📄 layout_builder.py
         📄 __init__.py
+        📁 behaviors/
+            📄 hover_behavior.py
+            📄 __init__.py
+        📁 widgets/
+            📄 buttons.py
         📁 zones/
+            📄 zone_chat.py
+            📄 zone_liste_conv.kv
+            📄 zone_liste_conv.py
             📄 zone_message.kv
             📄 zone_message.py
             📄 __init__.py

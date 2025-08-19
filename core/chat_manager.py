@@ -28,6 +28,8 @@ class ChatManager:
         self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(
             self.save_manager.session_dir.name
         )
+        
+        self.client = OllamaClient(model=model if model else DEFAULT_MODEL)
 
         self.commands = CommandHandler(self)
 

@@ -1,0 +1,2 @@
+NAME              ID              SIZE      MODIFIED    
+mistral:latest    6577803aa9a0    4.4 GB    2 weeks ago
