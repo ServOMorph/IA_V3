@@ -1,0 +1,11 @@
+2025-08-19 11:01:23 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 11:01:23 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 11:01:39 - [RÉPONSE DE MISTRAL]
+Bonjour! Comment peut-il aller ? Je suis prêt à aider avec votre question sur le développement Python. Qu'est-ce que vous avez besoin de savoir ou quoi voulez-vous faire ?
+

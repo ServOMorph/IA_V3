@@ -88,10 +88,21 @@ class MyApp(App):
         last_sender = None
 
         try:
+            skip_system_block = False
             with conv_file.open("r", encoding="utf-8") as f:
                 for raw_line in f:
                     line = raw_line.strip()
                     if not line:
+                        continue
+
+                    # Début d'un bloc système → ignorer tout jusqu'au prochain séparateur
+                    if line.startswith("**[system]**"):
+                        skip_system_block = True
+                        continue
+
+                    if skip_system_block:
+                        if line.startswith("###") or line.startswith("---"):
+                            skip_system_block = False
                         continue
 
                     # Détection des rôles
@@ -102,12 +113,11 @@ class MyApp(App):
                         last_sender = "IA"
                         continue
 
-                    # Ignorer métadonnées et prompts système
+                    # Ignorer métadonnées et timestamps
                     if (
                         line.startswith("#")
                         or line.startswith("_")
                         or line.startswith("--")
-                        or line.startswith("**[system]**")
                         or line.startswith("**20")  # timestamp
                         or line.lower().startswith("répond en")
                     ):

@@ -48,6 +48,12 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 * Curseur (TextInput) personnalisé : couleur et largeur configurables.
 * **Ajout de commandes spéciales en UI** : `&msg1` et `&msg2` détectées et exécutées correctement côté client.
 * **Bouton "+" ajouté en haut de la liste des conversations**, avec effet hover (icône éclaircie au survol).
+* **Création de nouvelle conversation** depuis l’UI :
+
+  * Un clic sur le bouton `+` crée un nouveau dossier de sauvegarde (`sav_conv_<horodatage>`).
+  * La liste des conversations est rafraîchie automatiquement et sélectionne la nouvelle entrée.
+  * La zone de chat est vidée pour démarrer proprement.
+* **Filtrage du prompt système** : le message système initial (`role: system`) est conservé côté backend mais n’est plus affiché dans l’UI.
 
 ### Centralisation des couleurs :
 
@@ -100,7 +106,7 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 │   └── zones/
 │       ├── zone_chat.py
 │       ├── zone_message.py
-│       ├── zone_liste_conv.py      # Liste conv + bouton + avec hover
+│       ├── zone_liste_conv.py      # Liste conv + bouton + avec hover & création conv
 │       ├── zone_param.py
 │       └── zone_info.py
 ├── sav/                            # Dossiers de sauvegarde des conversations

@@ -99,6 +99,28 @@ class ZoneListeConv(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation="vertical", **kwargs)
         Clock.schedule_once(lambda *_: self.refresh(), 0)
+        Clock.schedule_once(lambda *_: self._bind_plus_button(), 0)
+
+    def _bind_plus_button(self):
+        btn = self.ids.get("btn_plus")
+        if btn:
+            btn.bind(on_release=lambda *_: self.create_new_conv())
+
+    def create_new_conv(self):
+        """Crée une nouvelle conversation via IAClient, rafraîchit la liste et vide le chat"""
+        app = App.get_running_app()
+        if app.client.new_session():
+            new_name = app.client.save_manager.session_name
+
+            print(f"[ZoneListeConv] Nouvelle conversation créée : {new_name}")
+
+            self.refresh()
+            self.select(new_name)
+
+            # vider la zone de chat normalement
+            if "zone_chat" in app.root.ids:
+                app.root.ids["zone_chat"].clear_messages()
+                
 
     def refresh(self) -> None:
         """Scan du dossier sav et alimente la RecycleView"""

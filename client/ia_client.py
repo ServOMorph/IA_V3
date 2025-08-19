@@ -77,6 +77,22 @@ class IAClient:
     def delete_session(self, name: str) -> bool:
         return SessionManager.delete_session(self.backend, name)
 
+    def new_session(self) -> bool:
+        """Crée une nouvelle session (nouveau dossier de sauvegarde et client)"""
+        try:
+            self.backend = ChatManager()
+            self.command_handler = CommandHandler(self.backend)
+
+            # Réaligner les références internes
+            self.save_manager = self.backend.save_manager
+            self.client = self.backend.client
+
+            logging.info(f"[IAClient] Nouvelle session créée : {self.save_manager.session_name}")
+            return True
+        except Exception as e:
+            logging.error(f"[IAClient] Erreur lors de la création de nouvelle session : {e}")
+            return False
+
     # === Commandes spéciales pour l'UI ===
     def run_msg1(self) -> str:
         """Exécute la commande &msg1 côté UI"""
