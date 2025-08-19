@@ -1,0 +1,36 @@
+2025-08-19 12:06:23 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 12:06:23 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : ecris un code python qui affiche "Salut l'ami"
+🤖 Ollama :
+2025-08-19 12:06:35 - [RÉPONSE DE MISTRAL]
+Voici le code Python pour afficher la phrase "Salut l'ami":
+```
+print("Salut l'ami")
+```
+
+2025-08-19 12:10:28 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 12:10:28 - [PROMPT ENVOYÉ À MISTRAL]
+ecris un script qui affiche "Salut"
+2025-08-19 12:11:03 - [RÉPONSE DE MISTRAL]
+Voici un exemple de script en Python pour afficher "Salut" :
+
+```python
+print("Salut")
+```
+
+Pour exécuter ce code, vous pouvez utiliser une IDE comme PyCharm ou une ligne de commande avec le langage Python. Si vous utilisez une ligne de commande, vous devrez d'abord installer Python sur votre ordinateur puis taper la commande suivante :
+
+```bash
+python
+```
+
+Ensuite, entrez le script suivant en tapant les lignes un par un et appuyez sur Entrée après chaque ligne. Cela affichera "Salut".
+
+```python
+print("Salut")
+```
+

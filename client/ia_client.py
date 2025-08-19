@@ -17,7 +17,6 @@ class IAClient:
 
     def send_message(self, message: str) -> str:
         answer = self.client.send_prompt(message)
-        # Sauvegarde auto dans la session active
         self.save_conversation(answer)
         return answer
 
@@ -31,25 +30,21 @@ class IAClient:
             print(f"[ERREUR SAVE] {e}")
 
     def load_session(self, name: str) -> bool:
-        """Charge une session via CommandHandler et recrée le client Ollama."""
         ok, _ = self.command_handler.handle(f"&load {name}")
         if not ok:
             return False
 
-        # Recréer OllamaClient lié au nouveau fichier .md
         from core.ollama_client import OllamaClient
         self.backend.client = OllamaClient(
             model=self.backend.client.model,
             session_file=self.backend.save_manager.session_md
         )
 
-        # Reconfigurer le logger
         from core.logging.conv_logger import setup_conv_logger
         self.backend.client.conv_logger, self.backend.client.conv_log_file = setup_conv_logger(
             self.backend.save_manager.session_name
         )
 
-        # Réaligner les références IAClient
         self.save_manager = self.backend.save_manager
         self.client = self.backend.client
 
@@ -59,7 +54,6 @@ class IAClient:
         if self.save_manager.session_name == old_name:
             return SessionManager.rename_session(self.backend, new_name)
 
-        # Sinon, renommage d'une autre session
         old_dir = Path(SAVE_DIR) / old_name
         new_dir = Path(SAVE_DIR) / new_name
         if not old_dir.exists():
@@ -78,15 +72,11 @@ class IAClient:
         return SessionManager.delete_session(self.backend, name)
 
     def new_session(self) -> bool:
-        """Crée une nouvelle session (nouveau dossier de sauvegarde et client)"""
         try:
             self.backend = ChatManager()
             self.command_handler = CommandHandler(self.backend)
-
-            # Réaligner les références internes
             self.save_manager = self.backend.save_manager
             self.client = self.backend.client
-
             logging.info(f"[IAClient] Nouvelle session créée : {self.save_manager.session_name}")
             return True
         except Exception as e:
@@ -95,13 +85,18 @@ class IAClient:
 
     # === Commandes spéciales pour l'UI ===
     def run_msg1(self) -> str:
-        """Exécute la commande &msg1 côté UI"""
         answer = self.client.send_prompt(PRESET_MESSAGES["msg1"])
         self.save_conversation(answer)
         return answer
 
     def run_msg2(self) -> str:
-        """Exécute la commande &msg2 côté UI"""
         answer = self.client.send_prompt(PRESET_MESSAGES["msg2"])
         self.save_conversation(answer)
         return answer
+
+    def run_last_script(self) -> str | None:
+        """Exécute la commande &run côté UI."""
+        handled, _ = self.command_handler.handle("&run")
+        if handled:
+            return "Script exécuté dans un terminal séparé."
+        return "⚠️ Aucun script trouvé ou erreur d'exécution."

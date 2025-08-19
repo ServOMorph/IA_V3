@@ -49,6 +49,8 @@ class ZoneMessage(BoxLayout):
             self.dispatch('on_submit', "__MSG1__")
         elif msg.lower() == "&msg2":
             self.dispatch('on_submit', "__MSG2__")
+        elif msg.lower() == "&run":
+            self.dispatch('on_submit', "__RUN__")
         else:
             self.dispatch('on_submit', msg)
 

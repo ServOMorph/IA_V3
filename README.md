@@ -38,7 +38,10 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 ### Comportement des commandes `&` :
 
 * Les commandes `&...` restent disponibles en CLI (via `main.py`).
-* En mode UI, elles ne sont pas exécutées. Elles sont réservées au mode CLI.
+* En mode UI, elles sont partiellement intégrées :
+
+  * `&msg1` et `&msg2` sont gérées via des méthodes dédiées (`run_msg1`, `run_msg2`).
+  * `&run` est maintenant fonctionnel depuis l’UI, et lance le dernier script Python sauvegardé dans un terminal séparé.
 
 ### UI / zone\_chat et zone\_message :
 
@@ -46,7 +49,7 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 * Couleurs des bulles et du texte centralisées (`ui/config_ui.py`).
 * Sélection de conversation colorée avec la même teinte utilisateur.
 * Curseur (TextInput) personnalisé : couleur et largeur configurables.
-* **Ajout de commandes spéciales en UI** : `&msg1` et `&msg2` détectées et exécutées correctement côté client.
+* **Ajout de commandes spéciales en UI** : `&msg1`, `&msg2` et `&run` détectées et exécutées correctement côté client.
 * **Bouton "+" ajouté en haut de la liste des conversations**, avec effet hover (icône éclaircie au survol).
 * **Boutons copier ajoutés sous chaque bulle (utilisateur et IA)** :
 
@@ -113,7 +116,7 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 │   ├── config_ui.py                # Couleurs, textes et constantes UI
 │   └── zones/
 │       ├── zone_chat.py            # Bulles + bouton copier (hover + coche)
-│       ├── zone_message.py
+│       ├── zone_message.py         # Zone de saisie (détection &msg1, &msg2, &run)
 │       ├── zone_liste_conv.py      # Liste conv + bouton + avec hover & création conv
 │       ├── zone_param.py
 │       └── zone_info.py

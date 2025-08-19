@@ -39,6 +39,8 @@ class MyApp(App):
                     self.zone_chat.add_message("Vous", "[CMD] msg1")
                 elif message == "__MSG2__":
                     self.zone_chat.add_message("Vous", "[CMD] msg2")
+                elif message == "__RUN__":
+                    self.zone_chat.add_message("Vous", "[CMD] run")
                 else:
                     self.zone_chat.add_message("Vous", message)
             Clock.schedule_once(add_user, 0)
@@ -48,14 +50,17 @@ class MyApp(App):
                 response = self.client.run_msg1()
             elif message == "__MSG2__":
                 response = self.client.run_msg2()
+            elif message == "__RUN__":
+                response = self.client.run_last_script()
             else:
                 response = self.client.send_message(message)
 
-            self.client.save_conversation(response)
+            self.client.save_conversation(response if isinstance(response, str) else None)
 
             # Affichage de la réponse IA dans le thread principal
             def _finish(dt):
-                self.zone_chat.add_message("IA", response)
+                if response and isinstance(response, str):
+                    self.zone_chat.add_message("IA", response)
                 if self.zone_message:
                     self.zone_message.set_busy(False)
                 if self.thinking_label:
@@ -68,16 +73,13 @@ class MyApp(App):
 
     def _on_conv_selected(self, name, path: Path):
         """Charge une session backend et affiche son contenu dans ZoneChat."""
-        # Charger la session côté backend
         ok = self.client.load_session(name)
         if not ok:
             self.zone_chat.add_message("Erreur", f"Impossible de charger la session {name}")
             return
 
-        # Vider l'affichage existant
         self.zone_chat.clear_messages()
 
-        # Lire le fichier de conversation
         conv_md = path / "conversation.md"
         conv_txt = path / "conversation.txt"
         conv_file = conv_md if conv_md.exists() else conv_txt
@@ -95,7 +97,6 @@ class MyApp(App):
                     if not line:
                         continue
 
-                    # Début d'un bloc système → ignorer tout jusqu'au prochain séparateur
                     if line.startswith("**[system]**"):
                         skip_system_block = True
                         continue
@@ -105,7 +106,6 @@ class MyApp(App):
                             skip_system_block = False
                         continue
 
-                    # Détection des rôles
                     if line.startswith("**Vous**"):
                         last_sender = "Vous"
                         continue
@@ -113,17 +113,15 @@ class MyApp(App):
                         last_sender = "IA"
                         continue
 
-                    # Ignorer métadonnées et timestamps
                     if (
                         line.startswith("#")
                         or line.startswith("_")
                         or line.startswith("--")
-                        or line.startswith("**20")  # timestamp
+                        or line.startswith("**20")
                         or line.lower().startswith("répond en")
                     ):
                         continue
 
-                    # Contenu → assigné au dernier speaker connu
                     if last_sender:
                         self.zone_chat.add_message(last_sender, line)
                     else:
