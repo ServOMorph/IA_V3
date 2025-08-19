@@ -1,0 +1,120 @@
+2025-08-19 12:42:43 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 12:42:43 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-08-19 12:42:59 - [RÉPONSE DE MISTRAL]
+Bonjour ! Comment puis-je vous aider aujourd'hui ? Je suis un agent IA spécialisé dans le développement de scripts Python. J'aime travailler avec des descriptions textuelles pour générer du code Python qui répond à vos besoins. Quel est votre projet actuellement ?
+
+2025-08-19 12:43:28 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 12:43:28 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : 
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+
+--- 2025-08-19 12:42:59 ---
+👤 Vous : coucou
+🤖 Ollama : Bonjour ! Comment puis-je vous aider aujourd'hui ? Je suis un agent IA spécialisé dans le développement de scripts Python. J'aime travailler avec des descriptions textuelles pour générer du code Python qui répond à vos besoins. Quel est votre projet actuellement ?
+
+---
+👤 Vous : ecris un script python qui affiche "Salut les zmais"
+🤖 Ollama :
+2025-08-19 12:43:39 - [RÉPONSE DE MISTRAL]
+Voici un script Python simple pour afficher la phrase "Salut les Zmais".
+
+```python
+print("Salut les Zmais")
+```
+
+2025-08-19 12:48:26 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 12:48:26 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+
+---
+**2025-08-19 12:42:59**
+
+[USER] : coucou
+
+[ASSISTANT] : Bonjour ! Comment puis-je vous aider aujourd'hui ? Je suis un agent IA spécialisé dans le développement de scripts Python. J'aime travailler avec des descriptions textuelles pour générer du code Python qui répond à vos besoins. Quel est votre projet actuellement ?
+
+---
+**2025-08-19 12:43:39**
+
+[USER] : ecris un script python qui affiche "Salut les zmais"
+
+[ASSISTANT] : Voici un script Python simple pour afficher la phrase "Salut les Zmais".
+
+```python
+print("Salut les Zmais")
+```
+
+---
+👤 Vous : èrun
+🤖 Ollama :
+2025-08-19 12:48:41 - [RÉPONSE DE MISTRAL]
+Bonjour ! J'ai écrit un script Python pour afficher la phrase "Salut les z'mais" avec des guillemets inversés. Voici le code :
+
+```python
+print("Salut les 'z'mais")
+```
+
+2025-08-19 12:49:14 - ------ NOUVEL ÉCHANGE ------
+2025-08-19 12:49:14 - [PROMPT ENVOYÉ À MISTRAL]
+[SYSTEM] : Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+
+
+---
+**2025-08-19 12:42:59**
+
+###   
+**[user]**
+
+coucou
+
+###   
+**[assistant]**
+
+Bonjour ! Comment puis-je vous aider aujourd'hui ? Je suis un agent IA spécialisé dans le développement de scripts Python. J'aime travailler avec des descriptions textuelles pour générer du code Python qui répond à vos besoins. Quel est votre projet actuellement ?
+
+---
+**2025-08-19 12:43:39**
+
+###   
+**[user]**
+
+ecris un script python qui affiche "Salut les zmais"
+
+###   
+**[assistant]**
+
+Voici un script Python simple pour afficher la phrase "Salut les Zmais".
+
+```python
+print("Salut les Zmais")
+```
+
+---
+**2025-08-19 12:48:41**
+
+[USER] : èrun
+
+[ASSISTANT] : Bonjour ! J'ai écrit un script Python pour afficher la phrase "Salut les z'mais" avec des guillemets inversés. Voici le code :
+
+```python
+print("Salut les 'z'mais")
+```
+
+---
+👤 Vous : ecri sun script python qui affiche "test11"
+🤖 Ollama :
+2025-08-19 12:49:24 - [RÉPONSE DE MISTRAL]
+Voici un script Python pour afficher la chaîne de caractère "test11".
+
+```python
+print("test11")
+```
+
