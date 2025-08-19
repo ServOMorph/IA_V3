@@ -22,10 +22,17 @@ class MyApp(App):
         self.thinking_label = None
 
     def build(self):
-        return build_layout(self)
+        root = build_layout(self)
+
+        # Sélectionner la conversation courante dès l'ouverture
+        if self.zone_liste_conv and self.client and self.client.save_manager:
+            current_name = self.client.save_manager.session_dir.name
+            if current_name:
+                self.zone_liste_conv.select(current_name)
+
+        return root
 
     # ====== Flux message UI -> client -> UI ======
-
     def _on_zone_message_submit(self, instance, message: str):
         if self.zone_message:
             self.zone_message.set_busy(True)
@@ -70,7 +77,6 @@ class MyApp(App):
         Thread(target=run_background, daemon=True).start()
 
     # ====== Chargement conversation sauvegardée ======
-
     def _on_conv_selected(self, name, path: Path):
         """Charge une session backend et affiche son contenu dans ZoneChat."""
         ok = self.client.load_session(name)
