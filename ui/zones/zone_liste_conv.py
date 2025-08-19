@@ -15,31 +15,25 @@ from kivy.uix.textinput import TextInput
 from kivy.app import App
 import os
 
-from ui.widgets.buttons import HoverableImageButton
-from ui.behaviors.hover_behavior import HoverBehavior   # <-- réintégré
+from ui.widgets.buttons import PlusButton
+from ui.behaviors.hover_behavior import HoverBehavior
 
 KV_PATH = os.path.join(os.path.dirname(__file__), "zone_liste_conv.kv")
 Builder.load_file(KV_PATH)
 
 
-class PlusButton(HoverableImageButton):
-    """Bouton + (hérite du bouton image avec hover centralisé)."""
-    pass
-
-
-class SelectableItem(ButtonBehavior, HoverBehavior, Label):   # <-- HoverBehavior rétabli
+class SelectableItem(ButtonBehavior, HoverBehavior, Label):
     """Élément cliquable de la liste de conversations"""
     selected = BooleanProperty(False)
 
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
-            if touch.button == "right":  # clic droit
+            if touch.button == "right":
                 self.show_context_menu()
                 return True
         return super().on_touch_down(touch)
 
     def get_zone_liste_conv(self):
-        """Traverse les parents pour retrouver l’instance ZoneListeConv"""
         parent = self.parent
         from ui.zones.zone_liste_conv import ZoneListeConv
         while parent and not isinstance(parent, ZoneListeConv):
@@ -47,7 +41,6 @@ class SelectableItem(ButtonBehavior, HoverBehavior, Label):   # <-- HoverBehavio
         return parent
 
     def show_context_menu(self):
-        """Affiche un popup contextuel Renommer/Supprimer"""
         content = KVBox(orientation="vertical", spacing=5, padding=10)
         btn_rename = Button(text="Renommer", size_hint_y=None, height=40)
         btn_delete = Button(text="Supprimer", size_hint_y=None, height=40)
@@ -71,9 +64,6 @@ class SelectableItem(ButtonBehavior, HoverBehavior, Label):   # <-- HoverBehavio
 
 
 class ZoneListeConv(BoxLayout):
-    """
-    Zone complète : bouton + et liste des conversations
-    """
     sav_dir = StringProperty("./sav")
     items = ListProperty([])
     on_select_cb = ObjectProperty(allownone=True)
@@ -90,22 +80,16 @@ class ZoneListeConv(BoxLayout):
             btn.bind(on_release=lambda *_: self.create_new_conv())
 
     def create_new_conv(self):
-        """Crée une nouvelle conversation via IAClient, rafraîchit la liste et vide le chat"""
         app = App.get_running_app()
         if app.client.new_session():
             new_name = app.client.save_manager.session_name
-
             print(f"[ZoneListeConv] Nouvelle conversation créée : {new_name}")
-
             self.refresh()
             self.select(new_name)
-
-            # vider la zone de chat normalement
             if "zone_chat" in app.root.ids:
                 app.root.ids["zone_chat"].clear_messages()
                 
     def refresh(self) -> None:
-        """Scan du dossier sav et alimente la RecycleView"""
         base = Path(self.sav_dir)
         if not base.exists():
             base.mkdir(parents=True, exist_ok=True)
@@ -147,55 +131,3 @@ class ZoneListeConv(BoxLayout):
             }
             for name in self.items
         ]
-
-    # ---------- Nouveaux comportements ----------
-    def rename_item(self, name: str, popup: Popup):
-        """Renommer un dossier de conversation"""
-        popup.dismiss()
-
-        # Popup de saisie
-        box = KVBox(orientation="vertical", spacing=5, padding=10)
-        ti = TextInput(text=name, multiline=False, size_hint_y=None, height=40)
-        btn_layout = KVBox(orientation="horizontal", spacing=10, size_hint_y=None, height=40)
-        btn_ok = Button(text="Valider")
-        btn_cancel = Button(text="Annuler")
-
-        btn_layout.add_widget(btn_ok)
-        btn_layout.add_widget(btn_cancel)
-
-        box.add_widget(ti)
-        box.add_widget(btn_layout)
-
-        p = Popup(
-            title="Renommer",
-            content=box,
-            size_hint=(None, None),
-            size=(350, 150),
-            auto_dismiss=False,
-        )
-
-        def do_rename(*_):
-            new_name = ti.text.strip()
-            if new_name and new_name != name:
-                app = App.get_running_app()
-                ok = app.client.rename_session(name, new_name)
-                if ok:
-                    print(f"Session renommée : {name} → {new_name}")
-                    self.refresh()
-                    self.selected_name = new_name
-                    self._update_selection_visuals()
-            p.dismiss()
-
-        btn_ok.bind(on_release=do_rename)
-        btn_cancel.bind(on_release=lambda *_: p.dismiss())
-
-        p.open()
-
-    def delete_item(self, name: str, popup: Popup):
-        """Supprimer un dossier de conversation (via backend)"""
-        popup.dismiss()
-        app = App.get_running_app()
-        ok = app.client.delete_session(name)
-        if ok:
-            print(f"Conversation supprimée : {name}")
-            self.refresh()

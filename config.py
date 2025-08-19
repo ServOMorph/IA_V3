@@ -3,6 +3,17 @@
 # Fichier centralisant toutes les constantes du projet
 # =============================
 
+from pathlib import Path
+
+# Mode développeur
+DEV_MODE = True  # ou False
+
+# Répertoire des métadonnées (non lié aux conversations)
+DATA_DIR = Path("data")
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+
+
 # Modèle IA par défaut
 DEFAULT_MODEL = "mistral"
 

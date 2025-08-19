@@ -1,82 +1,65 @@
-# ui/widgets/buttons.py
-
 from kivy.uix.image import Image
 from kivy.uix.behaviors import ButtonBehavior
-from kivy.uix.button import Button
-from kivy.core.clipboard import Clipboard
 from kivy.clock import Clock
 from kivy.animation import Animation
 from kivy.core.window import Window
 
 from ui import config_ui
-from ui.behaviors.hover_behavior import HoverBehavior
 
 
-class ImageButton(ButtonBehavior, Image):
-    """Bouton image basique (aucune logique supplémentaire)."""
-    pass
-
-
-class HoverableImageButton(ImageButton, HoverBehavior):
+class IconButton(ButtonBehavior, Image):
     """
-    Bouton image avec hover simplifié.
-    Éclaircit automatiquement quand la souris passe dessus.
+    Bouton icône unifié :
+    - éclairci au survol
+    - affiche une coche pendant 0.8s après clic
     """
-    def __init__(self, **kwargs):
+
+    def __init__(self, icon_source, **kwargs):
         super().__init__(**kwargs)
-        self.color = (1, 1, 1, 1)
-        self.bind(hovered=self._on_hover)
-
-    def _on_hover(self, *_):
-        self.color = (1.3, 1.3, 1.3, 1) if self.hovered else (1, 1, 1, 1)
-
-
-class CopyButton(ImageButton):
-    """
-    Bouton image spécialisé pour copier un texte :
-    - Au clic, copie dans le presse-papier.
-    - Change d’icône pendant 1s pour confirmer.
-    - Gère aussi l’effet hover animé.
-    """
-    def __init__(self, text_supplier, **kwargs):
-        """
-        :param text_supplier: fonction (sans argument) qui retourne le texte à copier
-        """
-        super().__init__(**kwargs)
-        self.text_supplier = text_supplier
-        self.source = config_ui.ICON_COPY
+        self.default_source = icon_source
+        self.source = icon_source
+        self.allow_stretch = True
+        self.keep_ratio = True
         self.color = (1, 1, 1, 1)
 
-        self.bind(on_press=self._on_copy_press)
+        self.bind(on_press=self._on_click)
         Window.bind(mouse_pos=self._on_mouse_pos)
 
-    def _on_copy_press(self, *_):
-        text = self.text_supplier() or ""
-        Clipboard.copy(text)
+    def _on_click(self, *_):
         self.source = config_ui.ICON_CHECK
-        Clock.schedule_once(lambda dt: setattr(self, "source", config_ui.ICON_COPY), 1)
+        Clock.schedule_once(lambda dt: setattr(self, "source", self.default_source), 0.8)
 
     def _on_mouse_pos(self, window, pos):
         if not self.get_root_window():
             return
         if self.collide_point(*self.to_widget(*pos)):
-            Animation(color=config_ui.COLOR_COPY_ICON_HOVER, d=0.15).start(self)
+            Animation(color=(1.3, 1.3, 1.3, 1), d=0.15).start(self)
         else:
             Animation(color=(1, 1, 1, 1), d=0.15).start(self)
 
 
-class SendButton(Button):
-    """
-    Bouton d'envoi centralisé.
-    Rendu pur icône (pas de fond).
-    Se désactive si busy ou si aucun texte à envoyer.
-    """
+class CopyButton(IconButton):
+    """Bouton copier (icône copier → coche après clic)."""
+    def __init__(self, text_supplier, **kwargs):
+        self._text_supplier = text_supplier
+        super().__init__(config_ui.ICON_COPY, **kwargs)
+
+    def _on_click(self, *_):
+        from kivy.core.clipboard import Clipboard
+        Clipboard.copy(self._text_supplier() or "")
+        super()._on_click()
+
+
+class PlusButton(IconButton):
+    """Bouton + pour nouvelle conversation."""
     def __init__(self, **kwargs):
-        kwargs.setdefault("background_normal", "")
-        kwargs.setdefault("background_down", "")
-        kwargs.setdefault("background_color", (0, 0, 0, 0))  # fond transparent
-        kwargs.setdefault("border", (0, 0, 0, 0))  # pas de bordure
-        super().__init__(**kwargs)
+        super().__init__("assets/images/plus_icon.png", **kwargs)
+
+
+class SendButton(IconButton):
+    """Bouton envoyer."""
+    def __init__(self, **kwargs):
+        super().__init__("assets/images/send_icon.png", **kwargs)
         self._zone_message = None
 
     def bind_to_zone(self, zone_message):

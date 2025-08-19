@@ -5,7 +5,6 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.graphics import Color, RoundedRectangle
 from kivy.metrics import dp
 from kivy.clock import Clock
-from kivy.core.window import Window
 
 from ui import config_ui
 from ui.widgets.buttons import CopyButton
@@ -21,7 +20,7 @@ class ChatBubble(BoxLayout):
         self.size_hint = (None, None)
         self.orientation = "horizontal"
         self.spacing = dp(6)
-        self.text_content = text  # stocker le texte pour copier
+        self.text_content = text
 
         if sender == "IA":
             from kivy.uix.image import Image
@@ -74,7 +73,6 @@ class ChatBubble(BoxLayout):
         self.lbl.size = (w_txt, h_txt)
         self.bubble_box.size = (w_txt + 2 * PADX, h_txt + 2 * PADY)
 
-        # ajustement conteneur vertical
         parent_vbox = self.children[0] if self.children else self.bubble_box
         if hasattr(parent_vbox, "children") and len(parent_vbox.children) > 1:
             total_h = self.bubble_box.height + dp(20)

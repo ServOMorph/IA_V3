@@ -23,7 +23,6 @@
             width: dp(700)
             spacing: dp(8)
 
-            # --- Pilule uniquement pour la zone texte ---
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint_y: None
@@ -58,20 +57,8 @@
                     size_hint_x: 1
                     on_text: root._on_text(self.text)
 
-            # --- Bouton envoyer centralisé (pur icône) ---
             SendButton:
                 id: btn_send
                 size_hint: None, None
                 size: dp(35), dp(35)
-                background_normal: ""
-                background_down: ""
-                background_color: 0, 0, 0, 0
-                border: 0, 0, 0, 0
                 on_release: root.submit()
-
-                Image:
-                    source: "assets/images/send_icon.png"
-                    allow_stretch: True
-                    keep_ratio: True
-                    center: self.parent.center
-                    size: self.parent.size
