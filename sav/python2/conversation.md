@@ -1,6 +1,6 @@
 # Conversation
 _Dossier_: python2
-_Démarrée_: 2025-08-17 18:26:45
+_Démarrée_: 2025-08-19 11:33:08
 
 ---
 
@@ -8,18 +8,5 @@ _Démarrée_: 2025-08-17 18:26:45
 **[system]**
 
 
-répond en français
+Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
 
-
----
-**2025-08-17 18:26:45**
-
-**Vous**:
-
-&run
-
-**IA**:
-
-Bien sûr, à vos ordres !
-
-(En anglais : Of course, at your service!)
