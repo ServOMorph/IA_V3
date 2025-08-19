@@ -26,11 +26,11 @@ def check_ollama_running():
     return False
 
 
-def select_model():
-    """Affiche les modèles installés et demande à l'utilisateur lequel utiliser."""
+def get_models():
+    """Retourne la liste des modèles installés (hors en-tête)."""
     models_output = list_installed_models()
     if not models_output:
-        return DEFAULT_MODEL
+        return []
 
     lines = [line for line in models_output.splitlines() if line.strip()]
     models = []
@@ -39,32 +39,16 @@ def select_model():
         if parts[0].lower() == "name":  # ignorer l'entête
             continue
         models.append(parts[0])
-
-    if not models:
-        print(f"Aucun modèle trouvé, utilisation du modèle par défaut : {DEFAULT_MODEL}")
-        return DEFAULT_MODEL
-
-    print("=== Sélection du modèle IA ===")
-    for i, m in enumerate(models, 1):
-        print(f"{i}. {m}")
-
-    try:
-        choice = int(input(f"Sélectionnez un modèle (1-{len(models)}) [par défaut {DEFAULT_MODEL}] : ").strip())
-        if 1 <= choice <= len(models):
-            return models[choice - 1]
-    except Exception:
-        pass
-
-    print(f"→ Aucun choix valide, utilisation du modèle par défaut : {DEFAULT_MODEL}")
-    return DEFAULT_MODEL
+    return models
 
 
 def benchmark(prompt, runs=5, model=None):
+    """Exécute un benchmark sur un modèle donné."""
     client = OllamaClient(model=model if model else DEFAULT_MODEL)
 
     times = []
     for i in range(runs):
-        print(f"\n--- Essai {i+1}/{runs} ---")
+        print(f"\n--- Essai {i+1}/{runs} [{model}] ---")
         response = client.send_prompt(prompt)
         if client.history:
             elapsed = client.history[-1]["elapsed"]
@@ -119,9 +103,34 @@ if __name__ == "__main__":
     if not check_ollama_running():
         sys.exit(1)  # Arrêter le script si Ollama ne tourne pas
 
-    model = select_model()
+    models = get_models()
+    if not models:
+        print("⚠️ Aucun modèle Ollama détecté.")
+        sys.exit(1)
+
+    print("\n=== Sélection du mode de test ===")
+    choice_all = input("Lancer le test pour TOUS les modèles listés ? (o/n) : ").strip().lower()
+
     prompt = input("Entrez le prompt à envoyer : ").strip() or "Coucou"
     runs = input("Combien d'essais voulez-vous faire ? [5] : ").strip()
     runs = int(runs) if runs.isdigit() else 5
 
-    benchmark(prompt=prompt, runs=runs, model=model)
+    if choice_all == "o":
+        for model in models:
+            print(f"\n🚀 Benchmark sur le modèle : {model}")
+            benchmark(prompt=prompt, runs=runs, model=model)
+    else:
+        print("=== Sélection du modèle IA ===")
+        for i, m in enumerate(models, 1):
+            print(f"{i}. {m}")
+
+        try:
+            choice = int(input(f"Sélectionnez un modèle (1-{len(models)}) [par défaut {DEFAULT_MODEL}] : ").strip())
+            if 1 <= choice <= len(models):
+                selected_model = models[choice - 1]
+            else:
+                selected_model = DEFAULT_MODEL
+        except Exception:
+            selected_model = DEFAULT_MODEL
+
+        benchmark(prompt=prompt, runs=runs, model=selected_model)
