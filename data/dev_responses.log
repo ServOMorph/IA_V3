@@ -226,3 +226,1174 @@ Min: 59.17 sec
 Max: 71.32 sec
 Score moyen: 0.0%
 ========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:49:53
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: La fonction ci-dessous vérifie si un nombre donné est premier en effectuant des divisions jusqu'à la racine carrée du nombre. Cela évite de rechercher les facteurs dans tout le domaine possible, ce qui réduit considérablement le temps d'exécution pour certains nombres très grands:
+
+```python
+import math
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n == 2 or n == 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    w = 2
+    while i * i <= n:
+        if n % i == 0:
+            return False
+        i += w
+        w = 6 - w
+    return True
+```
+Cette fonction utilise la méthode de Miller-Rabin pour vérifier si un nombre est premier. Si le nombre passé en paramètre est inférieur ou égal à 1, c'est non-premier. Si ce n'est pas le cas et que le nombre est inférieur ou égal à 3, alors c'est un nombre premier. Dans tous les autres cas, si le nombre peut être divisé par 2 ou 3, il n'est pas premier (retourne False). Ensuite, elle commence la recherche des facteurs à partir de 5 et se déplace de 2 en 2 et ensuite de 4 en 4 jusqu'à atteindre la racine carrée du nombre. Si un facteur est trouvé (si le nombre passé en paramètre est divisible par ce facteur), il n'est pas premier (retourne False). Sinon, le nombre est considéré comme premier (retourne True).
+Temps: 88.38 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:51:06
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: La fonction de vérification du nombre premier ci-dessous utilise une approche similaire à la précédente mais avec une boucle plus courte et un décalage différent pour les facteurs. Elle continue jusqu'à atteindre la racine carrée du nombre:
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n == 2 or n == 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+        
+    return True
+```
+Cette fonction commence par gérer les cas particuliers où le nombre est 1, 2 ou 3. Si ce n'est pas le cas et que le nombre est divisible par 2 ou 3, il n'est pas premier (retourne False). Ensuite, elle commence la recherche des facteurs à partir de 5 et se déplace de 6 en 6 jusqu'à atteindre la racine carrée du nombre. Si un facteur est trouvé, le nombre n'est pas premier (retourne False). Sinon, il est considéré comme premier (retourne True).
+Temps: 72.58 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:51:56
+Modèle: deepseek-coder:6.7b
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: ```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n == 2 or n == 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    
+    i = 5
+    while (i * i <= n):
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+        
+    return True
+```
+This function works by first handling the special cases where the number is 1, 2 or 3. If that's not the case and the number is divisible by 2 or 3, it isn't prime (returns False). Then it starts looking for factors starting from 5 and moves in steps of 6. It continues until it reaches the square root of the number. If a factor is found, the number isn't prime (returns False), otherwise, it is considered as prime (returns True).
+Temps: 50.14 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-coder:6.7b
+Exercice: is_prime
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Essais: 3
+Temps moyen: 70.37 sec
+Min: 50.14 sec
+Max: 88.38 sec
+Score moyen: 33.3%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:52:50
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici la fonction Python pour vérifier si un nombre `n` est premier ou non :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+
+Cette fonction vérifie si `n` est inférieur ou égal à 1, puis vérifie si `n` est premier en examinant les multiples de 2 et 3 inférieurs à la racine carrée de `n`. Puis, elle examine les multiples de 5 (et ses suivants de 6) jusqu'à la racine carrée de `n` pour vérifier si `n` est premier. Si aucun multiple n'est trouvé, alors `n` est un nombre premier.
+Temps: 53.26 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:53:37
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici la version optimisée de la fonction pour vérifier si un nombre `n` est premier ou non :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 4) == 0:
+            return False
+        i += 6
+    return True
+```
+
+Le changement majeur est que la fonction utilise désormais `i+4` au lieu de `i+2` pour vérifier les multiples de 7 et ses suivants de 10. Cela optimise le code car nous n'avons plus besoin d'ajouter 2 entre chaque itération. Cette modification permet une meilleure performance sans changer la fonctionnalité originale de la fonction.
+Temps: 46.97 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 16:54:30
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici une version encore plus optimisée de la fonction pour vérifier si un nombre `n` est premier ou non :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0:
+        return False
+    i = 3
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+
+Le changement majeur est que nous ne vérifions plus les multiples de 3 inférieurs à `n`. Cela simplifie le code et n'affecte pas la fonctionnalité originale. En outre, nous avons conservé l'ajout de 2 entre chaque itération pour examiner les multiples de 5 et ses suivants de 6, ce qui permet d'optimiser le code encore un peu plus. Cependant, pour de nombreuses applications, cette version peut être suffisante et ne nécessiter pas une optimisation supplémentaire.
+Temps: 53.27 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:latest
+Exercice: is_prime
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Essais: 3
+Temps moyen: 51.17 sec
+Min: 46.97 sec
+Max: 53.27 sec
+Score moyen: 0.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 23:19:35
+Modèle: mistral:latest
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Réponse: Voici la définition d'une fonction `is_prime` en Python qui vérifie si un nombre entier est premier :
+
+```python
+def is_prime(n):
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+
+Cette fonction vérifie tout d'abord que le nombre n'est pas inférieur ou égal à 1, et si c'est le cas, elle retourne `False`. Puis elle vérifie les premiers facteurs de n pour ne pas tester plus loin des nombres qui sont des multiples de 2 ou de 3. Ensuite, la boucle while vérifie tous les facteurs de n jusqu'à ce que le carré du nombre `i` devienne supérieur au carré de `n`. Si un facteur est trouvé dans cette boucle, alors n n'est pas premier et la fonction retourne `False`. Sinon, elle retourne `True`.
+Temps: 43.65 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:latest
+Exercice: is_prime
+Prompt: Écris une fonction Python 'is_prime(n: int) -> bool' qui retourne True si n est premier, False sinon.
+Essais: 1
+Temps moyen: 43.65 sec
+Min: 43.65 sec
+Max: 43.65 sec
+Score moyen: 0.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 23:24:04
+Modèle: mistral:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 9.63 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:latest
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 1
+Temps moyen: 9.63 sec
+Min: 9.63 sec
+Max: 9.63 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 23:27:01
+Modèle: mistral:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 9.02 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:latest
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 1
+Temps moyen: 9.02 sec
+Min: 9.02 sec
+Max: 9.02 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-19 23:35:38
+Modèle: deepseek-coder:6.7b
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici comment peut se résoudre ce problème en Python :
+
+```python
+def is_prime(n: int)->bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 20.36 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-coder:6.7b
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 1
+Temps moyen: 20.36 sec
+Min: 20.36 sec
+Max: 20.36 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 00:48:15
+Modèle: mistral-tests
+Prompt: coucou
+Réponse: Hello! How can I assist you today?
+Temps: 3.13 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 00:48:25
+Modèle: mistral-tests
+Prompt: Quelle est la capitale de la France ?
+Réponse: The capital of France is Paris.
+Temps: 3.07 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 00:48:47
+Modèle: mistral-tests
+Prompt: ecris un texte de 5 lignes
+Réponse: 1. The sun was setting over the horizon, casting a warm glow on the fields below.
+2. The sound of birds chirping filled the air as I walked through the forest.
+3. The city skyline towered above me, with bright lights illuminating the night sky.
+4. The smell of freshly baked cookies wafted through the air as I strolled through the market.
+5. The waves crashed against the shore, creating a soothing sound that calmed my mind.
+Temps: 12.94 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 00:49:38
+Modèle: mistral-tests
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 8.95 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral-tests
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 1
+Temps moyen: 8.95 sec
+Min: 8.95 sec
+Max: 8.95 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 00:51:34
+Modèle: deepseek-coder:6.7b
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: D'accord, voici le code :
+
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 15.25 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-coder:6.7b
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 1
+Temps moyen: 15.25 sec
+Min: 15.25 sec
+Max: 15.25 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:01:12
+Modèle: deepseek-tests
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici une simple implémentation de cette fonction en Python :
+
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 11.65 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-tests
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 1
+Temps moyen: 11.65 sec
+Min: 11.65 sec
+Max: 11.65 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:10:51
+Modèle: deepseek-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici le code Python complet pour la fonction `is_prime` :
+
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 13.55 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:11:04
+Modèle: deepseek-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici le code Python complet pour la fonction `is_prime` :
+
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 12.55 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:11:26
+Modèle: deepseek-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici le code complet de la fonction `is_prime` :
+
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Cette fonction vérifie si un nombre est premier en testant s'il est divisible par d'autres nombres que lui-même et 1. Elle utilise une optimisation pour éviter de tester des facteurs plus grands que la racine carrée du nombre à vérifier, ce qui réduit considérablement le temps de calcul.
+Temps: 21.78 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-tests:latest
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 3
+Temps moyen: 15.96 sec
+Min: 12.55 sec
+Max: 21.78 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:14:27
+Modèle: deepseek-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici le code Python complet pour la fonction `is_prime` :
+
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 13.15 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:14:37
+Modèle: deepseek-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 10.40 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:14:48
+Modèle: deepseek-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1 or (n % 2 == 0 and n > 2): 
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 10.68 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-tests:latest
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 3
+Temps moyen: 11.41 sec
+Min: 10.40 sec
+Max: 13.15 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:15:03
+Modèle: mistral-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 15.44 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:15:13
+Modèle: mistral-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 9.22 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:15:22
+Modèle: mistral-tests:latest
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 9.27 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral-tests:latest
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 3
+Temps moyen: 11.31 sec
+Min: 9.22 sec
+Max: 15.44 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:15:33
+Modèle: mistral:7b-instruct-q4_K_M
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 11.49 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:15:45
+Modèle: mistral:7b-instruct-q4_K_M
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Here's the code for the `is_prime` function:
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 11.38 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:15:55
+Modèle: mistral:7b-instruct-q4_K_M
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    return True
+```
+Temps: 9.91 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:7b-instruct-q4_K_M
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 3
+Temps moyen: 10.92 sec
+Min: 9.91 sec
+Max: 11.49 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:16:19
+Modèle: deepseek-coder:6.7b
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: Voici une solution pour cette fonction. Celle-ci vérifie si le nombre est premier en divisant par tous les nombres inférieurs à sa racine carrée (pour raccourcir le temps de calcul). Si aucun diviseur n'est trouvé, alors le nombre est premier.
+```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+Temps: 24.78 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:16:35
+Modèle: deepseek-coder:6.7b
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+Temps: 15.12 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 01:16:50
+Modèle: deepseek-coder:6.7b
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Réponse: ```python
+def is_prime(n: int) -> bool:
+    if n <= 1:
+        return False
+    elif n <= 3:
+        return True
+    elif n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+```
+Temps: 15.42 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-coder:6.7b
+Exercice: is_prime
+Prompt: Écris uniquement le code Python complet de la fonction suivante, sans explication, au format exact :
+```python
+def is_prime(n: int) -> bool:
+    # ton code ici
+```
+Essais: 3
+Temps moyen: 18.44 sec
+Min: 15.12 sec
+Max: 24.78 sec
+Score moyen: 100.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 02:42:00
+Modèle: deepseek-tests:latest
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Réponse: ```python
+class Character:
+    def __init__(self, name, health=100, attack=20, defense=10):
+        self.name = name
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+        self.inventory = []
+
+    def take_damage(self, damage):
+        actual_damage = max(0, damage - self.defense)
+        self.health -= actual_damage
+        return actual_damage
+
+class Enemy(Character):
+    pass
+
+class Player(Character):
+    def use_item(self, item):
+        if item in self.inventory:
+            self.inventory.remove(item)
+            print(f"You used {item}.")
+            return True
+        else:
+            print("You don'
+Temps: 22.48 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-tests:latest
+Exercice: long_code_test
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Essais: 1
+Temps moyen: 22.48 sec
+Min: 22.48 sec
+Max: 22.48 sec
+Score moyen: 0.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 02:43:42
+Modèle: mistral:7b-instruct-q4_K_M
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Réponse: ```python
+import random
+
+class Character:
+    def __init__(self, name, health, attack, defense):
+        self.name = name
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+        
+    def take_damage(self, damage):
+        self.health -= damage
+        
+    def is_alive(self):
+        return self.health > 0
+    
+class Enemy:
+    def __init__(self, name, health, attack, defense):
+        self.name = name
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+        
+    def take_damage(self, damage):
+        self.health -= damage
+        
+    def is_alive(self):
+        return self.health > 0
+
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+def display_menu():
+    print("Welcome to the adventure!")
+    print("Please choose an option:")
+    print("1 - Create a character")
+    print("2 - Load a character")
+    print("3 - Start game")
+    print("4 - Quit")
+    
+def create_character(name, health, attack, defense):
+    char = Character(name, health, attack, defense)
+    return char
+
+def load_character(filename):
+    with open(filename, 'r') as file:
+        data = file.read()
+        name, health, attack, defense = map(str.strip, data.split(','))
+        char = Character(name, int(health), int(attack), int(defense))
+        return char
+
+def start_game(player, enemy):
+    while player.is_alive() and enemy.is_alive():
+        player_attack = random.randint(1, player.attack)
+        enemy_attack = random.randint(1, enemy.attack)
+        player_health -= enemy_attack
+        enemy_health -= player_attack
+        
+def main():
+    while True:
+        display_menu()
+        choice = int(input("Enter your choice: "))
+        
+        if choice == 1:
+            name = input("Enter the character's name: ")
+            health = int(input("Enter the character's health: "))
+            attack = int(input("Enter the character's attack: "))
+            defense = int(input("Enter the character's defense: "))
+            player = create_character(name, health, attack, defense)
+            save_character(player.name, f"{player.name}.txt")
+            
+        elif choice == 2:
+            filename = input("Enter the character's name to load: ")
+            char = load_character(filename)
+            if char is not None:
+                player = char
+                
+        elif choice == 3:
+            name = input("Enter the enemy's name: ")
+            health = int(input("Enter the enemy's health: "))
+            attack = int(input("Enter the enemy's attack: "))
+            defense = int(input("Enter the enemy's defense: "))
+            enemy = Enemy(name, health, attack, defense)
+            player = Character("Player", 100, 20, 10)
+            start_game(player, enemy)
+            
+        elif choice == 4:
+            print("Thanks for playing!")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+def save_character(name, data):
+    with open(name, 'w') as file:
+        file.write(data)
+
+if __name__ == "__main__":
+    main()
+```
+Temps: 101.98 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral:7b-instruct-q4_K_M
+Exercice: long_code_test
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Essais: 1
+Temps moyen: 101.98 sec
+Min: 101.98 sec
+Max: 101.98 sec
+Score moyen: 0.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 02:44:04
+Modèle: mistral-tests:latest
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Réponse: ```python
+import random
+
+class Character:
+    def __init__(self, name, class_, health, attack, defense):
+        self.name = name
+        self.class_ = class_
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+
+    def display(self):
+        print("Name:", self.name)
+        print("Class:", self.class_)
+        print("Health:", self.health)
+        print("Attack:", self.attack)
+        print("Defense:", self.defense)
+
+class Item:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+    def display(self):
+        print("Name:", self.name)
+        print("Description:", self.description)
+
+class Enemy:
+    def __init
+Temps: 22.55 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: mistral-tests:latest
+Exercice: long_code_test
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Essais: 1
+Temps moyen: 22.55 sec
+Min: 22.55 sec
+Max: 22.55 sec
+Score moyen: 0.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 02:45:25
+Modèle: deepseek-coder:6.7b
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Réponse: ```python
+class Character:
+    def __init__(self, name, health, attack, defense):
+        self.name = name
+        self.health = health
+        self.attack = attack
+        self.defense = defense
+        self.inventory = {}
+
+    def take_damage(self, damage):
+        damage -= self.defense
+        if damage > 0:
+            self.health -= damage
+
+class Enemy(Character):
+    pass
+
+class Player(Character):
+    def attack_enemy(self, enemy):
+        enemy.take_damage(self.attack)
+
+    def add_item(self, item):
+        if item in self.inventory:
+            self.inventory[item] += 1
+        else:
+            self.inventory[item] = 1
+
+def main():
+    player = Player("Hero", 100, 10, 5)
+    enemy = Enemy("Ogre", 50, 5, 3)
+
+    while True:
+        print("\nPlayer stats:")
+        print(f"Name: {player.name}, Health: {player.health}, Attack: {player.attack}, Defense: {player.defense}")
+        print("Inventory:")
+        for item, count in player.inventory.items():
+            print(f"{item}: {count}")
+
+        print("\nEnemy stats:")
+        print(f"Name: {enemy.name}, Health: {enemy.health}, Attack: {enemy.attack}, Defense: {enemy.defense}")
+
+        action = input("\nChoose an action (a - attack, i - inventory): ")
+        if action == 'a':
+            player.attack_enemy(enemy)
+            enemy.attack_enemy(player)
+
+            if enemy.health <= 0:
+                print("You defeated the enemy!")
+                item = "Sword"  # Temporary, should be random
+                player.add_item(item)
+                print(f"You gained a {item} from the battle.")
+        elif action == 'i':
+            print("Your inventory:")
+            for item, count in player.inventory.items():
+                print(f"{item}: {count}")
+
+if __name__ == "__main__":
+    main()
+```
+Notez que ce code est une version simplifiée d'un jeu de rôle et nécessite encore beaucoup d'améliorations avant qu'il ne soit prêt à être utilisé. Il manque des éléments comme la gestion du temps, le combat aléatoire, etc., mais il vous donne une idée de base de ce que votre code pourrait ressembler.
+Temps: 80.92 sec
+-------------------------------
+=== RÉSUMÉ BENCHMARK ===
+Modèle: deepseek-coder:6.7b
+Exercice: long_code_test
+Prompt: Écris un programme Python complet d'environ 200 lignes qui implémente un petit jeu de rôle en mode console :
+- gestion de personnages (classe, points de vie, attaque, défense)
+- inventaire simple
+- combat contre des ennemis
+- boucle principale de jeu
+Le code doit être directement exécutable, sans explication, uniquement du code.
+Encapsule tout dans un bloc formaté ```python ... ```
+Essais: 1
+Temps moyen: 80.92 sec
+Min: 80.92 sec
+Max: 80.92 sec
+Score moyen: 0.0%
+========================
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 03:19:19
+Modèle: mistral:7b-instruct-q4_K_M
+Prompt: Quelle est la capitale de la France ?
+Réponse: La capitale de la France est Paris.
+Temps: 11.57 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 03:20:02
+Modèle: phi4:latest
+Prompt: Quelle est la capitale de la France ?
+Réponse: La capitale de la France est Paris. C'est également l'une des villes les plus visitées au monde, connue pour son riche patrimoine culturel et historique, ses musées prestigieux comme le Louvre, sa gastronomie renommée, ainsi que sa mode et son architecture emblématiques.
+Temps: 26.95 sec
+-------------------------------
+=== NOUVEL ESSAI ===
+Date: 2025-08-20 03:20:35
+Modèle: mistral:7b-instruct-q4_K_M
+Prompt: Quelle est la capitale de la France ?
+Réponse: "Quelle est la capitale de la France?"
+
+La réponse d'Ollama à cette question en français serait: "Paris".
+Temps: 7.81 sec
+-------------------------------

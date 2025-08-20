@@ -2,7 +2,7 @@
 
 ## 📌 Description
 
-Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par défaut `mistral`), avec gestion avancée des conversations et interface Kivy.
+Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec gestion avancée des conversations, interface Kivy et **module de benchmark intégré**.
 
 ### Fonctionnalités principales :
 
@@ -15,66 +15,29 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
 * Logs techniques et conversationnels séparés (`/logs/<nom_session>.log`).
 * **Interface Kivy moderne** avec zones distinctes : liste de conversations, chat, saisie, panneau info/config.
 * Couleurs centralisées dans `ui/config_ui.py`.
-* Mode **DEV** :
+* **Mode DEV** :
 
   * Liste les modèles Ollama installés au démarrage.
   * Permet de choisir le modèle IA à utiliser.
   * Affiche et logge le temps de réponse pour chaque prompt.
   * Sauvegarde chaque essai et benchmark dans `data/dev_responses.log` et `data/dev_responses.jsonl`.
+* **Module Benchmark IA** :
+
+  * Exécution de tests unitaires automatiques (ex. `is_prime`, `fibonacci`, `factorial`).
+  * Scripts dédiés pour lancer rapidement des benchmarks ciblés :
+
+    * `benchmark_mistral.py` (Mistral standard)
+    * `benchmark_mistral2.py` (Mistral optimisé : `mistral-tests`)
+    * `benchmark_deepseek.py` (DeepSeek optimisé : `deepseek-tests`)
+    * `benchmark_phi.py` (Phi-4 et Phi-4 Mini)
+    * `benchmark_starling.py` (Starling-LM)
+    * `benchmark_llava.py` (LLaVA multimodal)
+  * Sauvegarde des résultats (code généré + stats) dans `data/generated/` et `data/dev_responses.*`.
+  * Documentation associée dans `docs/` (prompt engineering et comparatifs).
 
 ---
 
-## 🚀 Nouveautés et changements récents
-
-### Nouvelles fonctionnalités CLI :
-
-* Ajout de la commande `&run` : exécute le dernier script Python sauvegardé de la conversation en cours.
-  → Un nouveau terminal Windows (`cmd.exe`) s'ouvre et lance le script (`python <fichier>`).
-* Amélioration de la saisie utilisateur en mode CLI :
-  → Une ligne simple : taper Entrée envoie directement.
-  → Texte multi-lignes : terminer par une ligne vide (Entrée deux fois).
-* Ajout d’un script **`tools/benchmark_responses.py`** :
-
-  * Choix du modèle IA au lancement (si DEV\_MODE activé).
-  * Choix du prompt à envoyer.
-  * Envoi automatique du même prompt plusieurs fois (benchmark).
-  * Affichage du temps de réponse par essai et calcul de stats (moyenne/min/max).
-  * Résultats sauvegardés dans `data/dev_responses.*`.
-
-### Séparation UI / logique :
-
-* Ajout d’un client intermédiaire `client/ia_client.py`.
-* `main_ui.py` devient un simple lanceur.
-* UI scindée en `ui/app_main.py` (logique) et `ui/layout_builder.py` (construction visuelle).
-* `ui/` et `client/` sont des packages Python (`__init__.py`).
-
-### UI / zone\_chat et zone\_message :
-
-* Bulles adaptatives avec retour à la ligne.
-* Couleurs centralisées (`ui/config_ui.py`).
-* Boutons copier sous chaque bulle (copie presse-papier + coche temporaire).
-* Création de nouvelle conversation via bouton `+`.
-* Détection et exécution des commandes spéciales `&msg1`, `&msg2`, `&run`.
-
-### Centralisation des couleurs et icônes :
-
-* `COLOR_USER_BUBBLE`, `COLOR_IA_BUBBLE`, etc.
-* Icônes copier et coche avec effet hover.
-
-### Sauvegarde / synthèse :
-
-* Sauvegardes MD/TXT et extraction de code gérées par le backend.
-* Commande spéciale de clôture (CLI) génère synthèse et README mis à jour.
-
-### Refactorisation sessions :
-
-* Nouveau module `core/session_manager.py`.
-* `commands.py` (CLI) et `IAClient` (UI) passent par ce module.
-* `ChatManager` reste focalisé sur la logique de chat.
-
----
-
-## 📂 Structure du projet (mise à jour)
+## 📂 Arborescence complète
 
 ```
 📁 IA_V3/
@@ -82,8 +45,11 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
     📄 config.py
     📄 debug.log
     📄 main.py
+    📄 main_benchmark.py
     📄 main_ui.py
     📄 README.md
+    📁 .pytest_cache/
+    📁 .ruff_cache/
     📁 assets/
         📁 images/
             📄 coche_icon.png
@@ -112,11 +78,41 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
         📄 dev_responses.jsonl
         📄 dev_responses.log
         📄 models_list.txt
+        📁 generated/
+            📁 deepseek-coder_6.7b/
+            📁 deepseek-tests/
+            📁 mistral-tests/
+            📁 mistral_latest/
+    📁 Docs/
+        📄 comparatif_mistral_vs_deepseek.md
+        📄 ollama_models_readme.md
+        📄 prompt_engineering_deepseek.md
+        📄 prompt_engineering_mistral7b.md
+        📄 prompt_engineering_phi.md
+        📄 prompt_engineering_starling.md
+        📄 prompt_engineering_llava.md
     📁 logs/
         📄 conversation.log
         📄 sav_conv_*.log
         📄 test11.log
         📄 test12.log
+    📁 ollama_configs/
+        📄 README.md
+        📁 deepseek_tests/
+            📄 Modelfile
+            📄 README.md
+        📁 mistral_tests/
+            📄 Modelfile
+            📄 README.md
+        📁 phi_tests/
+            📄 Modelfile
+            📄 README.md
+        📁 starling_tests/
+            📄 Modelfile
+            📄 README.md
+        📁 llava_tests/
+            📄 Modelfile
+            📄 README.md
     📁 sav/
         📁 sav_conv_*/
             📄 conversation.md
@@ -137,6 +133,20 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama** (par 
         📄 calc_fond_dims.py
         📄 init_conv_chatgpt.py
         📄 update_system_prompt.py
+        📁 benchmark/
+            📄 benchmark_deepseek.py
+            📄 benchmark_mistral.py
+            📄 benchmark_phi.py
+            📄 benchmark_starling.py
+            📄 benchmark_llava.py
+            📄 cli.py
+            📄 code_utils.py
+            📄 config_benchmark.py
+            📄 exercises.py
+            📄 readme.md
+            📄 runner.py
+            📄 storage.py
+            📄 __init__.py
     📁 ui/
         📄 app_main.py
         📄 config_ui.py
@@ -169,30 +179,28 @@ ollama list
 * Télécharger un modèle :
 
 ```bash
-ollama pull mistral
-ollama pull deepseek-coder:33b
+ollama pull mistral:7b
+ollama pull deepseek-coder:6.7b
+ollama pull phi4:latest
+ollama pull phi4-mini:latest
+ollama pull starling-lm:7b
+ollama pull llava:7b
 ```
 
 * Supprimer un modèle :
 
 ```bash
-ollama rm mistral
-ollama rm deepseek-coder:33b
+ollama rm mistral:7b
+ollama rm phi4-mini:latest
 ```
 
 * Vérifier que le serveur Ollama tourne :
 
 ```bash
-netstat -ano | findstr 11434
-```
-
-* Tester l’API Ollama :
-
-```bash
 curl http://127.0.0.1:11434/api/tags
 ```
 
-* Démarrer manuellement le serveur (normalement inutile, Ollama tourne déjà en service) :
+* Démarrer manuellement le serveur :
 
 ```bash
 ollama serve
@@ -202,12 +210,53 @@ ollama serve
 
 ## 📊 Analyse des performances
 
-Un script dédié (`tools/benchmark_responses.py`) permet :
+* Benchmarks automatisés via `tools/benchmark/`.
+* Résultats sauvegardés dans `data/dev_responses.*`.
+* Analyse possible via :
 
-* De choisir un modèle IA installé.
-* De choisir un prompt personnalisé.
-* De définir un nombre d’essais (par défaut 5).
-* De mesurer le temps de réponse de l’IA pour chaque essai.
-* De sauvegarder tous les résultats (bruts + résumé) dans `data/`.
+```bash
+python tools/analyze_results.py
+```
 
-Les résultats peuvent être analysés avec **Pandas** en important `data/dev_responses.jsonl`.
+* Comparatifs disponibles :
+
+  * `docs/comparatif_mistral_vs_deepseek.md`
+  * `docs/prompt_engineering_phi.md`
+  * `docs/prompt_engineering_starling.md`
+  * `docs/prompt_engineering_llava.md`
+
+---
+
+## ⚡ Conseils d’optimisation des performances
+
+* **Quantisation** : utiliser les variantes Q4/Q5 (`-q4_K_M`) pour réduire la VRAM et accélérer l’inférence.
+* **Context length** : rester à 4k ou 8k tokens pour garder l’exécution GPU. Au-delà, bascule CPU → ralentissements.
+* **Choix des modèles adaptés à la RTX 4060 (8 Go VRAM)** :
+
+  * Général : `mistral:7b`, `llama3.1:8b-q4`, `gemma:7b`, `phi4-mini:3.8b`
+  * Code : `deepseek-coder:6.7b`, `qwen2.5-coder:7b`
+  * Multimodal : `llava:7b`
+  * Raisonnement : `starling-lm:7b`, `phi4:latest`
+* **Batch size** : réduire si la VRAM est saturée.
+* **Threads CPU** : utiliser 16 threads sur Ryzen 7 5700X pour compenser en mode CPU fallback.
+
+---
+
+## 🌟 Modèles recommandés (Top 5)
+
+* **Mistral 7B** → usage général rapide, polyvalent.
+* **Qwen2.5-Coder 7B** → spécialisé code.
+* **LLaVA 7B Q4** → multimodal texte+image.
+* **Starling-LM 7B** → raisonnement/débat.
+* **Phi-4 Mini 3.8B** → compact, fluide pour tâches rapides.
+
+---
+
+## 🔮 Améliorations prévues
+
+* Nouveaux benchmarks pour Phi-4, Starling-LM et LLaVA.
+* Automatisation des tests multimodaux (texte + image).
+* Export automatique en CSV/Excel.
+* Dashboard de visualisation (Grafana/Streamlit).
+* Optimisation GPU/paramètres supplémentaires pour les modèles lourds.
+* Intégration d’un gestionnaire de profils (configurations par modèle).

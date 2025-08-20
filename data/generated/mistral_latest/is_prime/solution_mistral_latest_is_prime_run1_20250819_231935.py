@@ -1,0 +1,1 @@
+Voici la définition d'une fonction `is_prime` en Python qui vérifie si un nombre entier est premier :

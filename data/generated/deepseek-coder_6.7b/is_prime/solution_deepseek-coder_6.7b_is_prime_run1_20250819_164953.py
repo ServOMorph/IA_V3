@@ -1,0 +1,1 @@
+La fonction ci-dessous vérifie si un nombre donné est premier en effectuant des divisions jusqu'à la racine carrée du nombre. Cela évite de rechercher les facteurs dans tout le domaine possible, ce qui réduit considérablement le temps d'exécution pour certains nombres très grands:

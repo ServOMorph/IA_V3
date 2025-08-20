@@ -1,0 +1,1 @@
+Voici la fonction Python pour vérifier si un nombre `n` est premier ou non :

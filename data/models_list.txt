@@ -1,3 +1,9 @@
-NAME                   ID              SIZE      MODIFIED       
-deepseek-coder:6.7b    ce298d984115    3.8 GB    28 minutes ago    
-mistral:latest         6577803aa9a0    4.4 GB    2 weeks ago
+NAME                          ID              SIZE      MODIFIED       
+phi4:latest                   ac896e5b8b34    9.1 GB    8 minutes ago     
+starling-lm:7b                39153f619be6    4.1 GB    12 minutes ago    
+llava:7b                      8dd30f6b0cb1    4.7 GB    13 minutes ago    
+qwen2.5-coder:7b              dae161e27b0e    4.7 GB    16 minutes ago    
+deepseek-tests:latest         8e1171b5df48    3.8 GB    2 hours ago       
+mistral-tests:latest          50eacac552b1    4.4 GB    3 hours ago       
+mistral:7b-instruct-q4_K_M    1a85656b534f    4.4 GB    3 hours ago       
+deepseek-coder:6.7b           ce298d984115    3.8 GB    11 hours ago

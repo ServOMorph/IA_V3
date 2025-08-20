@@ -3,6 +3,7 @@
     📄 config.py
     📄 debug.log
     📄 main.py
+    📄 main_benchmark.py
     📄 main_ui.py
     📄 README.md
     📁 .pytest_cache/
@@ -47,6 +48,38 @@
         📄 dev_responses.jsonl
         📄 dev_responses.log
         📄 models_list.txt
+        📁 generated/
+            📁 deepseek-coder_6.7b/
+                📁 is_prime/
+                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_162713.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_164953.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_233538.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250820_005134.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run2_20250819_162756.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run2_20250819_165106.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run3_20250819_162812.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run3_20250819_165156.py
+            📁 deepseek-tests/
+                📁 is_prime/
+                    📄 solution_deepseek-tests_is_prime_run1_20250820_010112.py
+            📁 mistral-tests/
+                📁 is_prime/
+                    📄 solution_mistral-tests_is_prime_run1_20250820_004938.py
+            📁 mistral_latest/
+                📁 is_prime/
+                    📄 solution_mistral_latest_is_prime_run1_20250819_162911.py
+                    📄 solution_mistral_latest_is_prime_run1_20250819_165250.py
+                    📄 solution_mistral_latest_is_prime_run1_20250819_231935.py
+                    📄 solution_mistral_latest_is_prime_run1_20250819_232404.py
+                    📄 solution_mistral_latest_is_prime_run1_20250819_232701.py
+                    📄 solution_mistral_latest_is_prime_run2_20250819_163015.py
+                    📄 solution_mistral_latest_is_prime_run2_20250819_165337.py
+                    📄 solution_mistral_latest_is_prime_run3_20250819_163126.py
+    📁 Docs/
+        📄 comparatif_mistral_vs_deepseek.md
+        📄 ollama_models_readme.md
+        📄 prompt_engineering_deepseek.md
+        📄 prompt_engineering_mistral7b.md
     📁 logs/
         📄 conversation.log
         📄 sav_conv_2025-08-19_12-42-27.log
@@ -70,8 +103,17 @@
         📄 sav_conv_2025-08-19_14-59-16.log
         📄 sav_conv_2025-08-19_15-03-21.log
         📄 sav_conv_2025-08-19_15-03-53.log
+        📄 sav_conv_2025-08-20_00-47-51.log
         📄 test11.log
         📄 test12.log
+    📁 ollama_configs/
+        📄 README.md
+        📁 deepseek_tests/
+            📄 Modelfile
+            📄 README.md
+        📁 mistral_tests/
+            📄 Modelfile
+            📄 README.md
     📁 sav/
         📁 sav_conv_2025-08-19_12-50-05/
             📄 conversation.md
@@ -109,6 +151,8 @@
             📄 conversation.md
         📁 sav_conv_2025-08-19_15-03-53/
             📄 conversation.md
+        📁 sav_conv_2025-08-20_00-47-51/
+            📄 conversation.md
         📁 test11/
             📄 code_12-43-39.py
             📄 code_12-48-41.py
@@ -129,6 +173,17 @@
         📄 calc_fond_dims.py
         📄 init_conv_chatgpt.py
         📄 update_system_prompt.py
+        📁 benchmark/
+            📄 benchmark_deepseek.py
+            📄 benchmark_mistral.py
+            📄 cli.py
+            📄 code_utils.py
+            📄 config_benchmark.py
+            📄 exercises.py
+            📄 readme.md
+            📄 runner.py
+            📄 storage.py
+            📄 __init__.py
     📁 ui/
         📄 app_main.py
         📄 config_ui.py

@@ -15,7 +15,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # Modèle IA par défaut
-DEFAULT_MODEL = "mistral"
+DEFAULT_MODEL = "phi4"
 
 # Répertoire de sauvegarde
 SAVE_DIR = "sav"
@@ -56,7 +56,7 @@ SAVE_FILE_DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S"
 LOGS_DIR = "logs"
 
 DEFAULT_SYSTEM_PROMPT = """
-Tu es un agent IA expert en développement Python. Ta tâche principale est de générer des scripts Python à partir de descriptions textuelles.
+Ecris en Français
 """
 
 
