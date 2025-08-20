@@ -1,0 +1,13 @@
+📁 agents_ia_project/
+    📄 arborescence.txt
+    📄 main.py
+    📄 README.md
+    📁 agents/
+        📄 gestia.py
+    📁 docs/
+        📄 agents_disponibles.md
+        📄 developpement_suivi.md
+        📄 developpement_suivi_complet.md
+        📄 README_MODELE.md
+    📁 prompts/
+        📄 1.1-main.py-de_GestIA_pour_BackIA-19h55-2025-08-20.md.md
