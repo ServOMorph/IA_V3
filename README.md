@@ -8,8 +8,9 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
 
 * Dialogue avec un modèle IA local.
 * Sauvegarde des conversations dans un **dossier par session** (`/sav/<nom_session>/conversation.md`).
-* Sauvegarde automatique des blocs de code Python extraits en `.py`.
+* Sauvegarde automatique des fichiers extraits des réponses IA (ex. code `.py`, texte `.txt`, CSV, PDF…).
 * Chargement, renommage, suppression et organisation des sessions.
+* Commande **`&getfile <nom>`** pour relire directement un fichier généré dans la session.
 * Copie rapide des derniers messages dans le presse-papier (CLI).
 * Conservation du contexte conversationnel avec possibilité de tronquer l'historique pour accélérer les réponses.
 * **Système de résumé avancé** :
@@ -124,5 +125,6 @@ python tools/analyze_results.py
 * Intégration d’un gestionnaire de profils (configurations par modèle).
 * Ajout d’un export JSON structuré des résumés (pour mémoire sélective et réinjection ciblée).
 * Commandes utilisateur pour contrôler les résumés (`/resumeshow`, `/resumerefresh`, `/resumeclear`).
+* **Gestion avancée des fichiers** : possibilité de partager des fichiers avec l’IA (PDF, CSV, images, etc.) et de les générer automatiquement depuis les réponses.
 
-12/09/2025 22:12
+12/09/2025 22:56

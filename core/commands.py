@@ -11,9 +11,11 @@ from config import (
     EXIT_NO_SAVE_MESSAGE,
     SAVE_DIR,
     LOGS_DIR,
+    ALLOWED_FILE_TYPES_OUT,
 )
 from core.logging.conv_logger import setup_conv_logger
 from core.session_manager import SessionManager
+from core.file_exporter import export_file
 
 # --- Préfixe configurable ---
 COMMAND_PREFIX = "&"
@@ -32,11 +34,10 @@ COMMANDS = {
     f"{COMMAND_PREFIX}copie_user": "Copier le dernier message utilisateur",
     f"{COMMAND_PREFIX}createfolder": f"Créer dossiers /sav et /logs ({COMMAND_PREFIX}createfolder NOM)",
     f"{COMMAND_PREFIX}move": f"Déplacer une session ({COMMAND_PREFIX}move NOM dossier_cible)",
-    f"{COMMAND_PREFIX}savecode": f"Extraire le code de la dernière réponse IA ({COMMAND_PREFIX}savecode [base])",
-    f"{COMMAND_PREFIX}savetxt": f"Extraire le texte de la dernière réponse IA ({COMMAND_PREFIX}savetxt [base])",
     f"{COMMAND_PREFIX}run": "Exécuter le dernier script Python sauvegardé de la conversation en cours",
-
+    f"{COMMAND_PREFIX}export": f"Exporter le dernier message IA en fichier ({COMMAND_PREFIX}export NOM EXT)",
 }
+
 def show_commands() -> None:
     print("\n📜 Commandes disponibles :")
     for cmd, desc in COMMANDS.items():
@@ -255,75 +256,8 @@ class CommandHandler:
                 self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(session_key)
             print(f"✅ Conversation '{conv_name}' déplacée vers '{safe_folder}'")
             return True, False
-
-        # 11) Sauvegarde code
-        if lower.startswith(f"{COMMAND_PREFIX}savecode"):
-            base = arg.replace(" ", "_") if arg else ""
-            if not self.client.history:
-                print("⚠️ Aucune réponse IA.")
-                return True, False
-            answer = self.client.history[-1].get("response", "")
-            blocks = self._extract_python_blocks(answer)
-            if not blocks:
-                print("ℹ️ Aucun bloc python détecté.")
-                return True, False
-            created: List[Path] = []
-            session_dir: Path = self.save_manager.session_dir
-            session_dir.mkdir(parents=True, exist_ok=True)
-            if base:
-                for idx, code in enumerate(blocks, start=1):
-                    name = f"{base}.py" if len(blocks) == 1 else f"{base}_{idx}.py"
-                    out = session_dir / name
-                    out.write_text(code, encoding="utf-8")
-                    created.append(out)
-            else:
-                from datetime import datetime
-                for idx, code in enumerate(blocks, start=1):
-                    ts = datetime.now().strftime("%H-%M-%S")
-                    name = f"code_{ts}.py" if len(blocks) == 1 else f"code_{ts}_{idx}.py"
-                    out = session_dir / name
-                    out.write_text(code, encoding="utf-8")
-                    created.append(out)
-            print("✅ Fichier(s) créé(s) :")
-            for p in created:
-                print(f" - {p.as_posix()}")
-            return True, False
-
-        # 12) Sauvegarde texte
-        if lower.startswith(f"{COMMAND_PREFIX}savetxt"):
-            base = arg.replace(" ", "_") if arg else ""
-            if not self.client.history:
-                print("⚠️ Aucune réponse IA.")
-                return True, False
-            answer = self.client.history[-1].get("response", "")
-            from datetime import datetime
-            pat_txt = re.compile(r"```txt\s+?(.*?)```", re.DOTALL | re.IGNORECASE)
-            blocks = [m.strip() for m in pat_txt.findall(answer)]
-            if not blocks:
-                print("ℹ️ Aucun bloc txt détecté.")
-                return True, False
-            created: List[Path] = []
-            session_dir: Path = self.save_manager.session_dir
-            session_dir.mkdir(parents=True, exist_ok=True)
-            if base:
-                for idx, doc in enumerate(blocks, start=1):
-                    name = f"{base}.txt" if len(blocks) == 1 else f"{base}_{idx}.txt"
-                    out = session_dir / name
-                    out.write_text(doc, encoding="utf-8")
-                    created.append(out)
-            else:
-                for idx, doc in enumerate(blocks, start=1):
-                    ts = datetime.now().strftime("%H-%M-%S")
-                    name = f"doc_{ts}.txt" if len(blocks) == 1 else f"doc_{ts}_{idx}.txt"
-                    out = session_dir / name
-                    out.write_text(doc, encoding="utf-8")
-                    created.append(out)
-            print("✅ Fichier(s) TXT créé(s) :")
-            for p in created:
-                print(f" - {p.as_posix()}")
-            return True, False
    
-        # 13) Exécuter le dernier script Python sauvegardé dans un nouveau terminal
+        # 11) Exécuter le dernier script Python sauvegardé dans un nouveau terminal
         if lower == f"{COMMAND_PREFIX}run":
             import subprocess
 
@@ -350,7 +284,7 @@ class CommandHandler:
 
             return True, False
 
-        # 14) Lire un fichier de la session
+        # 12) Lire un fichier de la session
         if lower.startswith(f"{COMMAND_PREFIX}getfile"):
             if not arg:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}getfile NOM_FICHIER")
@@ -367,6 +301,34 @@ class CommandHandler:
                 print(f"⚠️ Fichier introuvable dans la session : {arg}")
             return True, False
         
+        # 13) Exporter le dernier message IA
+        if lower.startswith(f"{COMMAND_PREFIX}export"):
+            if not arg:
+                print(f"⚠️ Usage : {COMMAND_PREFIX}export NOM EXT")
+                return True, False
+            parts = arg.split()
+            if len(parts) != 2:
+                print(f"⚠️ Usage : {COMMAND_PREFIX}export NOM EXT")
+                return True, False
+            name, ext = parts
+            ext = ext.lower()
+            if ext not in ALLOWED_FILE_TYPES_OUT:
+                print(f"⚠️ Extension non supportée ({ext}). Autorisées : {ALLOWED_FILE_TYPES_OUT}")
+                return True, False
+            if not self.client.history:
+                print("⚠️ Aucune réponse IA disponible.")
+                return True, False
+            content = self.client.history[-1].get("response", "").strip()
+            if not content:
+                print("⚠️ Réponse IA vide.")
+                return True, False
+            try:
+                path = export_file(self.save_manager.session_dir.name, name, content, ext)
+                print(f"✅ Fichier exporté : {path.as_posix()}")
+            except Exception as e:
+                print(f"❌ Erreur export : {e}")
+            return True, False
+
         # --- Si aucune commande reconnue ---
         return False, False
 

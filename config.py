@@ -72,12 +72,11 @@ TEMPERATURE = 0.2   # 0.0 = très déterministe, 1.0 = créatif
 TOP_P = 0.9         # nucleus sampling
 TOP_K = 40          # alternative sampling
 
-
-
 # Résumé automatique
 MAX_HISTORY_MESSAGES = 3   # seuil d'anciens échanges avant résumé
 USE_SUMMARY = True         # activer/désactiver le mécanisme de résumé
 SUMMARY_MODEL = "gemma2:2b"  # modèle choisi pour résumer l'historique
 SUMMARY_MAX_TOKENS = 150   # taille maximale du résumé généré
 
+ALLOWED_FILE_TYPES_OUT = ["py", "txt", "md", "json", "csv", "docx", "pdf", "xlsx"]
 
