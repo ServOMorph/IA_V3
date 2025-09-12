@@ -5,6 +5,7 @@
     📄 main.py
     📄 main_benchmark.py
     📄 main_ui.py
+    📄 Notes de l'auteur.txt
     📄 README.md
     📁 .pytest_cache/
         📄 .gitignore
@@ -39,6 +40,7 @@
         📄 sav_manager.py
         📄 session_manager.py
         📄 startup_utils.py
+        📄 summarizer.py
         📄 __init__.py
         📁 logging/
             📄 conv_logger.py
@@ -111,39 +113,12 @@
         📄 prompt_engineering_mistral7b.md
     📁 logs/
         📄 conversation.log
-        📄 sav_conv_2025-08-19_12-42-27.log
-        📄 sav_conv_2025-08-19_12-42-30.log
-        📄 sav_conv_2025-08-19_12-47-02.log
-        📄 sav_conv_2025-08-19_12-50-05.log
-        📄 sav_conv_2025-08-19_12-55-33.log
-        📄 sav_conv_2025-08-19_13-05-17.log
-        📄 sav_conv_2025-08-19_13-06-39.log
-        📄 sav_conv_2025-08-19_13-06-44.log
-        📄 sav_conv_2025-08-19_13-08-16.log
-        📄 sav_conv_2025-08-19_13-08-29.log
-        📄 sav_conv_2025-08-19_13-11-07.log
-        📄 sav_conv_2025-08-19_13-11-09.log
-        📄 sav_conv_2025-08-19_13-11-22.log
-        📄 sav_conv_2025-08-19_14-49-36.log
-        📄 sav_conv_2025-08-19_14-50-58.log
-        📄 sav_conv_2025-08-19_14-53-11.log
-        📄 sav_conv_2025-08-19_14-54-44.log
-        📄 sav_conv_2025-08-19_14-57-28.log
-        📄 sav_conv_2025-08-19_14-59-16.log
-        📄 sav_conv_2025-08-19_15-03-21.log
-        📄 sav_conv_2025-08-19_15-03-53.log
-        📄 sav_conv_2025-08-20_00-47-51.log
-        📄 sav_conv_2025-08-20_03-16-27.log
-        📄 sav_conv_2025-08-20_03-17-26.log
-        📄 sav_conv_2025-08-20_03-18-57.log
-        📄 sav_conv_2025-08-20_03-19-32.log
-        📄 sav_conv_2025-08-20_03-20-23.log
-        📄 sav_conv_2025-09-02_22-50-10.log
-        📄 sav_conv_2025-09-09_14-52-43.log
-        📄 sav_conv_2025-09-11_19-04-36.log
-        📄 sav_conv_2025-09-11_19-04-55.log
-        📄 test11.log
-        📄 test12.log
+        📄 sav_conv_2025-09-12_18-56-39.log
+        📄 sav_conv_2025-09-12_19-00-15.log
+        📄 sav_conv_2025-09-12_19-01-15.log
+        📄 sav_conv_2025-09-12_19-02-03.log
+        📄 sav_conv_2025-09-12_19-09-49.log
+        📄 sav_conv_2025-09-12_19-11-50.log
     📁 ollama_configs/
         📄 README.md
         📁 deepseek_tests/
@@ -152,72 +127,26 @@
         📁 mistral_tests/
             📄 Modelfile
             📄 README.md
+    📁 perf_tests/
+        📄 test_summary_trigger.py
     📁 sav/
-        📁 sav_conv_2025-08-19_12-50-05/
+        📁 sav_conv_2025-09-12_18-56-39/
             📄 conversation.md
-        📁 sav_conv_2025-08-19_12-55-33/
+            📄 summary.md
+        📁 sav_conv_2025-09-12_19-00-15/
+        📁 sav_conv_2025-09-12_19-01-15/
             📄 conversation.md
-        📁 sav_conv_2025-08-19_13-05-17/
+        📁 sav_conv_2025-09-12_19-02-03/
             📄 conversation.md
-        📁 sav_conv_2025-08-19_13-06-39/
+            📄 summary.md
+        📁 sav_conv_2025-09-12_19-09-49/
             📄 conversation.md
-        📁 sav_conv_2025-08-19_13-06-44/
+            📄 summary.md
+        📁 sav_conv_2025-09-12_19-11-50/
             📄 conversation.md
-        📁 sav_conv_2025-08-19_13-08-16/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_13-08-29/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_13-11-07/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_13-11-09/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_13-11-22/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_14-49-36/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_14-50-58/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_14-53-11/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_14-54-44/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_14-57-28/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_14-59-16/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_15-03-21/
-            📄 conversation.md
-        📁 sav_conv_2025-08-19_15-03-53/
-            📄 conversation.md
-        📁 sav_conv_2025-08-20_00-47-51/
-            📄 conversation.md
-        📁 sav_conv_2025-08-20_03-16-27/
-            📄 conversation.md
-        📁 sav_conv_2025-08-20_03-17-26/
-            📄 conversation.md
-        📁 sav_conv_2025-08-20_03-18-57/
-            📄 conversation.md
-        📁 sav_conv_2025-08-20_03-19-32/
-            📄 conversation.md
-        📁 sav_conv_2025-08-20_03-20-23/
-            📄 conversation.md
-        📁 sav_conv_2025-09-02_22-50-10/
-            📄 conversation.md
-        📁 sav_conv_2025-09-09_14-52-43/
-            📄 conversation.md
-        📁 sav_conv_2025-09-11_19-04-36/
-            📄 conversation.md
-        📁 sav_conv_2025-09-11_19-04-55/
-            📄 conversation.md
-        📁 test11/
-            📄 code_12-43-39.py
-            📄 code_12-48-41.py
-            📄 code_12-49-24.py
-            📄 conversation.md
-        📁 test12/
-            📄 code_12-48-05_1.py
-            📄 code_12-48-05_2.py
-            📄 conversation.md
+            📄 summary.md
+        📁 test_summary/
+        📁 test_summary_long/
     📁 tests/
         📄 test_ui_load.py
         📄 __init__.py
