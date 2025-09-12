@@ -113,22 +113,19 @@
         📄 prompt_engineering_mistral7b.md
     📁 logs/
         📄 conversation.log
-        📄 sav_conv_2025-09-12_18-56-39.log
-        📄 sav_conv_2025-09-12_19-00-15.log
-        📄 sav_conv_2025-09-12_19-01-15.log
-        📄 sav_conv_2025-09-12_19-02-03.log
-        📄 sav_conv_2025-09-12_19-09-49.log
-        📄 sav_conv_2025-09-12_19-11-50.log
-        📄 sav_conv_2025-09-12_19-58-24.log
-        📄 sav_conv_2025-09-12_21-13-43.log
-        📄 sav_conv_2025-09-12_21-15-59.log
-        📄 sav_conv_2025-09-12_21-18-47.log
-        📄 sav_conv_2025-09-12_21-25-24.log
-        📄 sav_conv_2025-09-12_21-30-36.log
-        📄 sav_conv_2025-09-12_21-37-16.log
-        📄 sav_conv_2025-09-12_21-42-16.log
-        📄 sav_conv_2025-09-12_21-59-16.log
-        📄 sav_conv_2025-09-12_22-04-47.log
+        📄 sav_conv_2025-09-12_22-24-21.log
+        📄 sav_conv_2025-09-12_22-24-31.log
+        📄 sav_conv_2025-09-12_22-25-42.log
+        📄 sav_conv_2025-09-12_22-27-18.log
+        📄 sav_conv_2025-09-12_22-28-06.log
+        📄 sav_conv_2025-09-12_22-33-27.log
+        📄 sav_conv_2025-09-12_22-34-36.log
+        📄 sav_conv_2025-09-12_22-47-25.log
+        📄 sav_conv_2025-09-12_22-49-00.log
+        📄 sav_conv_2025-09-12_22-53-24.log
+        📄 sav_conv_2099-01-01_12-00-00.log
+        📄 sav_conv_2099-01-01_13-00-00.log
+        📄 sav_conv_2099-01-01_15-00-00.log
     📁 ollama_configs/
         📄 README.md
         📁 deepseek_tests/
@@ -140,11 +137,26 @@
     📁 perf_tests/
         📄 test_summary_trigger.py
     📁 sav/
-        📁 sav_conv_2025-09-12_22-04-47/
+        📄 complex.log
+        📁 complex/
             📄 code_22-05-27.py
             📄 conversation.md
+            📄 python_22-55-01.py
             📄 summary.md
+        📁 sav_conv_2025-09-12_22-34-36/
+            📄 conversation.md
+        📁 sav_conv_2025-09-12_22-35-19/
+        📁 sav_conv_2025-09-12_22-47-25/
+            📄 conversation.md
+        📁 sav_conv_2025-09-12_22-49-00/
+            📄 conversation.md
+        📁 sav_conv_2025-09-12_22-49-16/
+        📁 sav_conv_2025-09-12_22-53-24/
+            📄 conversation.md
+        📁 sav_conv_2025-09-12_22-53-34/
     📁 tests/
+        📄 test_command_load.py
+        📄 test_session_load.py
         📄 test_summary_complex.py
         📄 test_ui_load.py
         📄 __init__.py

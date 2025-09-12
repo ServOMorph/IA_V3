@@ -117,12 +117,13 @@ class ChatManager:
             # Sauvegarde conversation en MD
             self.save_manager.save_md(self.client.history)
 
-            # Sauvegarde auto du code s'il y en a
-            self.save_manager.save_python_from_response(answer)
-
-            # Sauvegarde auto des documents texte s'il y en a
-            self.save_manager.save_txt_from_response(answer)
-
+            # Sauvegarde auto des blocs selon leur type
+            self.save_manager.save_blocks_from_response(answer, "python", "py")
+            self.save_manager.save_blocks_from_response(answer, "txt", "txt")
+            # Futur : tu peux activer d’autres formats ici
+            # self.save_manager.save_blocks_from_response(answer, "csv", "csv")
+            # self.save_manager.save_blocks_from_response(answer, "pdf", "pdf")
+            
     def resume_session(self, name: str) -> bool:
         """
         Raccourci pour SessionManager.load_session.

@@ -67,6 +67,8 @@ class SessionManager:
         """
         Recharge une session existante dans ChatManager.
         Met à jour save_manager, client.history, summarizer et logger.
+        Réinjecte aussi les fichiers annexes (.py, .txt, .csv, .pdf, etc.)
+        afin qu'ils soient accessibles dans l'historique.
         """
         from core.sav_manager import SaveManager
         from core.logging.conv_logger import setup_conv_logger
@@ -98,6 +100,20 @@ class SessionManager:
 
             # Logger
             chat_manager.client.conv_logger, chat_manager.client.conv_log_file = setup_conv_logger(name)
+
+            # Réinjecter les fichiers sauvegardés (code, txt, pdf, csv…)
+            for file in session_dir.iterdir():
+                if file.name in {"conversation.md", "summary.md"}:
+                    continue
+                if file.is_file() and file.suffix.lower() in {".py", ".txt", ".csv", ".pdf"}:
+                    try:
+                        content = file.read_text(encoding="utf-8", errors="ignore")
+                        chat_manager.client.history.append({
+                            "role": "assistant",
+                            "content": f"[Fichier {file.name}]\n\n{content}"
+                        })
+                    except Exception as e:
+                        print(f"[WARN] Impossible de réinjecter {file.name}: {e}")
 
             return True
         except Exception as e:

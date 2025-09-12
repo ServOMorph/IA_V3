@@ -209,3 +209,41 @@ class SaveManager:
 
         flush_buffer()
         return history
+    
+    def save_blocks_from_response(self, response_text: str, block_type: str, ext: str, base_name: str | None = None):
+        """
+        Extrait et sauvegarde tous les blocs de type ```<block_type> ... ``` présents dans le texte.
+        Retourne la liste des chemins créés.
+        
+        Exemple :
+        - block_type="python", ext="py"
+        - block_type="txt", ext="txt"
+        - block_type="csv", ext="csv"
+        """
+        import re
+        if not response_text:
+            return []
+
+        pattern = rf"```{block_type}\s+(.*?)```"
+        blocks = re.findall(pattern, response_text, flags=re.S | re.I)
+        if not blocks:
+            return []
+
+        created = []
+        from datetime import datetime
+        ts = datetime.now().strftime("%H-%M-%S")
+
+        for idx, block in enumerate(blocks, start=1):
+            stem = base_name or f"{block_type}_{ts}"
+            path = self.session_dir / (
+                f"{stem}_{idx}.{ext}" if len(blocks) > 1 else f"{stem}.{ext}"
+            )
+            try:
+                path.write_text(block.strip() + "\n", encoding="utf-8")
+                created.append(path)
+                logging.info(f"Bloc {block_type} sauvegardé : {path.resolve()}")
+            except Exception as e:
+                logging.error(f"Erreur sauvegarde bloc {block_type}: {e}")
+
+        return created
+

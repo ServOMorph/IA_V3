@@ -322,7 +322,6 @@ class CommandHandler:
             for p in created:
                 print(f" - {p.as_posix()}")
             return True, False
-
    
         # 13) Exécuter le dernier script Python sauvegardé dans un nouveau terminal
         if lower == f"{COMMAND_PREFIX}run":
@@ -350,11 +349,26 @@ class CommandHandler:
                 print(f"❌ Erreur lors de l’ouverture du terminal : {e}")
 
             return True, False
+
+        # 14) Lire un fichier de la session
+        if lower.startswith(f"{COMMAND_PREFIX}getfile"):
+            if not arg:
+                print(f"⚠️ Usage : {COMMAND_PREFIX}getfile NOM_FICHIER")
+                return True, False
+            target = self.save_manager.session_dir / arg
+            if target.exists() and target.is_file():
+                try:
+                    content = target.read_text(encoding="utf-8", errors="ignore")
+                    print(f"\n📂 Contenu de {arg} :\n")
+                    print(content)
+                except Exception as e:
+                    print(f"❌ Erreur lecture {arg} : {e}")
+            else:
+                print(f"⚠️ Fichier introuvable dans la session : {arg}")
+            return True, False
         
         # --- Si aucune commande reconnue ---
         return False, False
-
-
 
     # --- Utils ---
     @staticmethod
