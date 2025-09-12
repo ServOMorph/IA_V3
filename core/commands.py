@@ -111,31 +111,28 @@ class CommandHandler:
         # 5) Charger une session
         if lower.startswith(f"{COMMAND_PREFIX}load"):
             if not arg:
-                print(f"⚠️ Usage : {COMMAND_PREFIX}load chemin/nom")
-                return True, False
-            target_dir = Path(SAVE_DIR) / arg
-            md_path = target_dir / "conversation.md"
-            if not md_path.exists():
-                print(f"⚠️ Introuvable : {md_path}")
+                print(f"⚠️ Usage : {COMMAND_PREFIX}load NOM_SESSION")
                 return True, False
 
-            # --- Sauvegarde de la session courante avant de basculer ---
+            # Sauvegarde de la session courante avant de basculer
             try:
                 self.save_manager.save_md(self.client.history)
             except Exception as e:
                 print(f"⚠️ Erreur lors de la sauvegarde avant le chargement : {e}")
 
-            # Bascule vers la session cible
-            self.save_manager.session_dir = target_dir
-            self.save_manager.session_md = md_path
-            self.save_manager.session_name = target_dir.name
-            session_key = str(Path(arg))
-            self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(session_key)
-            try:
-                print("\n📂 Conversation chargée :\n")
-                print(md_path.read_text(encoding="utf-8"))
-            except Exception as e:
-                print(f"⚠️ Erreur de lecture : {e}")
+            # Charger via SessionManager
+            ok = SessionManager.load_session(self.chat_manager, arg)
+            if ok:
+                print(f"📂 Conversation rechargée : {arg}")
+                if self.client.history:
+                    print("… Derniers échanges :")
+                    for h in self.client.history[-3:]:
+                        role = h.get("role", "?")
+                        content = h.get("content", "")[:100].replace("\n", " ")
+                        print(f"- {role}: {content}")
+            else:
+                print(f"⚠️ Impossible de charger la session '{arg}'")
+
             return True, False
 
         # 6) Supprimer une session

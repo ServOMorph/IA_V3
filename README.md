@@ -12,6 +12,12 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
 * Chargement, renommage, suppression et organisation des sessions.
 * Copie rapide des derniers messages dans le presse-papier (CLI).
 * Conservation du contexte conversationnel avec possibilité de tronquer l'historique pour accélérer les réponses.
+* **Système de résumé avancé** :
+
+  * Résumé **glissant** par tranches de messages.
+  * Résumés **partiels numérotés** conservés dans `summary.md`.
+  * Résumés **globaux périodiques** consolidant les partiels.
+  * Format structuré en 4 sections : Faits clés, Intentions utilisateur, Réponses IA, Points en suspens.
 * Logs techniques et conversationnels séparés (`/logs/<nom_session>.log`).
 * **Interface Kivy moderne** avec zones distinctes : liste de conversations, chat, saisie, panneau info/config.
 * Couleurs centralisées dans `ui/config_ui.py`.
@@ -116,5 +122,7 @@ python tools/analyze_results.py
 * Dashboard de visualisation (Grafana/Streamlit).
 * Optimisation GPU/paramètres supplémentaires pour les modèles lourds.
 * Intégration d’un gestionnaire de profils (configurations par modèle).
+* Ajout d’un export JSON structuré des résumés (pour mémoire sélective et réinjection ciblée).
+* Commandes utilisateur pour contrôler les résumés (`/resumeshow`, `/resumerefresh`, `/resumeclear`).
 
-12/09/2025 18:18
+12/09/2025 22:12

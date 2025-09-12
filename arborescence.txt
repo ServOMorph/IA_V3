@@ -1,11 +1,11 @@
 📁 IA_V3/
+    📄 A faire.txt
     📄 arborescence.txt
     📄 config.py
     📄 debug.log
     📄 main.py
     📄 main_benchmark.py
     📄 main_ui.py
-    📄 Notes de l'auteur.txt
     📄 README.md
     📁 .pytest_cache/
         📄 .gitignore
@@ -119,6 +119,16 @@
         📄 sav_conv_2025-09-12_19-02-03.log
         📄 sav_conv_2025-09-12_19-09-49.log
         📄 sav_conv_2025-09-12_19-11-50.log
+        📄 sav_conv_2025-09-12_19-58-24.log
+        📄 sav_conv_2025-09-12_21-13-43.log
+        📄 sav_conv_2025-09-12_21-15-59.log
+        📄 sav_conv_2025-09-12_21-18-47.log
+        📄 sav_conv_2025-09-12_21-25-24.log
+        📄 sav_conv_2025-09-12_21-30-36.log
+        📄 sav_conv_2025-09-12_21-37-16.log
+        📄 sav_conv_2025-09-12_21-42-16.log
+        📄 sav_conv_2025-09-12_21-59-16.log
+        📄 sav_conv_2025-09-12_22-04-47.log
     📁 ollama_configs/
         📄 README.md
         📁 deepseek_tests/
@@ -130,24 +140,12 @@
     📁 perf_tests/
         📄 test_summary_trigger.py
     📁 sav/
-        📁 sav_conv_2025-09-12_18-56-39/
+        📁 sav_conv_2025-09-12_22-04-47/
+            📄 code_22-05-27.py
             📄 conversation.md
             📄 summary.md
-        📁 sav_conv_2025-09-12_19-00-15/
-        📁 sav_conv_2025-09-12_19-01-15/
-            📄 conversation.md
-        📁 sav_conv_2025-09-12_19-02-03/
-            📄 conversation.md
-            📄 summary.md
-        📁 sav_conv_2025-09-12_19-09-49/
-            📄 conversation.md
-            📄 summary.md
-        📁 sav_conv_2025-09-12_19-11-50/
-            📄 conversation.md
-            📄 summary.md
-        📁 test_summary/
-        📁 test_summary_long/
     📁 tests/
+        📄 test_summary_complex.py
         📄 test_ui_load.py
         📄 __init__.py
         📁 fenetre_kivy/

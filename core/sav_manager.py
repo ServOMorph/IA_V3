@@ -149,3 +149,63 @@ class SaveManager:
             logging.info(f"Document TXT sauvegardé : {path.resolve()}")
         return created
 
+    def parse_md_to_history(self, md_text: str):
+        """
+        Transforme le contenu de conversation.md en une liste de dicts
+        [{role: ..., content: ...}].
+        Supporte deux formats :
+          - ### timestamp + ligne suivante **[role]**
+          - **Vous** / **IA**
+        """
+        history = []
+        if not md_text:
+            return history
+
+        import re
+        lines = md_text.splitlines()
+        buffer = []
+        current_role = None
+        expect_role = False  # flag quand on a vu un ###
+
+        def flush_buffer():
+            nonlocal buffer, current_role
+            if current_role and buffer:
+                history.append({"role": current_role, "content": "\n".join(buffer).strip()})
+            buffer = []
+            current_role = None
+
+        for line in lines:
+            line_stripped = line.strip()
+            if not line_stripped:
+                continue
+
+            # Cas 1 : début de bloc ### timestamp
+            if line_stripped.startswith("###"):
+                flush_buffer()
+                expect_role = True
+                continue
+
+            # Cas 2 : ligne de rôle après un ###
+            if expect_role:
+                m = re.match(r"^\*\*\[(.*?)\]\*\*$", line_stripped)
+                if m:
+                    current_role = m.group(1).lower()
+                expect_role = False
+                continue
+
+            # Cas 3 : format alternatif **Vous** / **IA**
+            if line_stripped.startswith("**Vous**"):
+                flush_buffer()
+                current_role = "user"
+                continue
+            if line_stripped.startswith("**IA**"):
+                flush_buffer()
+                current_role = "assistant"
+                continue
+
+            # Cas 4 : contenu
+            if current_role:
+                buffer.append(line_stripped)
+
+        flush_buffer()
+        return history

@@ -283,3 +283,27 @@ This dialogue explores a fascinating concept: how physics at the quantum level c
 
 **Points en suspens:** L'histoire pose la question de comment Elara va utiliser sa connaissance de la physique quantique pour comprendre et interagir avec cette dimension parallèle.
 
+## Résumé partiel #1 (généré le 2025-09-12 22:35)
+
+## Résumé de la conversation : 
+
+**Faits clés:** L'utilisateur demande à l'IA de mettre en évidence les points en suspens pour une exploration ultérieure.
+
+**Intentions utilisateur:**  L'objectif est de planifier et d'organiser des sujets à approfondir plus tard dans la discussion.
+
+** Réponses IA:**  L'IA doit identifier les points en suspens et les présenter de manière claire et concise. 
+
+**Points en suspens:** L'IA doit fournir une liste de points en suspens, sans nécessairement donner de détails ou d'explications.
+
+## Résumé partiel #2 (généré le 2025-09-12 22:36)
+
+## Résumé de la conversation :
+
+**Faits clés:** L'utilisateur demande à l'IA d'identifier les points en suspens pour une exploration ultérieure.
+
+**Intentions utilisateur:**  L'objectif est de planifier et d'organiser des sujets à approfondir plus tard dans la discussion. 
+
+** Réponses IA:**  L'IA doit identifier les points en suspens et les présenter de manière claire et concise. 
+
+**Points en suspens:** L'IA doit fournir une liste de points en suspens, sans nécessairement donner de détails ou d'explications.
+

@@ -122,3 +122,10 @@ class ChatManager:
 
             # Sauvegarde auto des documents texte s'il y en a
             self.save_manager.save_txt_from_response(answer)
+
+    def resume_session(self, name: str) -> bool:
+        """
+        Raccourci pour SessionManager.load_session.
+        """
+        from core.session_manager import SessionManager
+        return SessionManager.load_session(self, name)

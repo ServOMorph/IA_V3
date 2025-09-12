@@ -61,3 +61,45 @@ class SessionManager:
         except Exception as e:
             print(f"[ERREUR DELETE] {e}")
             return False
+
+    @staticmethod
+    def load_session(chat_manager, name: str) -> bool:
+        """
+        Recharge une session existante dans ChatManager.
+        Met à jour save_manager, client.history, summarizer et logger.
+        """
+        from core.sav_manager import SaveManager
+        from core.logging.conv_logger import setup_conv_logger
+        from core.summarizer import Summarizer
+
+        try:
+            # Utiliser le save_root déjà configuré dans ChatManager
+            save_root = chat_manager.save_manager.save_root
+            session_dir = save_root / name
+            md_file = session_dir / "conversation.md"
+
+            if not md_file.exists():
+                print(f"[ERREUR LOAD] conversation.md introuvable pour {name}")
+                return False
+
+            # Lire et parser conversation.md
+            sm = SaveManager(save_dir=save_root)
+            md_text = md_file.read_text(encoding="utf-8")
+            history = sm.parse_md_to_history(md_text)
+
+            # Réassigner ChatManager
+            chat_manager.save_manager.session_dir = session_dir
+            chat_manager.save_manager.session_md = md_file
+            chat_manager.save_manager.session_name = name
+            chat_manager.client.history = history
+
+            # Résumé
+            chat_manager.summarizer = Summarizer(session_dir)
+
+            # Logger
+            chat_manager.client.conv_logger, chat_manager.client.conv_log_file = setup_conv_logger(name)
+
+            return True
+        except Exception as e:
+            print(f"[ERREUR LOAD] {e}")
+            return False
