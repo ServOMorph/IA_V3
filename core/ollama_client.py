@@ -6,7 +6,7 @@ from pathlib import Path
 from core.logging.conv_logger import setup_conv_logger
 from datetime import datetime
 import json
-from config import OLLAMA_BASE_URL, DEFAULT_MODEL, OLLAMA_TIMEOUT, DEV_MODE, DATA_DIR, MAX_TOKENS
+from config import OLLAMA_BASE_URL, DEFAULT_MODEL, OLLAMA_TIMEOUT, DEV_MODE, DATA_DIR, MAX_TOKENS, TEMPERATURE, TOP_P, TOP_K
 
 
 class OllamaClient:
@@ -40,7 +40,12 @@ class OllamaClient:
             "model": self.model,
             "prompt": full_prompt,
             "stream": False,
-            "options": {"num_predict": MAX_TOKENS}
+            "options": {
+                "num_predict": MAX_TOKENS,
+                "temperature": TEMPERATURE,
+                "top_p": TOP_P,
+                "top_k": TOP_K,
+            }
         }
 
         # Mesure du temps

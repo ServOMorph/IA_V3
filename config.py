@@ -67,6 +67,13 @@ Ecris en Français
 # - REDACTION : 500–800 → texte long, plus lent
 MAX_TOKENS = 200  # valeur par défaut
 
+# Paramètres de génération
+TEMPERATURE = 0.2   # 0.0 = très déterministe, 1.0 = créatif
+TOP_P = 0.9         # nucleus sampling
+TOP_K = 40          # alternative sampling
+
+
+
 # Résumé automatique
 MAX_HISTORY_MESSAGES = 3   # seuil d'anciens échanges avant résumé
 USE_SUMMARY = True         # activer/désactiver le mécanisme de résumé

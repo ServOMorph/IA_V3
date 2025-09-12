@@ -89,15 +89,30 @@ class ChatManager:
             answer = self.client.send_prompt(user_prompt)
             print(f"🤖 Ollama : {answer}")
 
-            # Vérifier longueur de l'historique
-            if len(self.client.history) > MAX_HISTORY_MESSAGES:
-                old_messages = self.client.history[:-MAX_HISTORY_MESSAGES]
-                summary = self.summarizer.generate_summary(old_messages)
-                # Réinitialiser l'historique avec résumé + derniers messages
+            # Résumé glissant avec numérotation
+            GLIDE_SIZE = 2
+            GLOBAL_TRIGGER = 3  # génère un résumé global tous les 3 résumés partiels
+
+            if len(self.client.history) > (GLIDE_SIZE + MAX_HISTORY_MESSAGES):
+                old_chunk = self.client.history[:GLIDE_SIZE]
+                remaining = self.client.history[GLIDE_SIZE:]
+
+                # Résumé partiel
+                summary, idx = self.summarizer.generate_summary(old_chunk)
+
+                # Réinjection : résumé partiel
                 self.client.history = (
-                    [{"role": "system", "content": summary}]
-                    + self.client.history[-MAX_HISTORY_MESSAGES:]
+                    [{"role": "system", "content": f"[Résumé partiel #{idx}] {summary}"}]
+                    + remaining
                 )
+
+                # Tous les N résumés partiels → générer un résumé global
+                if idx % GLOBAL_TRIGGER == 0:
+                    global_summary, gidx = self.summarizer.generate_global_summary()
+                    self.client.history = (
+                        [{"role": "system", "content": f"[Résumé global] {global_summary}"}]
+                        + self.client.history[-MAX_HISTORY_MESSAGES:]
+                    )
 
             # Sauvegarde conversation en MD
             self.save_manager.save_md(self.client.history)
