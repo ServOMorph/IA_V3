@@ -16,6 +16,7 @@ from config import (
 from core.logging.conv_logger import setup_conv_logger
 from core.session_manager import SessionManager
 from core.file_exporter import export_file
+from core.block_parser import extract_code_blocks
 
 # --- Préfixe configurable ---
 COMMAND_PREFIX = "&"
@@ -301,32 +302,59 @@ class CommandHandler:
                 print(f"⚠️ Fichier introuvable dans la session : {arg}")
             return True, False
         
-        # 13) Exporter le dernier message IA
+        # 13) Exporter le dernier message IA (avec parsing de blocs)
         if lower.startswith(f"{COMMAND_PREFIX}export"):
             if not arg:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}export NOM EXT")
                 return True, False
+
             parts = arg.split()
             if len(parts) != 2:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}export NOM EXT")
                 return True, False
+
             name, ext = parts
             ext = ext.lower()
+
             if ext not in ALLOWED_FILE_TYPES_OUT:
                 print(f"⚠️ Extension non supportée ({ext}). Autorisées : {ALLOWED_FILE_TYPES_OUT}")
                 return True, False
+
             if not self.client.history:
                 print("⚠️ Aucune réponse IA disponible.")
                 return True, False
+
             content = self.client.history[-1].get("response", "").strip()
             if not content:
                 print("⚠️ Réponse IA vide.")
                 return True, False
+
             try:
-                path = export_file(self.save_manager.session_dir.name, name, content, ext)
-                print(f"✅ Fichier exporté : {path.as_posix()}")
+                blocks = extract_code_blocks(content)
+                created_files = []
+
+                if blocks:
+                    for idx, block in enumerate(blocks, start=1):
+                        fname = f"{name}.{ext}" if len(blocks) == 1 else f"{name}_{idx}.{ext}"
+                        path = export_file(
+                            self.save_manager.session_dir.name,
+                            fname[:-len(ext)-1],  # nom sans extension
+                            block,
+                            ext
+                        )
+                        created_files.append(path)
+                else:
+                    # Pas de blocs → exporter tout le message
+                    path = export_file(self.save_manager.session_dir.name, name, content, ext)
+                    created_files.append(path)
+
+                print("✅ Fichier(s) exporté(s) :")
+                for p in created_files:
+                    print(f" - {p.as_posix()}")
+
             except Exception as e:
                 print(f"❌ Erreur export : {e}")
+
             return True, False
 
         # --- Si aucune commande reconnue ---

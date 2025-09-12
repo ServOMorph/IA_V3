@@ -1,5 +1,4 @@
 📁 IA_V3/
-    📄 A faire.txt
     📄 arborescence.txt
     📄 config.py
     📄 debug.log
@@ -34,8 +33,10 @@
         📄 ia_client.py
         📄 __init__.py
     📁 core/
+        📄 block_parser.py
         📄 chat_manager.py
         📄 commands.py
+        📄 file_exporter.py
         📄 ollama_client.py
         📄 sav_manager.py
         📄 session_manager.py
@@ -123,6 +124,10 @@
         📄 sav_conv_2025-09-12_22-47-25.log
         📄 sav_conv_2025-09-12_22-49-00.log
         📄 sav_conv_2025-09-12_22-53-24.log
+        📄 sav_conv_2025-09-12_23-30-43.log
+        📄 sav_conv_2025-09-12_23-32-16.log
+        📄 sav_conv_2025-09-12_23-38-55.log
+        📄 sav_conv_2025-09-12_23-51-50.log
         📄 sav_conv_2099-01-01_12-00-00.log
         📄 sav_conv_2099-01-01_13-00-00.log
         📄 sav_conv_2099-01-01_15-00-00.log
@@ -143,19 +148,42 @@
             📄 conversation.md
             📄 python_22-55-01.py
             📄 summary.md
-        📁 sav_conv_2025-09-12_22-34-36/
+        📁 sav_conv_2025-09-12_23-32-16/
             📄 conversation.md
-        📁 sav_conv_2025-09-12_22-35-19/
-        📁 sav_conv_2025-09-12_22-47-25/
+            📁 files_out/
+                📄 nature.pdf
+                📄 nature2.txt
+        📁 sav_conv_2025-09-12_23-38-55/
             📄 conversation.md
-        📁 sav_conv_2025-09-12_22-49-00/
+            📄 python_23-40-36.py
+        📁 sav_conv_2025-09-12_23-51-50/
             📄 conversation.md
-        📁 sav_conv_2025-09-12_22-49-16/
-        📁 sav_conv_2025-09-12_22-53-24/
-            📄 conversation.md
-        📁 sav_conv_2025-09-12_22-53-34/
+            📄 python_23-52-09.py
+            📄 python_23-53-07.py
+            📁 files_out/
+                📄 moins.py
+                📄 sous.pdf
+        📁 session_test/
+            📁 files_out/
+                📄 fichier_1.py
+                📄 fichier_1.txt
+                📄 fichier_2.py
+                📄 fichier_2.txt
+                📄 rapport.txt
+        📁 test_session/
+            📁 files_out/
+                📄 data.json
+                📄 doc.docx
+                📄 doc.pdf
+                📄 sheet.xlsx
+                📄 table.csv
+                📄 testfile.md
+                📄 testfile.py
+                📄 testfile.txt
     📁 tests/
+        📄 test_command_export.py
         📄 test_command_load.py
+        📄 test_file_export.py
         📄 test_session_load.py
         📄 test_summary_complex.py
         📄 test_ui_load.py

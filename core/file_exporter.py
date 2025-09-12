@@ -3,7 +3,8 @@ from pathlib import Path
 import json
 import csv
 
-from config import SAVE_DIR, ALLOWED_FILE_TYPES_OUT
+import config
+
 
 # libs externes
 from docx import Document       # pip install python-docx
@@ -20,11 +21,11 @@ def export_file(session: str, name: str, content, filetype: str = "txt"):
     - filetype : extension cible (txt, md, py, json, csv, docx, pdf, xlsx)
     """
     filetype = filetype.lower()
-    if filetype not in ALLOWED_FILE_TYPES_OUT:
-        raise ValueError(f"Extension {filetype} non supportée. Autorisées: {ALLOWED_FILE_TYPES_OUT}")
+    if filetype not in config.ALLOWED_FILE_TYPES_OUT:
+        raise ValueError(f"Extension {filetype} non supportée. Autorisées: {config.ALLOWED_FILE_TYPES_OUT}")
 
     # chemin cible
-    session_dir = Path(SAVE_DIR) / session / "files_out"
+    session_dir = Path(config.SAVE_DIR) / session / "files_out"
     session_dir.mkdir(parents=True, exist_ok=True)
     path = session_dir / f"{name}.{filetype}"
 
