@@ -3,6 +3,7 @@ from core.ollama_client import OllamaClient
 from core.sav_manager import SaveManager
 from core.commands import CommandHandler
 from core.logging.conv_logger import setup_conv_logger
+from core.summarizer import Summarizer
 from config import (
     DEFAULT_MODEL,
     SAVE_DIR,
@@ -11,6 +12,7 @@ from config import (
     EMPTY_PROMPT_WARNING,
     DEFAULT_SYSTEM_PROMPT,
     LOGS_DIR,
+    MAX_HISTORY_MESSAGES,
 )
 from pathlib import Path
 import shutil
@@ -32,6 +34,9 @@ class ChatManager:
         self.client = OllamaClient(model=model if model else DEFAULT_MODEL)
 
         self.commands = CommandHandler(self)
+
+        # Gestion du résumeur avec debug activé
+        self.summarizer = Summarizer(self.save_manager.session_dir)
 
         # Créer conversation.md vide si absent
         if not self.save_manager.session_md.exists():
@@ -68,7 +73,6 @@ class ChatManager:
             else:
                 user_prompt = "\n".join(lines).strip()
 
-
             if not user_prompt:
                 print(EMPTY_PROMPT_WARNING)
                 continue
@@ -85,6 +89,16 @@ class ChatManager:
             answer = self.client.send_prompt(user_prompt)
             print(f"🤖 Ollama : {answer}")
 
+            # Vérifier longueur de l'historique
+            if len(self.client.history) > MAX_HISTORY_MESSAGES:
+                old_messages = self.client.history[:-MAX_HISTORY_MESSAGES]
+                summary = self.summarizer.generate_summary(old_messages)
+                # Réinitialiser l'historique avec résumé + derniers messages
+                self.client.history = (
+                    [{"role": "system", "content": summary}]
+                    + self.client.history[-MAX_HISTORY_MESSAGES:]
+                )
+
             # Sauvegarde conversation en MD
             self.save_manager.save_md(self.client.history)
 
@@ -93,4 +107,3 @@ class ChatManager:
 
             # Sauvegarde auto des documents texte s'il y en a
             self.save_manager.save_txt_from_response(answer)
-

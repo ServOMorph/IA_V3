@@ -1,9 +1,15 @@
-NAME                          ID              SIZE      MODIFIED       
-phi4:latest                   ac896e5b8b34    9.1 GB    8 minutes ago     
-starling-lm:7b                39153f619be6    4.1 GB    12 minutes ago    
-llava:7b                      8dd30f6b0cb1    4.7 GB    13 minutes ago    
-qwen2.5-coder:7b              dae161e27b0e    4.7 GB    16 minutes ago    
-deepseek-tests:latest         8e1171b5df48    3.8 GB    2 hours ago       
-mistral-tests:latest          50eacac552b1    4.4 GB    3 hours ago       
-mistral:7b-instruct-q4_K_M    1a85656b534f    4.4 GB    3 hours ago       
-deepseek-coder:6.7b           ce298d984115    3.8 GB    11 hours ago
+NAME                          ID              SIZE      MODIFIED          
+gemma2-2b-it-q4:latest        57075c46b29e    1.7 GB    About an hour ago    
+gemma2:2b                     8ccf136fdd52    1.6 GB    About an hour ago    
+tinyllama:latest              2644915ede35    637 MB    2 hours ago          
+wizardlm2:7b                  c9b1aff820f2    4.1 GB    2 hours ago          
+Mistrel-Ponganoid:latest      a7cf18c7594e    4.4 GB    3 weeks ago          
+mistral:latest                6577803aa9a0    4.4 GB    3 weeks ago          
+phi4:latest                   ac896e5b8b34    9.1 GB    3 weeks ago          
+starling-lm:7b                39153f619be6    4.1 GB    3 weeks ago          
+llava:7b                      8dd30f6b0cb1    4.7 GB    3 weeks ago          
+qwen2.5-coder:7b              dae161e27b0e    4.7 GB    3 weeks ago          
+deepseek-tests:latest         8e1171b5df48    3.8 GB    3 weeks ago          
+mistral:7b-instruct-q4_K_M    1a85656b534f    4.4 GB    3 weeks ago          
+mistral-tests:latest          50eacac552b1    4.4 GB    3 weeks ago          
+deepseek-coder:6.7b           ce298d984115    3.8 GB    3 weeks ago

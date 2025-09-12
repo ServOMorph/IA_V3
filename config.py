@@ -6,7 +6,7 @@
 from pathlib import Path
 
 # Mode développeur
-DEV_MODE = True  # ou False
+DEV_MODE = False  # ou False
 
 # Répertoire des métadonnées (non lié aux conversations)
 DATA_DIR = Path("data")
@@ -66,5 +66,11 @@ Ecris en Français
 # - RESUME : 300–400 → résumés structurés
 # - REDACTION : 500–800 → texte long, plus lent
 MAX_TOKENS = 200  # valeur par défaut
+
+# Résumé automatique
+MAX_HISTORY_MESSAGES = 3   # seuil d'anciens échanges avant résumé
+USE_SUMMARY = True         # activer/désactiver le mécanisme de résumé
+SUMMARY_MODEL = "gemma2:2b"  # modèle choisi pour résumer l'historique
+SUMMARY_MAX_TOKENS = 150   # taille maximale du résumé généré
 
 
