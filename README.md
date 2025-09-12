@@ -35,138 +35,6 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
   * Sauvegarde des résultats (code généré + stats) dans `data/generated/` et `data/dev_responses.*`.
   * Documentation associée dans `docs/` (prompt engineering et comparatifs).
 
----
-
-## 📂 Arborescence complète
-
-```
-📁 IA_V3/
-    📄 arborescence.txt
-    📄 config.py
-    📄 debug.log
-    📄 main.py
-    📄 main_benchmark.py
-    📄 main_ui.py
-    📄 README.md
-    📁 .pytest_cache/
-    📁 .ruff_cache/
-    📁 assets/
-        📁 images/
-            📄 coche_icon.png
-            📄 copier_icon.png
-            📄 fond_window.png
-            📄 Logo_IA.png
-            📄 plus_icon.png
-            📄 send_icon.png
-            📄 send_icon2.png
-    📁 client/
-        📄 ia_client.py
-        📄 __init__.py
-    📁 core/
-        📄 chat_manager.py
-        📄 commands.py
-        📄 ollama_client.py
-        📄 sav_manager.py
-        📄 session_manager.py
-        📄 startup_utils.py
-        📄 __init__.py
-        📁 logging/
-            📄 conv_logger.py
-            📄 logger.py
-            📄 __init__.py
-    📁 data/
-        📄 dev_responses.jsonl
-        📄 dev_responses.log
-        📄 models_list.txt
-        📁 generated/
-            📁 deepseek-coder_6.7b/
-            📁 deepseek-tests/
-            📁 mistral-tests/
-            📁 mistral_latest/
-    📁 Docs/
-        📄 comparatif_mistral_vs_deepseek.md
-        📄 ollama_models_readme.md
-        📄 prompt_engineering_deepseek.md
-        📄 prompt_engineering_mistral7b.md
-        📄 prompt_engineering_phi.md
-        📄 prompt_engineering_starling.md
-        📄 prompt_engineering_llava.md
-    📁 logs/
-        📄 conversation.log
-        📄 sav_conv_*.log
-        📄 test11.log
-        📄 test12.log
-    📁 ollama_configs/
-        📄 README.md
-        📁 deepseek_tests/
-            📄 Modelfile
-            📄 README.md
-        📁 mistral_tests/
-            📄 Modelfile
-            📄 README.md
-        📁 phi_tests/
-            📄 Modelfile
-            📄 README.md
-        📁 starling_tests/
-            📄 Modelfile
-            📄 README.md
-        📁 llava_tests/
-            📄 Modelfile
-            📄 README.md
-    📁 sav/
-        📁 sav_conv_*/
-            📄 conversation.md
-        📁 test11/
-            📄 code_*.py
-            📄 conversation.md
-        📁 test12/
-            📄 code_*.py
-            📄 conversation.md
-    📁 tests/
-        📄 test_ui_load.py
-        📄 __init__.py
-        📁 fenetre_kivy/
-            📄 __init__.py
-    📁 tools/
-        📄 analyze_dev_logs.py
-        📄 benchmark_responses.py
-        📄 calc_fond_dims.py
-        📄 init_conv_chatgpt.py
-        📄 update_system_prompt.py
-        📁 benchmark/
-            📄 benchmark_deepseek.py
-            📄 benchmark_mistral.py
-            📄 benchmark_phi.py
-            📄 benchmark_starling.py
-            📄 benchmark_llava.py
-            📄 cli.py
-            📄 code_utils.py
-            📄 config_benchmark.py
-            📄 exercises.py
-            📄 readme.md
-            📄 runner.py
-            📄 storage.py
-            📄 __init__.py
-    📁 ui/
-        📄 app_main.py
-        📄 config_ui.py
-        📄 layout_builder.py
-        📄 __init__.py
-        📁 behaviors/
-            📄 hover_behavior.py
-            📄 __init__.py
-        📁 widgets/
-            📄 buttons.py
-        📁 zones/
-            📄 zone_chat.py
-            📄 zone_liste_conv.kv
-            📄 zone_liste_conv.py
-            📄 zone_message.kv
-            📄 zone_message.py
-            📄 __init__.py
-```
-
----
 
 ## 🖥️ Commandes utiles Ollama (Windows / CMD)
 
@@ -180,18 +48,12 @@ ollama list
 
 ```bash
 ollama pull mistral:7b
-ollama pull deepseek-coder:6.7b
-ollama pull phi4:latest
-ollama pull phi4-mini:latest
-ollama pull starling-lm:7b
-ollama pull llava:7b
 ```
 
 * Supprimer un modèle :
 
 ```bash
 ollama rm mistral:7b
-ollama rm phi4-mini:latest
 ```
 
 * Vérifier que le serveur Ollama tourne :
@@ -240,17 +102,6 @@ python tools/analyze_results.py
 * **Batch size** : réduire si la VRAM est saturée.
 * **Threads CPU** : utiliser 16 threads sur Ryzen 7 5700X pour compenser en mode CPU fallback.
 
----
-
-## 🌟 Modèles recommandés (Top 5)
-
-* **Mistral 7B** → usage général rapide, polyvalent.
-* **Qwen2.5-Coder 7B** → spécialisé code.
-* **LLaVA 7B Q4** → multimodal texte+image.
-* **Starling-LM 7B** → raisonnement/débat.
-* **Phi-4 Mini 3.8B** → compact, fluide pour tâches rapides.
-
----
 
 ## 🔮 Améliorations prévues
 

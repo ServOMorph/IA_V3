@@ -6,7 +6,7 @@ from pathlib import Path
 from core.logging.conv_logger import setup_conv_logger
 from datetime import datetime
 import json
-from config import OLLAMA_BASE_URL, DEFAULT_MODEL, OLLAMA_TIMEOUT, DEV_MODE, DATA_DIR
+from config import OLLAMA_BASE_URL, DEFAULT_MODEL, OLLAMA_TIMEOUT, DEV_MODE, DATA_DIR, MAX_TOKENS
 
 
 class OllamaClient:
@@ -35,7 +35,13 @@ class OllamaClient:
         self.conv_logger.info(f"[PROMPT ENVOYÉ À {self.model.upper()}]\n{full_prompt}")
 
         url = f"{self.base_url}/api/generate"
-        payload = {"model": self.model, "prompt": full_prompt, "stream": False}
+        
+        payload = {
+            "model": self.model,
+            "prompt": full_prompt,
+            "stream": False,
+            "options": {"num_predict": MAX_TOKENS}
+        }
 
         # Mesure du temps
         import time

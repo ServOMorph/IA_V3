@@ -15,7 +15,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # Modèle IA par défaut
-DEFAULT_MODEL = "phi4"
+DEFAULT_MODEL = "gemma2-2b-it-q4"
 
 # Répertoire de sauvegarde
 SAVE_DIR = "sav"
@@ -59,5 +59,12 @@ DEFAULT_SYSTEM_PROMPT = """
 Ecris en Français
 """
 
+# Limite de tokens générés par l'IA
+# Conseils :
+# - CHAT_RAPIDE : 100 → réponses très courtes (1–2 phrases, ultra rapide)
+# - CHAT_STANDARD : 200 → réponses moyennes (3–5 phrases, bon compromis)
+# - RESUME : 300–400 → résumés structurés
+# - REDACTION : 500–800 → texte long, plus lent
+MAX_TOKENS = 200  # valeur par défaut
 
 

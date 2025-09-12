@@ -55,16 +55,45 @@
                     📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_164953.py
                     📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_233538.py
                     📄 solution_deepseek-coder_6.7b_is_prime_run1_20250820_005134.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250820_011619.py
                     📄 solution_deepseek-coder_6.7b_is_prime_run2_20250819_162756.py
                     📄 solution_deepseek-coder_6.7b_is_prime_run2_20250819_165106.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run2_20250820_011635.py
                     📄 solution_deepseek-coder_6.7b_is_prime_run3_20250819_162812.py
                     📄 solution_deepseek-coder_6.7b_is_prime_run3_20250819_165156.py
+                    📄 solution_deepseek-coder_6.7b_is_prime_run3_20250820_011650.py
+                📁 long_code_test/
+                    📄 solution_deepseek-coder_6.7b_long_code_test_run1_20250820_024525.py
             📁 deepseek-tests/
                 📁 is_prime/
                     📄 solution_deepseek-tests_is_prime_run1_20250820_010112.py
+            📁 deepseek-tests_latest/
+                📁 is_prime/
+                    📄 solution_deepseek-tests_latest_is_prime_run1_20250820_011051.py
+                    📄 solution_deepseek-tests_latest_is_prime_run1_20250820_011427.py
+                    📄 solution_deepseek-tests_latest_is_prime_run2_20250820_011104.py
+                    📄 solution_deepseek-tests_latest_is_prime_run2_20250820_011437.py
+                    📄 solution_deepseek-tests_latest_is_prime_run3_20250820_011126.py
+                    📄 solution_deepseek-tests_latest_is_prime_run3_20250820_011448.py
+                📁 long_code_test/
+                    📄 solution_deepseek-tests_latest_long_code_test_run1_20250820_024200.py
             📁 mistral-tests/
                 📁 is_prime/
                     📄 solution_mistral-tests_is_prime_run1_20250820_004938.py
+            📁 mistral-tests_latest/
+                📁 is_prime/
+                    📄 solution_mistral-tests_latest_is_prime_run1_20250820_011503.py
+                    📄 solution_mistral-tests_latest_is_prime_run2_20250820_011513.py
+                    📄 solution_mistral-tests_latest_is_prime_run3_20250820_011522.py
+                📁 long_code_test/
+                    📄 solution_mistral-tests_latest_long_code_test_run1_20250820_024404.py
+            📁 mistral_7b-instruct-q4_K_M/
+                📁 is_prime/
+                    📄 solution_mistral_7b-instruct-q4_K_M_is_prime_run1_20250820_011533.py
+                    📄 solution_mistral_7b-instruct-q4_K_M_is_prime_run2_20250820_011545.py
+                    📄 solution_mistral_7b-instruct-q4_K_M_is_prime_run3_20250820_011555.py
+                📁 long_code_test/
+                    📄 solution_mistral_7b-instruct-q4_K_M_long_code_test_run1_20250820_024342.py
             📁 mistral_latest/
                 📁 is_prime/
                     📄 solution_mistral_latest_is_prime_run1_20250819_162911.py
@@ -104,6 +133,15 @@
         📄 sav_conv_2025-08-19_15-03-21.log
         📄 sav_conv_2025-08-19_15-03-53.log
         📄 sav_conv_2025-08-20_00-47-51.log
+        📄 sav_conv_2025-08-20_03-16-27.log
+        📄 sav_conv_2025-08-20_03-17-26.log
+        📄 sav_conv_2025-08-20_03-18-57.log
+        📄 sav_conv_2025-08-20_03-19-32.log
+        📄 sav_conv_2025-08-20_03-20-23.log
+        📄 sav_conv_2025-09-02_22-50-10.log
+        📄 sav_conv_2025-09-09_14-52-43.log
+        📄 sav_conv_2025-09-11_19-04-36.log
+        📄 sav_conv_2025-09-11_19-04-55.log
         📄 test11.log
         📄 test12.log
     📁 ollama_configs/
@@ -153,6 +191,24 @@
             📄 conversation.md
         📁 sav_conv_2025-08-20_00-47-51/
             📄 conversation.md
+        📁 sav_conv_2025-08-20_03-16-27/
+            📄 conversation.md
+        📁 sav_conv_2025-08-20_03-17-26/
+            📄 conversation.md
+        📁 sav_conv_2025-08-20_03-18-57/
+            📄 conversation.md
+        📁 sav_conv_2025-08-20_03-19-32/
+            📄 conversation.md
+        📁 sav_conv_2025-08-20_03-20-23/
+            📄 conversation.md
+        📁 sav_conv_2025-09-02_22-50-10/
+            📄 conversation.md
+        📁 sav_conv_2025-09-09_14-52-43/
+            📄 conversation.md
+        📁 sav_conv_2025-09-11_19-04-36/
+            📄 conversation.md
+        📁 sav_conv_2025-09-11_19-04-55/
+            📄 conversation.md
         📁 test11/
             📄 code_12-43-39.py
             📄 code_12-48-41.py
@@ -173,6 +229,25 @@
         📄 calc_fond_dims.py
         📄 init_conv_chatgpt.py
         📄 update_system_prompt.py
+        📁 agents_ia_project/
+            📄 arborescence.txt
+            📄 main.py
+            📄 README.md
+            📁 agents/
+                📄 gestia.py
+            📁 docs/
+                📄 agents_disponibles.md
+                📄 CONVENTION_LIVRABLES.md
+                📄 developpement_suivi.md
+                📄 developpement_suivi_complet.md
+                📄 README_api.md
+                📄 README_MODELE.md
+                📁 modele/
+                    📄 MODELE_PROMPT_BackIA.md
+            📁 prompts/
+                📄 1.1-main.py-de_GestIA_pour_BackIA-19h55-2025-08-20.md.md
+            📁 responses/
+                📄 1.1-main.py-de_BackIA_pour_GestIA-20h30-2025-08-20.md
         📁 benchmark/
             📄 benchmark_deepseek.py
             📄 benchmark_mistral.py
@@ -184,6 +259,8 @@
             📄 runner.py
             📄 storage.py
             📄 __init__.py
+            📁 scripts_chatgpt/
+                📄 rpg_console.py
     📁 ui/
         📄 app_main.py
         📄 config_ui.py
