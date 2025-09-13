@@ -7,27 +7,51 @@ from core.logging.conv_logger import setup_conv_logger
 
 class SessionManager:
     @staticmethod
-    def rename_session(chat_manager, new_name: str) -> bool:
+    def rename_session(chat_manager, old_name: str, new_name: str) -> bool:
         """
-        Renomme la session active via ChatManager.
-        Ferme le logger avant, puis réinitialise après.
+        Renomme une session existante (active ou non).
         """
-        try:
-            # Fermer logger actif
-            if hasattr(chat_manager.client, "conv_logger"):
-                for handler in list(chat_manager.client.conv_logger.handlers):
-                    handler.close()
-                    chat_manager.client.conv_logger.removeHandler(handler)
+        from pathlib import Path
+        import shutil
+        from config import SAVE_DIR, LOGS_DIR
 
-            ok = chat_manager.save_manager.rename_session_file(new_name)
+        old_dir = Path(SAVE_DIR) / old_name
+        new_dir = Path(SAVE_DIR) / new_name
 
-            if ok:
-                chat_manager.client.conv_logger, chat_manager.client.conv_log_file = setup_conv_logger(new_name)
-
-            return ok
-        except Exception as e:
-            print(f"[ERREUR RENAME] {e}")
+        if not old_dir.exists():
+            print(f"[ERREUR RENAME] Session '{old_name}' introuvable")
             return False
+        if new_dir.exists():
+            print(f"[ERREUR RENAME] Nom '{new_name}' déjà utilisé")
+            return False
+
+        try:
+            # Renommer le dossier de session
+            shutil.move(str(old_dir), str(new_dir))
+
+            # Essayer de renommer le .log, mais ignorer si bloqué
+            old_log = Path(LOGS_DIR) / f"{old_name}.log"
+            if old_log.exists():
+                try:
+                    shutil.move(str(old_log), str(Path(LOGS_DIR) / f"{new_name}.log"))
+                except Exception as e:
+                    print(f"[WARN] Impossible de renommer le log {old_log.name} : {e}")
+
+            # Mettre à jour le chat_manager si c’était la session active
+            if hasattr(chat_manager, "save_manager") and chat_manager.save_manager.session_name == old_name:
+                chat_manager.save_manager.session_dir = new_dir
+                chat_manager.save_manager.session_md = new_dir / "conversation.md"
+                chat_manager.save_manager.session_name = new_name
+
+            return True
+        except Exception as e:
+            import traceback
+            print(f"[ERREUR RENAME] {e}")
+            traceback.print_exc()
+            return False
+
+
+
 
     @staticmethod
     def delete_session(chat_manager, name: str) -> bool:

@@ -8,17 +8,27 @@ from pathlib import Path
 # Mode développeur
 DEV_MODE = False  # ou False
 
-# Répertoire des métadonnées (non lié aux conversations)
-DATA_DIR = Path("data")
+# Répertoire racine du projet (IA_V3)
+BASE_DIR = Path(__file__).resolve().parent
+
+# Répertoire des métadonnées (data)
+DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
+# Répertoire de sauvegarde
+SAVE_DIR = BASE_DIR / "sav"
+SAVE_DIR.mkdir(parents=True, exist_ok=True)
+
+# Répertoire des logs
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+# Fichier de log principal
+DEBUG_LOG_FILE = BASE_DIR / "debug.log"
 
 
 # Modèle IA par défaut
 DEFAULT_MODEL = "gemma2-2b-it-q4"
-
-# Répertoire de sauvegarde
-SAVE_DIR = "sav"
 
 # Messages pré-enregistrés
 PRESET_MESSAGES = {

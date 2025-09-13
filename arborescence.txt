@@ -1,9 +1,10 @@
 📁 IA_V3/
+    📄 a faire.txt
     📄 arborescence.txt
     📄 config.py
     📄 debug.log
-    📄 main.py
     📄 main_benchmark.py
+    📄 main_cli.py
     📄 main_ui.py
     📄 README.md
     📁 .pytest_cache/
@@ -20,6 +21,13 @@
         📁 0.12.9/
             📄 11626746014999600723
             📄 6581020007822132774
+    📁 api/
+        📄 main_api.py
+        📄 README_API.md
+        📁 routes/
+            📄 chat.py
+            📄 files.py
+            📄 sessions.py
     📁 assets/
         📁 images/
             📄 coche_icon.png
@@ -107,30 +115,31 @@
                     📄 solution_mistral_latest_is_prime_run2_20250819_163015.py
                     📄 solution_mistral_latest_is_prime_run2_20250819_165337.py
                     📄 solution_mistral_latest_is_prime_run3_20250819_163126.py
-    📁 Docs/
-        📄 comparatif_mistral_vs_deepseek.md
-        📄 ollama_models_readme.md
-        📄 prompt_engineering_deepseek.md
-        📄 prompt_engineering_mistral7b.md
+    📁 docs/
+        📁 divers/
+        📁 images/
+            📄 02d79791-c9a0-45f1-b8c8-16656ddc623d.png
+            📄 153d071e-8c15-4d0f-b3b6-9d3d4c4c1e01-1.png
+            📄 1f17a76d-45a1-4c2f-a36d-5af5ab77429b.png
+            📄 1fbdf2c2-d093-4ab0-84a8-15a84616dd98.png
+            📄 837c62ae-d324-40bf-bda2-63de5ddc0a9e.png
+            📄 9820ad76-8304-461f-ba8e-ef46b322e86a.png
+            📄 aaff1b3c-bdcb-4e2b-9b1d-feb574ba13d5.png
+            📄 c404e2ff-5a81-4277-996c-2a1fa2c29a7d.png
+            📄 cf7ff0c1-dd8a-4d7b-965f-6b210863e5ca.png
+        📁 models_ia/
+            📄 comparatif_mistral_vs_deepseek.md
+            📄 ollama_models_readme.md
+            📄 prompt_engineering_deepseek.md
+            📄 prompt_engineering_mistral7b.md
     📁 logs/
         📄 conversation.log
-        📄 sav_conv_2025-09-12_22-24-21.log
-        📄 sav_conv_2025-09-12_22-24-31.log
-        📄 sav_conv_2025-09-12_22-25-42.log
-        📄 sav_conv_2025-09-12_22-27-18.log
-        📄 sav_conv_2025-09-12_22-28-06.log
-        📄 sav_conv_2025-09-12_22-33-27.log
-        📄 sav_conv_2025-09-12_22-34-36.log
-        📄 sav_conv_2025-09-12_22-47-25.log
-        📄 sav_conv_2025-09-12_22-49-00.log
-        📄 sav_conv_2025-09-12_22-53-24.log
-        📄 sav_conv_2025-09-12_23-30-43.log
-        📄 sav_conv_2025-09-12_23-32-16.log
-        📄 sav_conv_2025-09-12_23-38-55.log
-        📄 sav_conv_2025-09-12_23-51-50.log
-        📄 sav_conv_2099-01-01_12-00-00.log
-        📄 sav_conv_2099-01-01_13-00-00.log
-        📄 sav_conv_2099-01-01_15-00-00.log
+        📄 new_name.log
+        📄 sav_conv_2025-09-13_23-54-02.log
+        📄 sav_conv_2025-09-13_23-55-15.log
+        📄 sav_conv_2025-09-13_23-59-57.log
+        📄 sav_conv_2025-09-14_00-02-28.log
+        📄 test-session-rename.log
     📁 ollama_configs/
         📄 README.md
         📁 deepseek_tests/
@@ -142,45 +151,12 @@
     📁 perf_tests/
         📄 test_summary_trigger.py
     📁 sav/
-        📄 complex.log
-        📁 complex/
-            📄 code_22-05-27.py
+        📁 new_name/
             📄 conversation.md
-            📄 python_22-55-01.py
-            📄 summary.md
-        📁 sav_conv_2025-09-12_23-32-16/
+        📁 sav_conv_2025-09-14_00-02-28/
             📄 conversation.md
-            📁 files_out/
-                📄 nature.pdf
-                📄 nature2.txt
-        📁 sav_conv_2025-09-12_23-38-55/
-            📄 conversation.md
-            📄 python_23-40-36.py
-        📁 sav_conv_2025-09-12_23-51-50/
-            📄 conversation.md
-            📄 python_23-52-09.py
-            📄 python_23-53-07.py
-            📁 files_out/
-                📄 moins.py
-                📄 sous.pdf
-        📁 session_test/
-            📁 files_out/
-                📄 fichier_1.py
-                📄 fichier_1.txt
-                📄 fichier_2.py
-                📄 fichier_2.txt
-                📄 rapport.txt
-        📁 test_session/
-            📁 files_out/
-                📄 data.json
-                📄 doc.docx
-                📄 doc.pdf
-                📄 sheet.xlsx
-                📄 table.csv
-                📄 testfile.md
-                📄 testfile.py
-                📄 testfile.txt
     📁 tests/
+        📄 test_api.py
         📄 test_command_export.py
         📄 test_command_load.py
         📄 test_file_export.py
