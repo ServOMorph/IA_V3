@@ -8,9 +8,12 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
 
 * Dialogue avec un modèle IA local.
 * Sauvegarde des conversations dans un **dossier par session** (`/sav/<nom_session>/conversation.md`).
-* Sauvegarde automatique des fichiers extraits des réponses IA (ex. code `.py`, texte `.txt`, CSV, PDF…).
-* Chargement, renommage, suppression et organisation des sessions.
+* **Export manuel des fichiers** via la commande `&export <nom> <ext>` (formats supportés : `.py`, `.txt`, `.md`, `.json`, `.csv`, `.docx`, `.pdf`, `.xlsx`).
+
+  * Support du parsing : si la réponse IA contient des blocs de code/texte (`python, `txt, etc.), ils sont extraits et exportés séparément (`nom_1.ext`, `nom_2.ext`).
+  * Si aucun bloc n'est détecté, l’intégralité du message IA est exportée.
 * Commande **`&getfile <nom>`** pour relire directement un fichier généré dans la session.
+* Chargement, renommage, suppression et organisation des sessions.
 * Copie rapide des derniers messages dans le presse-papier (CLI).
 * Conservation du contexte conversationnel avec possibilité de tronquer l'historique pour accélérer les réponses.
 * **Système de résumé avancé** :
@@ -125,6 +128,4 @@ python tools/analyze_results.py
 * Intégration d’un gestionnaire de profils (configurations par modèle).
 * Ajout d’un export JSON structuré des résumés (pour mémoire sélective et réinjection ciblée).
 * Commandes utilisateur pour contrôler les résumés (`/resumeshow`, `/resumerefresh`, `/resumeclear`).
-* **Gestion avancée des fichiers** : possibilité de partager des fichiers avec l’IA (PDF, CSV, images, etc.) et de les générer automatiquement depuis les réponses.
-
-12/09/2025 22:56
+* **Gestion avancée des fichiers** : possibilité de partager des fichiers avec l’IA et de les exporter manuellement avec `&export` dans plusieurs formats (`.py`, `.txt`, `.md`, `.json`, `.csv`, `.docx`, `.pdf`, `.xlsx`).

@@ -1,0 +1,2 @@
+import de fichiers en court dans chatgpt 
+vérifier quand on load une conv si on a accès aux ficheirs
