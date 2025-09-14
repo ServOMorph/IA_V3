@@ -1,5 +1,94 @@
-{
-  "name": "readme_ui_html.md",
-  "type": "document",
-  "content": "# 📖 UI_HTML – Prototype interface Web\n\n## 📌 Description\nPrototype en **HTML / CSS / JavaScript** de l’interface utilisateur du projet `IA_V3`.\n\nCe module est indépendant de l’UI Kivy et permet de tester une interface web moderne pour interagir avec l’IA.\n\n---\n\n## 📂 Structure du dossier\n```\nui_html/\n├── index.html              # Structure principale de la page\n├── css/\n│   ├── config_ui_html.css  # Variables (couleurs, polices, arrondis…)\n│   └── styles.css          # Styles globaux (layout, chat, boutons…)\n├── js/\n│   └── script.js           # Logique d’affichage, mock messages, interactions\n└── assets/\n    └── images/             # Logos et icônes utilisés (ex. logo_vertia.png)\n```\n\n---\n\n## 🎨 Fonctionnalités UI\n- **Sidebar** avec logo VertIA et liste de conversations.\n- **Zone de chat** avec historique des messages.\n- **Différenciation des messages** :\n  - Utilisateur : bulle alignée à droite.\n  - IA (bot) : bulle alignée à gauche avec logo `logo_vertia_seul.png`.\n- **Zone de saisie** :\n  - `textarea` extensible jusqu’à `--max-lines` lignes.\n  - **Entrée** = envoi, **Shift+Entrée** = retour ligne.\n  - Bouton Envoyer en forme de **rectangle arrondi** avec icône SVG.\n\n---\n\n## 🛠️ Utilisation\n1. Ouvrir `index.html` dans un navigateur.\n2. Ou lancer un petit serveur local :\n   ```bash\n   cd ui_html\n   python -m http.server 8000\n   ```\n   Puis accéder à [http://localhost:8000/index.html](http://localhost:8000/index.html).\n\n---\n\n## 🎨 Thème\n- Palette basée sur le **vert foncé → vert clair** (dégradé vertical dans la sidebar).\n- Couleurs, arrondis et tailles configurables dans `config_ui_html.css`.\n- Exemple :\n  ```css\n  :root {\n    --color-bg: #0d1f1a;\n    --color-panel: #123227;\n    --color-text: #e0f2e9;\n    --color-accent: #27c48f;\n    --radius: 12px;\n    --max-lines: 6;\n  }\n  ```\n\n---\n\n## 🚧 Limitations\n- Les messages affichés sont **mockés** (données fictives) → aucune connexion réelle avec le backend.\n- Pour relier au serveur Ollama ou à l’API du projet, il faudra remplacer la logique dans `script.js` par des appels réseau (ex. `fetch`).\n\n---\n\n## 🔮 Évolutions possibles\n- Intégration API réelle (connexion à `main_api.py`).\n- Gestion des **avatars utilisateurs**.\n- Ajout d’un **mode clair** (thème alternatif).\n- Amélioration responsive (mobile / tablette).\n"
-}
+# 📖 UI\_HTML – Prototype interface Web
+
+## 📌 Description
+
+Prototype en **HTML / CSS / JavaScript** de l’interface utilisateur du projet `IA_V3`.
+
+Ce module est indépendant de l’UI Kivy et permet de tester une interface web moderne connectée à l’API FastAPI.
+
+---
+
+## 📂 Structure du dossier
+
+```
+ui_html/
+├── index.html              # Structure principale de la page
+├── css/
+│   ├── config_ui_html.css  # Variables (couleurs, polices, arrondis…)
+│   └── styles.css          # Styles globaux (layout, chat, boutons, animations…)
+├── js/
+│   └── script.js           # Logique d’affichage + connexion API (fetch)
+└── assets/
+    └── images/             # Logos et icônes utilisés (logo_vertia.png, logo_vertia_seul.png, logo_user.png)
+```
+
+---
+
+## 🎨 Fonctionnalités UI
+
+* **Sidebar** avec logo VertIA et liste de conversations dynamiques (via API `/sessions`).
+* **Zone de chat** avec historique des messages (via API `/sessions/{name}/history`).
+* **Différenciation des messages** :
+
+  * Utilisateur : bulle alignée à droite avec `logo_user.png`.
+  * IA (bot) : bulle alignée à gauche avec `logo_vertia_seul.png`.
+* **Zone de saisie** :
+
+  * `textarea` extensible jusqu’à `--max-lines` lignes.
+  * **Entrée** = envoi, **Shift+Entrée** = retour ligne.
+  * Bouton Envoyer en forme de **rectangle arrondi** avec icône SVG.
+* **Animations** : apparition des messages (slide gauche/droite + fade-in).
+* **État d’écriture IA** : bulle `...` clignotante remplacée par la vraie réponse.
+* **Défilement fluide** à l’ajout d’un message.
+
+---
+
+## 🛠️ Utilisation
+
+1. Lancer l’API :
+
+   ```bash
+   uvicorn api.main_api:app --reload --port 8000
+   ```
+2. Lancer le serveur web :
+
+   ```bash
+   cd ui_html
+   python -m http.server 8080
+   ```
+3. Accéder à [http://localhost:8080/index.html](http://localhost:8080/index.html).
+
+---
+
+## 🎨 Thème
+
+* Palette basée sur le **vert foncé → vert clair** (dégradé vertical dans la sidebar).
+* Couleurs, arrondis et tailles configurables dans `config_ui_html.css`.
+* Exemple :
+
+  ```css
+  :root {
+    --color-bg: #0d1f1a;
+    --color-panel: #123227;
+    --color-text: #e0f2e9;
+    --color-accent: #27c48f;
+    --radius: 12px;
+    --max-lines: 6;
+  }
+  ```
+
+---
+
+## 🚧 Limitations
+
+* Pas encore de mode clair/sombre.
+* Pas encore de responsive avancé (mobile / tablette).
+* Gestion des fichiers exportés non intégrée côté UI.
+
+---
+
+## 🔮 Évolutions possibles
+
+* Ajout d’un **mode clair**.
+* Options utilisateur (choix du modèle, réglages tokens/température).
+* Gestion avancée des fichiers (upload/download via API `/files`).

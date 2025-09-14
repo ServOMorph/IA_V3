@@ -201,3 +201,56 @@ body {
   height: auto;
 }
 
+/* Animations */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Appliquer selon le type de message */
+.message.bot {
+  animation: fadeInLeft 0.3s ease forwards;
+}
+
+.message.user {
+  animation: fadeInRight 0.3s ease forwards;
+}
+
+.chat-box {
+  scroll-behavior: smooth;
+}
+
+/* Bulle "IA en train d'écrire" */
+.typing-indicator {
+  display: inline-block;
+  background: var(--msg-bot-bg);
+  color: var(--msg-bot-text);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  border-bottom-left-radius: 4px;
+  font-size: 0.9rem;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+

@@ -5,7 +5,7 @@ const API_BASE_URL = "http://127.0.0.1:8000";
 let currentSession = null;
 
 // ====== Utils DOM ======
-function addMessage(text, sender = "bot") {
+function addMessage(text, sender = "bot", isTyping = false) {
   const chatBox = document.getElementById("chat-box");
   const msgDiv = document.createElement("div");
   msgDiv.classList.add("message", sender);
@@ -20,14 +20,19 @@ function addMessage(text, sender = "bot") {
     logo.classList.add("bot-logo");
 
     const bubble = document.createElement("div");
-    bubble.classList.add("bot-bubble");
-    bubble.textContent = text;
+    if (isTyping) {
+      bubble.classList.add("typing-indicator");
+      bubble.textContent = "...";
+    } else {
+      bubble.classList.add("bot-bubble");
+      bubble.textContent = text;
+    }
 
     wrapper.appendChild(logo);
     wrapper.appendChild(bubble);
     msgDiv.appendChild(wrapper);
 
-    } else if (sender === "user") {
+  } else if (sender === "user") {
     const wrapper = document.createElement("div");
     wrapper.classList.add("user-message-wrapper");
 
@@ -40,14 +45,15 @@ function addMessage(text, sender = "bot") {
     bubble.classList.add("user-bubble");
     bubble.textContent = text;
 
-    wrapper.appendChild(logo);   // logo à gauche
-    wrapper.appendChild(bubble); // bulle à droite
+    wrapper.appendChild(logo);
+    wrapper.appendChild(bubble);
     msgDiv.appendChild(wrapper);
-    }
-
+  }
 
   chatBox.appendChild(msgDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: "smooth" });
+
+  return msgDiv; // on renvoie l'élément pour pouvoir le remplacer
 }
 
 function clearChat() {
@@ -129,27 +135,54 @@ async function loadHistory(sessionName) {
 }
 
 // ====== Chat ======
+async function apiSendMessage(prompt) {
+  const res = await fetch(`${API_BASE_URL}/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
+  });
+  if (!res.ok) throw new Error("Erreur API");
+  return res.json(); // { answer: "..." }
+}
+
 async function sendMessage(prompt) {
   if (!currentSession) {
     await createSession();
   }
+
+  // Message user
   addMessage(prompt, "user");
+
+  // Bulle "IA est en train d'écrire"
+  const typingMsg = addMessage("", "bot", true);
+
   try {
-    const data = await apiPost("/chat", { prompt });
-    addMessage(data.answer, "bot");
+    const data = await apiSendMessage(prompt);
+    const answer = data.answer ?? "⚠️ Pas de réponse";
+
+    const bubble = typingMsg.querySelector(".typing-indicator") 
+               || typingMsg.querySelector(".bot-bubble");
+
+    if (bubble) {
+      bubble.classList.remove("typing-indicator");
+      bubble.classList.add("bot-bubble");
+      bubble.textContent = answer;
+    }
   } catch (err) {
-    console.error("Erreur envoi prompt", err);
-    addMessage("⚠️ Erreur API", "bot");
+    console.error(err);
+    const bubble = typingMsg.querySelector("div");
+    if (bubble) bubble.textContent = "⚠️ Erreur API";
   }
 }
 
 // ====== Events ======
-document.getElementById("send-btn").addEventListener("click", () => {
+document.getElementById("send-btn").addEventListener("click", async () => {
   const input = document.getElementById("chat-input");
   const text = input.value.trim();
   if (!text) return;
-  sendMessage(text);
+
   input.value = "";
+  await sendMessage(text);
 });
 
 document.getElementById("chat-input").addEventListener("keydown", e => {
