@@ -14,6 +14,8 @@
   /* Couleurs messages */
   --msg-user-bg: #1d6f52;     /* bulles user */
   --msg-user-text: #ffffff;
-  --msg-bot-bg: #123227;      /* bulles bot */
+
+  /* bulles bot plus visibles */
+  --msg-bot-bg: #2a4d43;      /* vert/gris plus clair que #123227 */
   --msg-bot-text: #e0f2e9;
 }
