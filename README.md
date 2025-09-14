@@ -1,4 +1,4 @@
-# IA\_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface Kivy
+# IA_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface Kivy
 
 ## 📌 Description
 
@@ -9,15 +9,14 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
 * Dialogue avec un modèle IA local.
 * Sauvegarde des conversations dans un **dossier par session** (`/sav/<nom_session>/conversation.md`).
 * **Export manuel des fichiers** via la commande `&export <nom> <ext>` (formats supportés : `.py`, `.txt`, `.md`, `.json`, `.csv`, `.docx`, `.pdf`, `.xlsx`).
-
-  * Support du parsing : si la réponse IA contient des blocs de code/texte (`python, `txt, etc.), ils sont extraits et exportés séparément (`nom_1.ext`, `nom_2.ext`).
+  * Support du parsing : si la réponse IA contient des blocs de code/texte (`python`, `txt`, etc.), ils sont extraits et exportés séparément (`nom_1.ext`, `nom_2.ext`).
   * Si aucun bloc n'est détecté, l’intégralité du message IA est exportée.
 * Commande **`&getfile <nom>`** pour relire directement un fichier généré dans la session.
-* Chargement, renommage, suppression et organisation des sessions.
+* Chargement, renommage, suppression et organisation des sessions (via CLI, UI et API).
+  * ⚠️ Particularité API : le renommage d’une session (`PUT /sessions/{name}/rename`) réussit même si le fichier `.log` est verrouillé par un logger. Dans ce cas, seul le dossier est renommé et un avertissement est affiché côté serveur.
 * Copie rapide des derniers messages dans le presse-papier (CLI).
 * Conservation du contexte conversationnel avec possibilité de tronquer l'historique pour accélérer les réponses.
 * **Système de résumé avancé** :
-
   * Résumé **glissant** par tranches de messages.
   * Résumés **partiels numérotés** conservés dans `summary.md`.
   * Résumés **globaux périodiques** consolidant les partiels.
@@ -26,17 +25,14 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
 * **Interface Kivy moderne** avec zones distinctes : liste de conversations, chat, saisie, panneau info/config.
 * Couleurs centralisées dans `ui/config_ui.py`.
 * **Mode DEV** :
-
   * Liste les modèles Ollama installés au démarrage.
   * Permet de choisir le modèle IA à utiliser.
   * Affiche et logge le temps de réponse pour chaque prompt.
   * Sauvegarde chaque essai et benchmark dans `data/dev_responses.log` et `data/dev_responses.jsonl`.
 * **Module Benchmark IA** :
-
   * Exécution de tests unitaires automatiques (ex. `is_prime`, `fibonacci`, `factorial`).
   * Benchmarks multi-modèles et multi-paramètres (`MAX_TOKENS`, quantisation, etc.).
   * Scripts dédiés pour lancer rapidement des benchmarks ciblés :
-
     * `benchmark_mistral.py` (Mistral standard)
     * `benchmark_mistral2.py` (Mistral optimisé : `mistral-tests`)
     * `benchmark_deepseek.py` (DeepSeek optimisé : `deepseek-tests`)
@@ -92,7 +88,6 @@ python tools/analyze_results.py
 ```
 
 * Comparatifs disponibles :
-
   * `docs/comparatif_mistral_vs_deepseek.md`
   * `docs/prompt_engineering_phi.md`
   * `docs/prompt_engineering_starling.md`
@@ -107,7 +102,6 @@ python tools/analyze_results.py
 * **Troncature de l’historique** : limiter le nombre d’échanges conservés dans la mémoire du client pour éviter un contexte trop long.
 * **Context length** : rester à 4k ou 8k tokens pour garder l’exécution GPU. Au-delà, bascule CPU → ralentissements.
 * **Choix des modèles adaptés à la RTX 4060 (8 Go VRAM)** :
-
   * Général : `gemma2:2b`, `gemma2-2b-it-q4`, `mistral:7b`, `llama3.1:8b-q4`, `phi4-mini:3.8b`
   * Code : `deepseek-coder:6.7b`, `qwen2.5-coder:7b`
   * Multimodal : `llava:7b`

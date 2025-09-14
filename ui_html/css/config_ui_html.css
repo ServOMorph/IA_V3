@@ -1,0 +1,19 @@
+:root {
+  --color-bg: #0d1f1a;        /* fond principal très foncé */
+  --color-panel: #123227;     /* panneaux / sidebar */
+  --color-text: #e0f2e9;      /* texte clair */
+  --color-primary: #1d6f52;   /* vert principal pour boutons */
+  --color-accent: #27c48f;    /* vert accentué pour hover / highlight */
+  --radius: 12px;
+  --font-main: "Segoe UI", Arial, sans-serif;
+
+  /* Config textarea */
+  --max-lines: 6;
+  --line-height: 1.5em;
+
+  /* Couleurs messages */
+  --msg-user-bg: #1d6f52;     /* bulles user */
+  --msg-user-text: #ffffff;
+  --msg-bot-bg: #123227;      /* bulles bot */
+  --msg-bot-text: #e0f2e9;
+}

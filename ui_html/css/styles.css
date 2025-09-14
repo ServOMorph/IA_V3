@@ -1,0 +1,170 @@
+/* Layout global */
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background: var(--color-bg);
+  color: var(--color-text);
+  height: 100vh;
+  display: flex;
+}
+
+.app-container {
+  display: flex;
+  width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: linear-gradient(to bottom, #0d1f1a, #123227, #1a4736);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.conv-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.conv-list li {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.conv-list li:hover {
+  background: var(--color-accent);
+  color: black;
+}
+
+/* Chat */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+.chat-box {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Messages */
+.message {
+  max-width: 60%;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Utilisateur */
+.message.user {
+  align-self: flex-end;
+  background: var(--msg-user-bg);
+  color: var(--msg-user-text);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+}
+
+/* Bot */
+.message.bot {
+  align-self: flex-start;
+  background: none; /* la bulle est dans .bot-bubble */
+  color: var(--msg-bot-text);
+}
+
+.bot-message-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.bot-logo {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.bot-bubble {
+  background: var(--msg-bot-bg);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  max-width: 100%;
+  color: var(--msg-bot-text);
+}
+
+/* Input */
+.input-container {
+  display: flex;
+  align-items: center; /* bien aligner textarea et bouton */
+  padding: 0.8rem;
+  background: var(--color-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.input-container textarea {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  resize: none;
+  font-family: var(--font-main);
+  line-height: 1.5;
+  height: 2.4rem; /* même hauteur que bouton */
+  min-height: 2.4rem;
+  max-height: calc(var(--line-height) * var(--max-lines));
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.05); /* semi-transparent */
+  color: var(--color-text);
+}
+
+.input-container textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Bouton Envoyer rectangle arrondi */
+.input-container button {
+  margin-left: 0.8rem;
+  width: 48px;
+  height: 2.4rem; /* alignement parfait avec textarea */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius); /* arrondi doux */
+  background: rgba(255, 255, 255, 0.12); /* plus clair que textarea */
+  color: var(--color-text);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.input-container button:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.input-container button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Logo dans la sidebar */
+.sidebar .logo {
+  display: flex;
+  justify-content: center; /* centré horizontalement */
+  margin-bottom: 1.5rem;
+}
+
+.sidebar .logo img {
+  max-width: 160px; /* adapte à la largeur de la sidebar */
+  height: auto;
+}
