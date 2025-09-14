@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Body
 from core.chat_manager import ChatManager
 from core.session_manager import SessionManager
+from core.sav_manager import SaveManager
 from config import SAVE_DIR
 from pathlib import Path
 
@@ -41,3 +42,18 @@ def get_history(name: str):
     if not md_file.exists():
         raise HTTPException(status_code=404, detail="Session introuvable")
     return {"history": md_file.read_text(encoding="utf-8")}
+
+@router.post("/{name}/message")
+def add_message(name: str, msg: dict = Body(...)):
+    """
+    Ajoute un message (user ou assistant) à l'historique de la session
+    et déclenche la sauvegarde automatique.
+    """
+    global chat_manager
+    if not hasattr(chat_manager, "history"):
+        chat_manager.history = []
+
+    chat_manager.history.append(msg)
+    chat_manager.save_manager.save_md(chat_manager.history)
+
+    return {"status": "ok", "count": len(chat_manager.history)}

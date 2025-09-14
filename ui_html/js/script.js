@@ -2,6 +2,27 @@
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
+async function saveMessageToServer(role, content) {
+  if (!currentSession) {
+    console.warn("Pas de session active, message non sauvegardé");
+    return;
+  }
+  const msg = {
+    role: role,
+    content: content,
+    timestamp: new Date().toISOString()
+  };
+  try {
+    await fetch(`${API_BASE_URL}/sessions/${currentSession}/message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(msg)
+    });
+  } catch (err) {
+    console.error("Erreur sauvegarde message:", err);
+  }
+}
+
 let currentSession = null;
 
 // ====== Utils DOM ======
@@ -53,6 +74,11 @@ function addMessage(text, sender = "bot", isTyping = false) {
   chatBox.appendChild(msgDiv);
   chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: "smooth" });
 
+  // 🔹 Sauvegarde automatique côté serveur (sauf bulle typing)
+  if (!isTyping) {
+    saveMessageToServer(sender, text);
+  }
+
   return msgDiv; // on renvoie l'élément pour pouvoir le remplacer
 }
 
@@ -87,7 +113,8 @@ async function apiPost(path, body = {}) {
 // ====== Sessions ======
 async function loadSessions() {
   try {
-    const sessions = await apiGet("/sessions");
+    const res = await apiGet("/sessions");   // renvoie { sessions: [...] }
+    const sessions = res.sessions;           // extraire la liste
     const list = document.querySelector(".conv-list");
     list.innerHTML = "";
 
@@ -113,9 +140,10 @@ async function loadSessions() {
 
 async function createSession() {
   try {
-    const data = await apiPost("/sessions");
+    const data = await apiPost("/sessions");   // renvoie { session: "sav_conv_..." }
+    currentSession = data.session;             // mettre à jour la session active
     await loadSessions();
-    loadHistory(data.name);
+    await loadHistory(currentSession);
   } catch (err) {
     console.error("Erreur création session", err);
   }
@@ -167,6 +195,9 @@ async function sendMessage(prompt) {
       bubble.classList.remove("typing-indicator");
       bubble.classList.add("bot-bubble");
       bubble.textContent = answer;
+
+      // 🔹 Sauvegarde automatique de la réponse IA
+      saveMessageToServer("assistant", answer);
     }
   } catch (err) {
     console.error(err);

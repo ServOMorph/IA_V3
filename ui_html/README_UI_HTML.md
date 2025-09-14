@@ -17,7 +17,7 @@ ui_html/
 │   ├── config_ui_html.css  # Variables (couleurs, polices, arrondis…)
 │   └── styles.css          # Styles globaux (layout, chat, boutons, animations…)
 ├── js/
-│   └── script.js           # Logique d’affichage + connexion API (fetch)
+│   └── script.js           # Logique d’affichage, connexion API, sauvegarde auto
 └── assets/
     └── images/             # Logos et icônes utilisés (logo_vertia.png, logo_vertia_seul.png, logo_user.png)
 ```
@@ -40,6 +40,8 @@ ui_html/
 * **Animations** : apparition des messages (slide gauche/droite + fade-in).
 * **État d’écriture IA** : bulle `...` clignotante remplacée par la vraie réponse.
 * **Défilement fluide** à l’ajout d’un message.
+* **Sauvegarde automatique** : chaque message (utilisateur et IA) est transmis à l’API (`/sessions/{name}/message`) et écrit en temps réel dans `conversation.md`.
+* **Bulles flexibles** : les bulles utilisateur et IA peuvent occuper toute la largeur de la zone de chat si nécessaire.
 
 ---
 
@@ -92,3 +94,5 @@ ui_html/
 * Ajout d’un **mode clair**.
 * Options utilisateur (choix du modèle, réglages tokens/température).
 * Gestion avancée des fichiers (upload/download via API `/files`).
+* Amélioration responsive (mobile / tablette).
+* Streaming des réponses IA caractère par caractère.

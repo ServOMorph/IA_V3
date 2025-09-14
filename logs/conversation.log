@@ -1551,3 +1551,30 @@ Ecris en Français
 2025-09-14 09:54:38 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
 🤖  Coucou ! 😊  Comment vas-tu ?
 
+2025-09-14 10:37:07 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 10:37:07 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : salut ma poule
+🤖 Ollama :
+2025-09-14 10:37:12 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖 Salut !  😄  Comment vas-tu ?
+
+2025-09-14 10:37:30 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 10:37:30 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-14 10:37:12 ---
+👤 Vous : salut ma poule
+🤖 Ollama : 🤖 Salut !  😄  Comment vas-tu ?
+
+---
+👤 Vous : bien et toi
+🤖 Ollama :
+2025-09-14 10:37:32 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖  Ça va très bien, merci ! 😊 Et toi, comment vas-tu ?
+

@@ -95,7 +95,7 @@ body {
   padding: 0.6rem 1rem;
   border-radius: var(--radius);
   border-bottom-right-radius: 4px;
-  max-width: 70%;
+  max-width: 100%;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
