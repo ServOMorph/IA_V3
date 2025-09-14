@@ -105,7 +105,7 @@ class SessionManager:
             md_file = session_dir / "conversation.md"
 
             if not md_file.exists():
-                print(f"[ERREUR LOAD] conversation.md introuvable pour {name}")
+                print(f"[ERREUR LOAD] La session '{name}' n'existe pas ou conversation.md est introuvable.")
                 return False
 
             # Lire et parser conversation.md
@@ -119,7 +119,7 @@ class SessionManager:
             chat_manager.save_manager.session_name = name
             chat_manager.client.history = history
 
-            # Résumé
+            # Résumeur
             chat_manager.summarizer = Summarizer(session_dir)
 
             # Logger
@@ -141,5 +141,5 @@ class SessionManager:
 
             return True
         except Exception as e:
-            print(f"[ERREUR LOAD] {e}")
+            print(f"[ERREUR LOAD] Exception inattendue : {e}")
             return False

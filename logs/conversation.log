@@ -2225,3 +2225,117 @@ Tu veux peut-être parler de la poule comme animal ? Ou d'une histoire sur les p
 2025-09-14 11:03:38 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
 Je comprends que tu trouves mon discours incohérent. Je suis encore en développement et j'apprends constamment à mieux communiquer. Peux-tu me donner des exemples précis de ce qui te semble incohérent ? Cela m'aidera à améliorer mes réponses.
 
+2025-09-14 12:04:28 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:04:28 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-09-14 12:04:32 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖  Coucou ! 😊  Comment vas-tu ?
+
+2025-09-14 12:15:04 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:15:04 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-09-14 12:15:08 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖  Coucou ! 👋 😊  Comment vas-tu ?
+
+2025-09-14 12:15:23 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:15:23 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-09-14 12:15:26 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖  Coucou ! 😊 Comment vas-tu ?
+
+2025-09-14 12:15:38 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:15:38 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-14 12:15:26 ---
+👤 Vous : coucou
+🤖 Ollama : 🤖  Coucou ! 😊 Comment vas-tu ?
+
+---
+👤 Vous : bien et toi
+🤖 Ollama :
+2025-09-14 12:15:40 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖  Ça va très bien, merci ! Et toi, comment vas-tu ? 😄
+
+2025-09-14 12:17:42 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:17:42 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-14 12:04:32 ---
+👤 Vous : coucou
+🤖 Ollama : 🤖  Coucou ! 😊  Comment vas-tu ?
+
+---
+👤 Vous : pif paf pouf
+🤖 Ollama :
+2025-09-14 12:17:45 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖 Ollama :  😄  C'est un peu bizarre, mais je trouve ça amusant ! Qu'est-ce que tu veux dire par "pif paf pouf" ? 😜
+
+2025-09-14 12:18:31 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:18:31 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : Bonjour, test session 1
+🤖 Ollama :
+2025-09-14 12:18:34 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+Bonjour ! 👋  Comment puis-je vous aider aujourd'hui ? 😊
+
+2025-09-14 12:18:34 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:18:34 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-14 12:18:34 ---
+👤 Vous : Bonjour, test session 1
+🤖 Ollama : Bonjour ! 👋  Comment puis-je vous aider aujourd'hui ? 😊
+
+---
+👤 Vous : Bonjour, test session 2
+🤖 Ollama :
+2025-09-14 12:18:36 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+Bonjour ! 👋 Comment puis-je vous aider aujourd'hui ? 😊
+
+2025-09-14 12:47:14 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:47:14 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : Bonjour, test session 1
+🤖 Ollama :
+2025-09-14 12:47:18 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+Bonjour ! 👋  Comment puis-je vous aider aujourd'hui ? 😊
+
+2025-09-14 12:48:11 - ------ NOUVEL ÉCHANGE ------
+2025-09-14 12:48:11 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : Bonjour, test session 1
+🤖 Ollama :
+2025-09-14 12:48:13 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖 Bonjour !  Comment puis-je vous aider aujourd'hui ? 😊
+

@@ -181,6 +181,20 @@
         📄 sav_conv_2025-09-14_09-42-54.log
         📄 sav_conv_2025-09-14_09-44-05.log
         📄 sav_conv_2025-09-14_09-44-17.log
+        📄 sav_conv_2025-09-14_09-50-25.log
+        📄 sav_conv_2025-09-14_09-50-30.log
+        📄 sav_conv_2025-09-14_09-50-38.log
+        📄 sav_conv_2025-09-14_09-54-32.log
+        📄 sav_conv_2025-09-14_10-00-26.log
+        📄 sav_conv_2025-09-14_10-03-02.log
+        📄 sav_conv_2025-09-14_10-03-56.log
+        📄 sav_conv_2025-09-14_10-07-16.log
+        📄 sav_conv_2025-09-14_10-37-07.log
+        📄 sav_conv_2025-09-14_10-37-30.log
+        📄 sav_conv_2025-09-14_10-50-48.log
+        📄 sav_conv_2025-09-14_10-50-54.log
+        📄 sav_conv_2025-09-14_10-55-49.log
+        📄 sav_conv_2025-09-14_11-00-33.log
         📄 test-session-rename.log
     📁 ollama_configs/
         📄 README.md
@@ -193,37 +207,17 @@
     📁 perf_tests/
         📄 test_summary_trigger.py
     📁 sav/
-        📁 sav_conv_2025-09-14_08-51-49/
+        📁 sav_conv_2025-09-14_10-37-07/
             📄 conversation.md
-        📁 sav_conv_2025-09-14_08-58-39/
+        📁 sav_conv_2025-09-14_10-37-30/
             📄 conversation.md
-        📁 sav_conv_2025-09-14_09-01-45/
+        📁 sav_conv_2025-09-14_10-50-48/
             📄 conversation.md
-        📁 sav_conv_2025-09-14_09-03-09/
+        📁 sav_conv_2025-09-14_10-50-54/
             📄 conversation.md
-        📁 sav_conv_2025-09-14_09-03-18/
+        📁 sav_conv_2025-09-14_10-55-49/
             📄 conversation.md
-        📁 sav_conv_2025-09-14_09-06-51/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-07-05/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-07-16/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-24-52/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-25-03/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-32-38/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-35-35/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-36-42/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-42-54/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-44-05/
-            📄 conversation.md
-        📁 sav_conv_2025-09-14_09-44-17/
+        📁 sav_conv_2025-09-14_11-00-33/
             📄 conversation.md
     📁 tests/
         📄 test_api.py
