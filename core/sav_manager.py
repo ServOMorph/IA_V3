@@ -34,18 +34,35 @@ class SaveManager:
     def save_md(self, history):
         """Écrit l'historique complet en Markdown."""
         try:
-            lines = [_MD_HEADER.format(folder=self.session_dir.name,
-                                       started_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))]
+            lines = [_MD_HEADER.format(
+                folder=self.session_dir.name,
+                started_at=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            )]
+
             for ex in history:
+                if not isinstance(ex, dict):
+                    logging.error(f"[save_md] Entrée inattendue dans history: {repr(ex)}")
+                    continue
+
                 ts = ex.get("timestamp", "")
+
+                # Cas role/content
                 if "role" in ex and "content" in ex:
                     lines.append(f"### {ts or ''}  \n**[{ex['role']}]**\n\n{ex['content']}\n")
                     continue
-                user = ex.get("prompt", "")
-                ans = ex.get("response", "")
-                lines.append(f"---\n**{ts}**\n\n**Vous**:\n\n{user}\n\n**IA**:\n\n{ans}\n")
+
+                # Cas prompt/response
+                if "prompt" in ex or "response" in ex:
+                    user = ex.get("prompt", "")
+                    ans = ex.get("response", "")
+                    lines.append(f"---\n**{ts}**\n\n**Vous**:\n\n{user}\n\n**IA**:\n\n{ans}\n")
+                    continue
+
+                logging.error(f"[save_md] Format non reconnu: {repr(ex)}")
+
             self.session_md.write_text("\n".join(lines), encoding="utf-8")
             logging.info(f"Historique MD écrit: {self.session_md.resolve()}")
+
         except Exception as e:
             logging.error(f"Erreur sauvegarde MD: {e}")
 

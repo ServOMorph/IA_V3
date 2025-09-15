@@ -113,7 +113,7 @@ async function loadSessions() {
 async function createSession() {
   console.log("[DEBUG] createSession appelé");
   try {
-    const data = await apiPost("/sessions");
+    const data = await apiPost("/sessions/");   // <-- avec slash final
     currentSession = data.session;
     await loadSessions();
     await loadHistory(currentSession);
@@ -195,28 +195,39 @@ async function loadHistory(sessionName) {
 
 // ====== Chat ======
 async function apiSendMessage(prompt) {
-  const res = await fetch(`${API_BASE_URL}/chat/`, {   // <-- note le slash final
+  const payload = { prompt };
+  console.log("DEBUG payload envoyé:", JSON.stringify(payload));
+
+  const response = await fetch(`${API_BASE_URL}/chat/${currentSession}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt })
   });
-  if (!res.ok) throw new Error("Erreur API");
-  return res.json(); // { answer: "..." }
+
+  console.log("DEBUG status:", response.status);
+
+  if (!response.ok) {
+    console.error("Erreur API:", await response.text());
+    throw new Error("Erreur API");
+  }
+
+  return await response.json();
 }
 
 // ====== Chat ======
 async function sendMessage(prompt) {
-  // On suppose qu'une session est déjà active
-  // donc on ne recrée pas de session ici
+  if (!currentSession) {
+    await createSession(); // crée une session si besoin
+  }
 
+  // Afficher message user
   addMessage(prompt, "user");
-  saveMessageToServer("user", prompt);
 
-
+  // Afficher bulle "IA écrit"
   const typingMsg = addMessage("", "bot", true);
 
   try {
-    const data = await apiSendMessage(prompt);
+    const data = await apiSendMessage(prompt); // appelle POST /chat/
     const answer = data.answer ?? "⚠️ Pas de réponse";
 
     const bubble = typingMsg.querySelector(".typing-indicator") 
@@ -226,8 +237,6 @@ async function sendMessage(prompt) {
       bubble.classList.remove("typing-indicator");
       bubble.classList.add("bot-bubble");
       bubble.textContent = answer;
-      saveMessageToServer("assistant", answer);
-
     }
   } catch (err) {
     console.error(err);
@@ -235,29 +244,6 @@ async function sendMessage(prompt) {
     if (bubble) bubble.textContent = "⚠️ Erreur API";
   }
 }
-
-// ====== Sauvegarde directe ======
-async function saveMessageToServer(role, content) {
-  if (!currentSession) {
-    console.warn("Pas de session active, message non sauvegardé");
-    return;
-  }
-  const msg = {
-    role: role,
-    content: content,
-    timestamp: new Date().toISOString()
-  };
-  try {
-    await fetch(`${API_BASE_URL}/sessions/${currentSession}/message`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(msg)
-    });
-  } catch (err) {
-    console.error("Erreur sauvegarde message:", err);
-  }
-}
-
 
 // ====== Events ======
 document.getElementById("send-btn").addEventListener("click", async () => {
@@ -280,4 +266,32 @@ document.getElementById("chat-input").addEventListener("keydown", e => {
 window.addEventListener("DOMContentLoaded", async () => {
   await createSession();   // crée une seule session ET charge la liste ET l'historique
   // inutile de rappeler loadSessions() ici, createSession() le fait déjà
+});
+
+
+// --- Initialisation des handlers UI ---
+document.addEventListener("DOMContentLoaded", () => {
+  const chatInput = document.getElementById("chat-input");
+  const sendBtn = document.getElementById("send-btn");
+
+  // Clic sur bouton "Envoyer"
+  sendBtn.addEventListener("click", () => {
+    const text = chatInput.value.trim();
+    if (text.length > 0) {
+      sendMessage(text);
+      chatInput.value = "";
+    }
+  });
+
+  // Touche Entrée = envoi, Shift+Entrée = retour ligne
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (text.length > 0) {
+        sendMessage(text);
+        chatInput.value = "";
+      }
+    }
+  });
 });

@@ -83,7 +83,7 @@ TOP_P = 0.9         # nucleus sampling
 TOP_K = 40          # alternative sampling
 
 # Résumé automatique
-MAX_HISTORY_MESSAGES = 0   # au lieu de 3
+MAX_HISTORY_MESSAGES = 3   # au lieu de 3
 USE_SUMMARY = True         # activer/désactiver le mécanisme de résumé
 SUMMARY_MODEL = "gemma2:2b"  # modèle choisi pour résumer l'historique
 SUMMARY_MAX_TOKENS = 150   # taille maximale du résumé généré

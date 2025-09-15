@@ -30,7 +30,6 @@ class ChatManager:
         self.client.conv_logger, self.client.conv_log_file = setup_conv_logger(
             self.save_manager.session_dir.name
         )
-        
 
         self.commands = CommandHandler(self)
 
@@ -41,11 +40,14 @@ class ChatManager:
         if not self.save_manager.session_md.exists():
             self.save_manager.session_md.write_text("", encoding="utf-8")
 
-        # Injecter le prompt système si nouvelle session
-        if not self.client.history:
-            self.client.history.append(
-                {"role": "system", "content": DEFAULT_SYSTEM_PROMPT}
-            )
+        # === Correction : réinitialiser complètement l'historique ===
+        self.client.history = []
+        self.client.history.append(
+            {"role": "system", "content": DEFAULT_SYSTEM_PROMPT}
+        )
+
+        # === DEBUG ===
+        print(f"[DEBUG] Nouvelle session créée : {self.save_manager.session_dir.name}")
 
     def start_chat(self):
         print(WELCOME_MESSAGE)
@@ -156,11 +158,13 @@ class ChatManager:
                     [{"role": "system", "content": f"[Résumé global] {global_summary}"}]
                     + self.client.history[-MAX_HISTORY_MESSAGES:]
                 )
-                
+
         # === DEBUG ajouté ici ===
-        print("[DEBUG] prompt:", user_prompt)
-        print("[DEBUG] answer:", answer)
-        print("[DEBUG] history:", self.client.history)
+        print("====== DEBUG process_prompt ======")
+        print("[PROMPT]", user_prompt)
+        print("[ANSWER]", answer)
+        print("[HISTORY]", self.client.history)
+        print("====== END DEBUG ======")
 
         # Sauvegardes
         self.save_manager.save_md(self.client.history)

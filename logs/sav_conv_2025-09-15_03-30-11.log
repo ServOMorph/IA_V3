@@ -1,0 +1,27 @@
+2025-09-15 03:30:15 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 03:30:15 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : coucou
+🤖 Ollama :
+2025-09-15 03:30:18 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖 Bonjour ! 👋  Comment vas-tu ? 😊
+
+2025-09-15 03:30:32 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 03:30:32 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-15 03:30:18 ---
+👤 Vous : coucou
+🤖 Ollama : 🤖 Bonjour ! 👋  Comment vas-tu ? 😊
+
+---
+👤 Vous : bien
+🤖 Ollama :
+2025-09-15 03:30:34 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖  C'est génial à entendre ! 😄  Que fais-tu aujourd'hui ?
+
