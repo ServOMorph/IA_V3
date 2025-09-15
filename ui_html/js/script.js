@@ -87,9 +87,29 @@ async function loadSessions() {
 
     sessions.forEach(s => {
       const li = document.createElement("li");
-      li.textContent = s;
+
+      // ✅ identifiant brut (avec underscores) pour l’API
       li.dataset.session = s;
-      li.addEventListener("click", () => loadHistory(s));
+
+      // affichage texte (tel quel)
+      const spanText = document.createElement("span");
+      spanText.textContent = s;
+
+      // bouton menu "..."
+      const spanMenu = document.createElement("span");
+      spanMenu.classList.add("conv-menu");
+      spanMenu.textContent = "...";
+      spanMenu.addEventListener("click", (e) => {
+        e.stopPropagation(); // empêche d’ouvrir l’historique
+        openConvMenu(e, li.dataset.session); // ✅ toujours dataset
+      });
+
+      li.appendChild(spanText);
+      li.appendChild(spanMenu);
+
+      // clic principal → charger historique
+      li.addEventListener("click", () => loadHistory(li.dataset.session));
+
       list.appendChild(li);
     });
 
@@ -214,6 +234,119 @@ async function sendMessage(prompt) {
     if (bubble) bubble.textContent = "⚠️ Erreur API";
   }
 }
+
+// ====== Toast notifications ======
+function showToast(message) {
+  let container = document.querySelector(".toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.classList.add("toast-container");
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement("div");
+  toast.classList.add("toast");
+  toast.textContent = message;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+    if (container.children.length === 0) {
+      container.remove();
+    }
+  }, 3000);
+}
+
+
+
+// ====== Menu contextuel conversation ======
+function openConvMenu(event, sessionName) {
+  const oldMenu = document.querySelector(".conv-context-menu");
+  if (oldMenu) oldMenu.remove();
+
+  const menu = document.createElement("div");
+  menu.classList.add("conv-context-menu");
+
+  // --- Renommer ---
+  const rename = document.createElement("div");
+  rename.textContent = "Renommer";
+  rename.addEventListener("click", async () => {
+    const newName = prompt("Nouveau nom :", sessionName);
+    if (newName && newName !== sessionName) {
+      try {
+        const url = `${API_BASE_URL}/sessions/${encodeURIComponent(sessionName)}/rename?new_name=${encodeURIComponent(newName)}`;
+        console.log("API RENAME URL:", url);
+
+        const res = await fetch(url, { method: "PUT" });
+        console.log("RENAME status:", res.status);
+
+        if (res.ok) {
+          await loadSessions();               // recharge la sidebar
+          currentSession = newName;           // mettre à jour la session active
+          setActiveSession(newName);          // repère visuel
+          await loadHistory(newName);         // recharger l’historique
+          showToast(`Session renommée en "${newName}" ✅`);
+        }
+        else {
+          const txt = await res.text();
+          console.error("Erreur API rename:", txt);
+          showToast("⚠️ Erreur API lors du renommage");
+        }
+      } catch (err) {
+        console.error("Erreur JS renommer :", err);
+        showToast("⚠️ Erreur lors du renommage");
+      }
+    }
+    menu.remove();
+  });
+
+  // --- Supprimer ---
+  const del = document.createElement("div");
+  del.textContent = "Supprimer";
+  del.addEventListener("click", async () => {
+    if (confirm(`Supprimer la conversation "${sessionName}" ?`)) {
+      try {
+        const url = `${API_BASE_URL}/sessions/${encodeURIComponent(sessionName)}`;
+        console.log("API DELETE URL:", url);
+
+        const res = await fetch(url, { method: "DELETE" });
+        console.log("DELETE status:", res.status);
+
+        if (res.ok) {
+          await loadSessions();
+          if (currentSession === sessionName) {
+            await createSession();
+          }
+          showToast(`Session "${sessionName}" supprimée 🗑️`);
+        } else {
+          const txt = await res.text();
+          console.error("Erreur API delete:", txt);
+          showToast("⚠️ Erreur API lors de la suppression");
+        }
+      } catch (err) {
+        console.error("Erreur JS suppression :", err);
+        showToast("⚠️ Erreur lors de la suppression");
+      }
+    }
+    menu.remove();
+  });
+
+  menu.appendChild(rename);
+  menu.appendChild(del);
+
+  menu.style.top = event.clientY + "px";
+  menu.style.left = event.clientX + "px";
+  document.body.appendChild(menu);
+
+  document.addEventListener("click", function closeMenu(e) {
+    if (!menu.contains(e.target)) {
+      menu.remove();
+      document.removeEventListener("click", closeMenu);
+    }
+  });
+}
+
 
 // ====== Events & Init ======
 window.addEventListener("DOMContentLoaded", async () => {

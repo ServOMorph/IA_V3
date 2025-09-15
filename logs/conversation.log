@@ -22162,3 +22162,29 @@ Résumé global structuré :
 
 **Points en suspens:**  L'historique de conversation montre que certains utilisateurs ont besoin d'une clarification plus précise de leur demande avant la réponse de l'IA.
 
+2025-09-15 17:29:29 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 17:29:29 - [PROMPT ENVOYÉ À GEMMA2:2B]
+Tu es un assistant chargé de condenser un extrait d'historique de conversation.
+Structure ton résumé en 4 sections claires en français (max 150 tokens) :
+- Faits clés
+- Intentions utilisateur
+- Réponses IA
+- Points en suspens
+
+=== Début du dialogue ===
+user: coucou
+assistant: 🤖 Bonjour ! 👋  Comment vas-tu ? 😊
+=== Fin du dialogue ===
+
+Résumé structuré :
+2025-09-15 17:29:35 - [RÉPONSE DE GEMMA2:2B]
+## Résumé de la conversation :
+
+**Faits clés:** L'utilisateur commence une conversation avec l'IA en utilisant "coucou". L'IA répond avec un message d'accueil chaleureux. 
+
+**Intentions utilisateur:**  L'utilisateur souhaite démarrer une interaction simple et amicale avec l'IA. 
+
+** Réponses IA:** L'IA répond de manière courtoise et engageante, démontrant une intention de communication positive. 
+
+**Points en suspens:** La conversation n'a pas avancé vers un sujet spécifique. L'IA est prête à continuer la discussion, mais l'utilisateur doit fournir des informations ou poser des questions pour avancer.
+
