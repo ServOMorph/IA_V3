@@ -19,14 +19,14 @@ ui_html/
 ├── js/
 │   └── script.js           # Logique d’affichage, connexion API, sauvegarde auto
 └── assets/
-    └── images/             # Logos et icônes utilisés (logo_vertia.png, logo_vertia_seul.png, logo_user.png)
+    └── images/             # Logos et icônes utilisés (logo_vertia.png, logo_vertia_seul.png, logo_user.png, plus_icon.png)
 ```
 
 ---
 
 ## 🎨 Fonctionnalités UI
 
-* **Sidebar** avec logo VertIA et liste de conversations dynamiques (via API `/sessions`).
+* **Sidebar** avec logo VertIA, bouton `plus_icon.png` pour créer une nouvelle conversation, et liste de conversations dynamiques (via API `/sessions`).
 * **Zone de chat** avec historique des messages (via API `/sessions/{name}/history`).
 * **Différenciation des messages** :
 

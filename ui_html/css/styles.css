@@ -15,21 +15,22 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 220px;
+  width: 380px; 
   background: linear-gradient(to bottom, #0d1f1a, #123227, #1a4736);
   padding: 1rem;
   box-sizing: border-box;
 }
 
 .conv-list {
-  list-style: none;
   padding: 0;
   margin: 0;
 }
 
 .conv-list li {
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  display: inline-block;     /* largeur selon le texte */
+  width: auto;               /* pas de largeur forcée */
+  padding: 0.3rem 0.6rem;    /* réduit un peu pour éviter un bloc trop large */
+  margin: 0 0 0.5rem 0;      /* espace uniquement en bas */
   border-radius: var(--radius);
   cursor: pointer;
   background: rgba(255, 255, 255, 0.05);
@@ -40,6 +41,8 @@ body {
   background: var(--color-accent);
   color: black;
 }
+
+
 
 /* Chat */
 .chat-container {
@@ -254,23 +257,31 @@ body {
   50% { opacity: 1; }
 }
 
-.new-conv {
+.new-session-btn {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1.5rem auto; /* centré avec espace en bas */
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.new-conv img {
-  width: 32px;
-  height: 32px;
-  opacity: 0.85;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+.new-session-btn img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.9;
+  pointer-events: none; /* évite que le clic soit bloqué par l'image */
 }
 
-.new-conv img:hover {
+.new-session-btn:hover {
+  background: var(--color-accent);
+  transform: scale(1.05);
+}
+
+.new-session-btn:hover img {
   opacity: 1;
-  transform: scale(1.1);
 }
-
-

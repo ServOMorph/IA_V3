@@ -4,12 +4,12 @@ const API_BASE_URL = "http://localhost:8001";
 let currentSession = null;
 
 // ====== Utils DOM ======
-function addMessage(text, sender = "bot", isTyping = false) {
+function addMessage(text, sender = "assistant", isTyping = false) {
   const chatBox = document.getElementById("chat-box");
   const msgDiv = document.createElement("div");
-  msgDiv.classList.add("message", sender);
+  msgDiv.classList.add("message", sender === "user" ? "user" : "assistant");
 
-  if (sender === "bot") {
+  if (sender === "assistant") {
     const wrapper = document.createElement("div");
     wrapper.classList.add("bot-message-wrapper");
 
@@ -19,13 +19,8 @@ function addMessage(text, sender = "bot", isTyping = false) {
     logo.classList.add("bot-logo");
 
     const bubble = document.createElement("div");
-    if (isTyping) {
-      bubble.classList.add("typing-indicator");
-      bubble.textContent = "...";
-    } else {
-      bubble.classList.add("bot-bubble");
-      bubble.textContent = text;
-    }
+    bubble.classList.add(isTyping ? "typing-indicator" : "bot-bubble");
+    bubble.textContent = isTyping ? "..." : text;
 
     wrapper.appendChild(logo);
     wrapper.appendChild(bubble);
@@ -68,7 +63,7 @@ function setActiveSession(name) {
 // ====== API calls ======
 async function apiGet(path) {
   const res = await fetch(`${API_BASE_URL}${path}`);
-  if (!res.ok) throw new Error(`GET ${path} failed`);
+  if (!res.ok) throw new Error(`GET ${path} failed (${res.status})`);
   return res.json();
 }
 
@@ -78,14 +73,14 @@ async function apiPost(path, body = {}) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(`POST ${path} failed`);
+  if (!res.ok) throw new Error(`POST ${path} failed (${res.status})`);
   return res.json();
 }
 
 // ====== Sessions ======
 async function loadSessions() {
   try {
-    const res = await apiGet("/sessions");   // { sessions: [...] }
+    const res = await apiGet("/sessions");
     const sessions = res.sessions;
     const list = document.querySelector(".conv-list");
     list.innerHTML = "";
@@ -98,34 +93,26 @@ async function loadSessions() {
       list.appendChild(li);
     });
 
-    // bouton "Nouvelle conversation"
-    const liNew = document.createElement("li");
-    liNew.textContent = "Nouvelle conversation";
-    liNew.classList.add("new-session");
-    liNew.addEventListener("click", createSession);
-    list.appendChild(liNew);
-
   } catch (err) {
-    console.error("Erreur chargement sessions", err);
+    console.error("Erreur chargement sessions :", err);
   }
 }
 
 async function createSession() {
-  console.log("[DEBUG] createSession appelé");
   try {
-    const data = await apiPost("/sessions/");   // <-- avec slash final
+    const data = await apiPost("/sessions/");
     currentSession = data.session;
     await loadSessions();
     await loadHistory(currentSession);
   } catch (err) {
-    console.error("Erreur création session", err);
+    console.error("Erreur création session :", err);
   }
 }
 
 async function loadHistory(sessionName) {
   try {
     const res = await apiGet(`/sessions/${sessionName}/history`);
-    const mdText = res.history; // markdown brut
+    const mdText = res.history;
     clearChat();
     setActiveSession(sessionName);
 
@@ -147,24 +134,19 @@ async function loadHistory(sessionName) {
       const lineStripped = line.trim();
       if (!lineStripped) continue;
 
-      // Cas 1 : ligne timestamp "### ..."
       if (lineStripped.startsWith("###")) {
         flushBuffer();
         expectRole = true;
         continue;
       }
 
-      // Cas 2 : ligne de rôle après "###"
       if (expectRole) {
         const m = lineStripped.match(/^\*\*\[(.*?)\]\*\*$/);
-        if (m) {
-          currentRole = m[1].toLowerCase();
-        }
+        if (m) currentRole = m[1].toLowerCase();
         expectRole = false;
         continue;
       }
 
-      // Cas 3 : format alternatif **Vous** / **IA**
       if (lineStripped.startsWith("**Vous**")) {
         flushBuffer();
         currentRole = "user";
@@ -176,62 +158,50 @@ async function loadHistory(sessionName) {
         continue;
       }
 
-      // Cas 4 : contenu
-      if (currentRole) {
-        buffer.push(lineStripped);
-      }
+      if (currentRole) buffer.push(lineStripped);
     }
     flushBuffer();
 
-    // Affichage dans le chat
     history.forEach(msg => {
-      addMessage(msg.content, msg.role === "user" ? "user" : "bot");
+      addMessage(msg.content, msg.role);
     });
 
   } catch (err) {
-    console.error("Erreur chargement historique", err);
+    console.error("Erreur chargement historique :", err);
   }
 }
 
 // ====== Chat ======
 async function apiSendMessage(prompt) {
-  const payload = { prompt };
-  console.log("DEBUG payload envoyé:", JSON.stringify(payload));
-
   const response = await fetch(`${API_BASE_URL}/chat/${currentSession}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt })
   });
 
-  console.log("DEBUG status:", response.status);
-
   if (!response.ok) {
-    console.error("Erreur API:", await response.text());
-    throw new Error("Erreur API");
+    const errText = await response.text();
+    console.error("Erreur API /chat :", errText);
+    throw new Error("Erreur API /chat");
   }
 
-  return await response.json();
+  return response.json();
 }
 
-// ====== Chat ======
 async function sendMessage(prompt) {
   if (!currentSession) {
-    await createSession(); // crée une session si besoin
+    await createSession();
   }
 
-  // Afficher message user
   addMessage(prompt, "user");
-
-  // Afficher bulle "IA écrit"
-  const typingMsg = addMessage("", "bot", true);
+  const typingMsg = addMessage("", "assistant", true);
 
   try {
-    const data = await apiSendMessage(prompt); // appelle POST /chat/
+    const data = await apiSendMessage(prompt);
     const answer = data.answer ?? "⚠️ Pas de réponse";
 
     const bubble = typingMsg.querySelector(".typing-indicator") 
-               || typingMsg.querySelector(".bot-bubble");
+                 || typingMsg.querySelector(".bot-bubble");
 
     if (bubble) {
       bubble.classList.remove("typing-indicator");
@@ -239,59 +209,39 @@ async function sendMessage(prompt) {
       bubble.textContent = answer;
     }
   } catch (err) {
-    console.error(err);
+    console.error("Erreur envoi message :", err);
     const bubble = typingMsg.querySelector("div");
     if (bubble) bubble.textContent = "⚠️ Erreur API";
   }
 }
 
-// ====== Events ======
-document.getElementById("send-btn").addEventListener("click", async () => {
-  const input = document.getElementById("chat-input");
-  const text = input.value.trim();
-  if (!text) return;
-
-  input.value = "";
-  await sendMessage(text);
-});
-
-document.getElementById("chat-input").addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    document.getElementById("send-btn").click();
-  }
-});
-
-// ====== Init ======
+// ====== Events & Init ======
 window.addEventListener("DOMContentLoaded", async () => {
-  await createSession();   // crée une seule session ET charge la liste ET l'historique
-  // inutile de rappeler loadSessions() ici, createSession() le fait déjà
-});
-
-
-// --- Initialisation des handlers UI ---
-document.addEventListener("DOMContentLoaded", () => {
   const chatInput = document.getElementById("chat-input");
   const sendBtn = document.getElementById("send-btn");
+  const newSessionBtn = document.getElementById("new-session-btn");
 
-  // Clic sur bouton "Envoyer"
-  sendBtn.addEventListener("click", () => {
+  function handleSend() {
     const text = chatInput.value.trim();
     if (text.length > 0) {
       sendMessage(text);
       chatInput.value = "";
     }
-  });
+  }
 
-  // Touche Entrée = envoi, Shift+Entrée = retour ligne
+  sendBtn.addEventListener("click", handleSend);
   chatInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      const text = chatInput.value.trim();
-      if (text.length > 0) {
-        sendMessage(text);
-        chatInput.value = "";
-      }
+      handleSend();
     }
   });
+
+  if (newSessionBtn) {
+    newSessionBtn.addEventListener("click", () => {
+      createSession();
+    });
+  }
+
+  await createSession();
 });

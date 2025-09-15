@@ -1,8 +1,8 @@
-# IA_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface Kivy
+# IA_V3 – Chat IA avec Ollama, gestion avancée des conversations et interface avec API
 
 ## 📌 Description
 
-Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec gestion avancée des conversations, interface Kivy et **module de benchmark intégré**.
+Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec gestion avancée des conversations.
 
 ### Fonctionnalités principales :
 
@@ -28,18 +28,6 @@ Projet backend + UI pour interagir avec un modèle IA local via **Ollama**, avec
   * Liste les modèles Ollama installés au démarrage.
   * Permet de choisir le modèle IA à utiliser.
   * Affiche et logge le temps de réponse pour chaque prompt.
-  * Sauvegarde chaque essai et benchmark dans `data/dev_responses.log` et `data/dev_responses.jsonl`.
-* **Module Benchmark IA** :
-  * Exécution de tests unitaires automatiques (ex. `is_prime`, `fibonacci`, `factorial`).
-  * Benchmarks multi-modèles et multi-paramètres (`MAX_TOKENS`, quantisation, etc.).
-  * Scripts dédiés pour lancer rapidement des benchmarks ciblés :
-    * `benchmark_mistral.py` (Mistral standard)
-    * `benchmark_mistral2.py` (Mistral optimisé : `mistral-tests`)
-    * `benchmark_deepseek.py` (DeepSeek optimisé : `deepseek-tests`)
-    * `benchmark_phi.py` (Phi-4 et Phi-4 Mini)
-    * `benchmark_starling.py` (Starling-LM)
-    * `benchmark_llava.py` (LLaVA multimodal)
-    * `benchmark_suite.py` et `benchmark_tokens.py` pour tests comparatifs avancés
   * Sauvegarde des résultats (code généré + stats) dans `data/generated/` et `data/dev_responses.*`.
   * Documentation associée dans `docs/` (prompt engineering et comparatifs).
 
@@ -74,26 +62,6 @@ curl http://127.0.0.1:11434/api/tags
 ```bash
 ollama serve
 ```
-
----
-
-## 📊 Analyse des performances
-
-* Benchmarks automatisés via `tools/benchmark/` et `perf_tests/`.
-* Résultats sauvegardés dans `data/dev_responses.*`.
-* Analyse possible via :
-
-```bash
-python tools/analyze_results.py
-```
-
-* Comparatifs disponibles :
-  * `docs/comparatif_mistral_vs_deepseek.md`
-  * `docs/prompt_engineering_phi.md`
-  * `docs/prompt_engineering_starling.md`
-  * `docs/prompt_engineering_llava.md`
-
----
 
 ## ⚡ Conseils d’optimisation des performances
 
