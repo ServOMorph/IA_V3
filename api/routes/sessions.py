@@ -8,7 +8,7 @@ from pathlib import Path
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 # Instance globale
-chat_manager = ChatManager()
+chat_manager = None
 
 @router.post("/")
 def new_session():

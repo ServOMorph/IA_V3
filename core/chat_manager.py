@@ -31,7 +31,6 @@ class ChatManager:
             self.save_manager.session_dir.name
         )
         
-        self.client = OllamaClient(model=model if model else DEFAULT_MODEL)
 
         self.commands = CommandHandler(self)
 
@@ -130,3 +129,76 @@ class ChatManager:
         """
         from core.session_manager import SessionManager
         return SessionManager.load_session(self, name)
+    
+    def process_prompt(self, user_prompt: str) -> str:
+        """
+        Traite un prompt utilisateur : envoie au modèle, applique le mécanisme
+        de résumé, sauvegarde la conversation et retourne la réponse.
+        """
+        answer = self.client.send_prompt(user_prompt)
+
+        # Résumé glissant avec numérotation
+        GLIDE_SIZE = 2
+        GLOBAL_TRIGGER = 3
+        if len(self.client.history) > (GLIDE_SIZE + MAX_HISTORY_MESSAGES):
+            old_chunk = self.client.history[:GLIDE_SIZE]
+            remaining = self.client.history[GLIDE_SIZE:]
+
+            summary, idx = self.summarizer.generate_summary(old_chunk)
+            self.client.history = (
+                [{"role": "system", "content": f"[Résumé partiel #{idx}] {summary}"}]
+                + remaining
+            )
+
+            if idx % GLOBAL_TRIGGER == 0:
+                global_summary, gidx = self.summarizer.generate_global_summary()
+                self.client.history = (
+                    [{"role": "system", "content": f"[Résumé global] {global_summary}"}]
+                    + self.client.history[-MAX_HISTORY_MESSAGES:]
+                )
+                
+        # === DEBUG ajouté ici ===
+        print("[DEBUG] prompt:", user_prompt)
+        print("[DEBUG] answer:", answer)
+        print("[DEBUG] history:", self.client.history)
+
+        # Sauvegardes
+        self.save_manager.save_md(self.client.history)
+        self.save_manager.save_blocks_from_response(answer, "python", "py")
+        self.save_manager.save_blocks_from_response(answer, "txt", "txt")
+
+        return answer
+
+    def start_chat(self):
+        print(WELCOME_MESSAGE)
+
+        while True:
+            print("\n💬 Vous (une ligne = Entrée, plusieurs lignes = Entrée deux fois) :")
+            lines = []
+            while True:
+                try:
+                    line = input()
+                except EOFError:
+                    return
+                if line == "":
+                    if not lines:
+                        return
+                    break
+                lines.append(line)
+
+            user_prompt = "\n".join(lines).strip()
+            if not user_prompt:
+                print(EMPTY_PROMPT_WARNING)
+                continue
+
+            if self.commands.is_command(user_prompt):
+                handled, should_exit = self.commands.handle(user_prompt)
+                if should_exit:
+                    break
+                if handled:
+                    continue
+
+            # Nouveau : centralisation
+            answer = self.process_prompt(user_prompt)
+            print(f"🤖 Ollama : {answer}")
+

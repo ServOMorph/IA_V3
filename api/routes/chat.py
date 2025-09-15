@@ -1,11 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from core.chat_manager import ChatManager
+from api.routes.sessions import chat_manager  # importer l’instance gérée par sessions.py
 
 router = APIRouter(prefix="/chat", tags=["chat"])
-
-# Instance globale (à améliorer pour multi-utilisateurs plus tard)
-chat_manager = ChatManager()
 
 class PromptRequest(BaseModel):
     prompt: str
@@ -17,6 +14,9 @@ class AnswerResponse(BaseModel):
 def chat_endpoint(req: PromptRequest):
     if not req.prompt.strip():
         raise HTTPException(status_code=400, detail="Prompt vide")
-    answer = chat_manager.client.send_prompt(req.prompt)
-    chat_manager.save_manager.save_md(chat_manager.client.history)
+
+    if not chat_manager:
+        raise HTTPException(status_code=400, detail="Aucune session active")
+
+    answer = chat_manager.process_prompt(req.prompt)
     return {"answer": answer}

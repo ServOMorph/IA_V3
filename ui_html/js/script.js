@@ -1,28 +1,6 @@
 // ui_html/js/script.js
 
-const API_BASE_URL = "http://127.0.0.1:8000";
-
-async function saveMessageToServer(role, content) {
-  if (!currentSession) {
-    console.warn("Pas de session active, message non sauvegardé");
-    return;
-  }
-  const msg = {
-    role: role,
-    content: content,
-    timestamp: new Date().toISOString()
-  };
-  try {
-    await fetch(`${API_BASE_URL}/sessions/${currentSession}/message`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(msg)
-    });
-  } catch (err) {
-    console.error("Erreur sauvegarde message:", err);
-  }
-}
-
+const API_BASE_URL = "http://localhost:8001";
 let currentSession = null;
 
 // ====== Utils DOM ======
@@ -73,13 +51,7 @@ function addMessage(text, sender = "bot", isTyping = false) {
 
   chatBox.appendChild(msgDiv);
   chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: "smooth" });
-
-  // 🔹 Sauvegarde automatique côté serveur (sauf bulle typing)
-  if (!isTyping) {
-    saveMessageToServer(sender, text);
-  }
-
-  return msgDiv; // on renvoie l'élément pour pouvoir le remplacer
+  return msgDiv;
 }
 
 function clearChat() {
@@ -113,8 +85,8 @@ async function apiPost(path, body = {}) {
 // ====== Sessions ======
 async function loadSessions() {
   try {
-    const res = await apiGet("/sessions");   // renvoie { sessions: [...] }
-    const sessions = res.sessions;           // extraire la liste
+    const res = await apiGet("/sessions");   // { sessions: [...] }
+    const sessions = res.sessions;
     const list = document.querySelector(".conv-list");
     list.innerHTML = "";
 
@@ -139,9 +111,10 @@ async function loadSessions() {
 }
 
 async function createSession() {
+  console.log("[DEBUG] createSession appelé");
   try {
-    const data = await apiPost("/sessions");   // renvoie { session: "sav_conv_..." }
-    currentSession = data.session;             // mettre à jour la session active
+    const data = await apiPost("/sessions");
+    currentSession = data.session;
     await loadSessions();
     await loadHistory(currentSession);
   } catch (err) {
@@ -151,12 +124,70 @@ async function createSession() {
 
 async function loadHistory(sessionName) {
   try {
-    const history = await apiGet(`/sessions/${sessionName}/history`);
+    const res = await apiGet(`/sessions/${sessionName}/history`);
+    const mdText = res.history; // markdown brut
     clearChat();
     setActiveSession(sessionName);
+
+    const lines = mdText.split("\n");
+    let history = [];
+    let buffer = [];
+    let currentRole = null;
+    let expectRole = false;
+
+    function flushBuffer() {
+      if (currentRole && buffer.length > 0) {
+        history.push({ role: currentRole, content: buffer.join("\n").trim() });
+      }
+      buffer = [];
+      currentRole = null;
+    }
+
+    for (let line of lines) {
+      const lineStripped = line.trim();
+      if (!lineStripped) continue;
+
+      // Cas 1 : ligne timestamp "### ..."
+      if (lineStripped.startsWith("###")) {
+        flushBuffer();
+        expectRole = true;
+        continue;
+      }
+
+      // Cas 2 : ligne de rôle après "###"
+      if (expectRole) {
+        const m = lineStripped.match(/^\*\*\[(.*?)\]\*\*$/);
+        if (m) {
+          currentRole = m[1].toLowerCase();
+        }
+        expectRole = false;
+        continue;
+      }
+
+      // Cas 3 : format alternatif **Vous** / **IA**
+      if (lineStripped.startsWith("**Vous**")) {
+        flushBuffer();
+        currentRole = "user";
+        continue;
+      }
+      if (lineStripped.startsWith("**IA**")) {
+        flushBuffer();
+        currentRole = "assistant";
+        continue;
+      }
+
+      // Cas 4 : contenu
+      if (currentRole) {
+        buffer.push(lineStripped);
+      }
+    }
+    flushBuffer();
+
+    // Affichage dans le chat
     history.forEach(msg => {
-      addMessage(msg.role === "user" ? msg.content : msg.answer, msg.role);
+      addMessage(msg.content, msg.role === "user" ? "user" : "bot");
     });
+
   } catch (err) {
     console.error("Erreur chargement historique", err);
   }
@@ -164,7 +195,7 @@ async function loadHistory(sessionName) {
 
 // ====== Chat ======
 async function apiSendMessage(prompt) {
-  const res = await fetch(`${API_BASE_URL}/chat`, {
+  const res = await fetch(`${API_BASE_URL}/chat/`, {   // <-- note le slash final
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ prompt })
@@ -173,15 +204,15 @@ async function apiSendMessage(prompt) {
   return res.json(); // { answer: "..." }
 }
 
+// ====== Chat ======
 async function sendMessage(prompt) {
-  if (!currentSession) {
-    await createSession();
-  }
+  // On suppose qu'une session est déjà active
+  // donc on ne recrée pas de session ici
 
-  // Message user
   addMessage(prompt, "user");
+  saveMessageToServer("user", prompt);
 
-  // Bulle "IA est en train d'écrire"
+
   const typingMsg = addMessage("", "bot", true);
 
   try {
@@ -195,9 +226,8 @@ async function sendMessage(prompt) {
       bubble.classList.remove("typing-indicator");
       bubble.classList.add("bot-bubble");
       bubble.textContent = answer;
-
-      // 🔹 Sauvegarde automatique de la réponse IA
       saveMessageToServer("assistant", answer);
+
     }
   } catch (err) {
     console.error(err);
@@ -205,6 +235,29 @@ async function sendMessage(prompt) {
     if (bubble) bubble.textContent = "⚠️ Erreur API";
   }
 }
+
+// ====== Sauvegarde directe ======
+async function saveMessageToServer(role, content) {
+  if (!currentSession) {
+    console.warn("Pas de session active, message non sauvegardé");
+    return;
+  }
+  const msg = {
+    role: role,
+    content: content,
+    timestamp: new Date().toISOString()
+  };
+  try {
+    await fetch(`${API_BASE_URL}/sessions/${currentSession}/message`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(msg)
+    });
+  } catch (err) {
+    console.error("Erreur sauvegarde message:", err);
+  }
+}
+
 
 // ====== Events ======
 document.getElementById("send-btn").addEventListener("click", async () => {
@@ -224,4 +277,7 @@ document.getElementById("chat-input").addEventListener("keydown", e => {
 });
 
 // ====== Init ======
-loadSessions();
+window.addEventListener("DOMContentLoaded", async () => {
+  await createSession();   // crée une seule session ET charge la liste ET l'historique
+  // inutile de rappeler loadSessions() ici, createSession() le fait déjà
+});
