@@ -172,7 +172,7 @@ body {
   justify-content: center;
   border: none;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.12);
+  background:  #1a4736; 
   color: var(--color-text);
   cursor: pointer;
   flex-shrink: 0;
@@ -185,8 +185,8 @@ body {
 }
 
 .input-container button svg {
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
 }
 
 /* Logo sidebar */
@@ -253,4 +253,24 @@ body {
   0%, 100% { opacity: 0.4; }
   50% { opacity: 1; }
 }
+
+.new-conv {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.new-conv img {
+  width: 32px;
+  height: 32px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.new-conv img:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
 
