@@ -21,6 +21,8 @@ class OllamaClient:
         session_name = self.session_file.parent.name if self.session_file else "conversation"
         self.conv_logger, self.conv_log_file = setup_conv_logger(session_name)
 
+    
+
     def send_prompt(self, prompt: str) -> str:
         if not prompt.strip():
             logging.error("Le prompt est vide.")

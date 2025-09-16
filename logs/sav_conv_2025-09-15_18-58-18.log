@@ -1,0 +1,161 @@
+2025-09-15 20:55:25 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 20:55:25 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+---
+👤 Vous : ecri sun script python qui affiche en console "Mon amoureuse"
+🤖 Ollama :
+2025-09-15 20:55:29 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+```python
+print("Mon amoureuse")
+```
+
+2025-09-15 20:57:10 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 20:57:10 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-15 20:55:29 ---
+👤 Vous : ecri sun script python qui affiche en console "Mon amoureuse"
+🤖 Ollama : ```python
+print("Mon amoureuse")
+```
+
+---
+👤 Vous : ecris une def qui ajoute deux entiers ensemble
+🤖 Ollama :
+2025-09-15 20:57:13 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+```python
+def ajouter_entiers(a, b):
+  """Additionne deux entiers."""
+  return a + b 
+```
+
+2025-09-15 20:58:56 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 20:58:56 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-15 20:55:29 ---
+👤 Vous : ecri sun script python qui affiche en console "Mon amoureuse"
+🤖 Ollama : ```python
+print("Mon amoureuse")
+```
+
+--- 2025-09-15 20:57:13 ---
+👤 Vous : ecris une def qui ajoute deux entiers ensemble
+🤖 Ollama : ```python
+def ajouter_entiers(a, b):
+  """Additionne deux entiers."""
+  return a + b 
+```
+
+---
+👤 Vous : ecris une def qui soustrait 2 entiers ensemble
+🤖 Ollama :
+2025-09-15 20:58:59 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+```python
+def soustraire_entiers(a, b):
+  """Soustrait deux entiers."""
+  return a - b 
+```
+
+2025-09-15 21:00:06 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 21:00:06 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-15 20:55:29 ---
+👤 Vous : ecri sun script python qui affiche en console "Mon amoureuse"
+🤖 Ollama : ```python
+print("Mon amoureuse")
+```
+
+--- 2025-09-15 20:57:13 ---
+👤 Vous : ecris une def qui ajoute deux entiers ensemble
+🤖 Ollama : ```python
+def ajouter_entiers(a, b):
+  """Additionne deux entiers."""
+  return a + b 
+```
+
+--- 2025-09-15 20:58:59 ---
+👤 Vous : ecris une def qui soustrait 2 entiers ensemble
+🤖 Ollama : ```python
+def soustraire_entiers(a, b):
+  """Soustrait deux entiers."""
+  return a - b 
+```
+
+---
+👤 Vous : ecris une def qui multiplie 2 entiers ensemble
+🤖 Ollama :
+2025-09-15 21:00:09 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+```python
+def multiplier_entiers(a, b):
+  """Multiplie deux entiers."""
+  return a * b 
+```
+
+2025-09-15 21:01:37 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 21:01:37 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-15 20:55:29 ---
+👤 Vous : ecri sun script python qui affiche en console "Mon amoureuse"
+🤖 Ollama : ```python
+print("Mon amoureuse")
+```
+
+--- 2025-09-15 20:57:13 ---
+👤 Vous : ecris une def qui ajoute deux entiers ensemble
+🤖 Ollama : ```python
+def ajouter_entiers(a, b):
+  """Additionne deux entiers."""
+  return a + b 
+```
+
+--- 2025-09-15 20:58:59 ---
+👤 Vous : ecris une def qui soustrait 2 entiers ensemble
+🤖 Ollama : ```python
+def soustraire_entiers(a, b):
+  """Soustrait deux entiers."""
+  return a - b 
+```
+
+--- 2025-09-15 21:00:09 ---
+👤 Vous : ecris une def qui multiplie 2 entiers ensemble
+🤖 Ollama : ```python
+def multiplier_entiers(a, b):
+  """Multiplie deux entiers."""
+  return a * b 
+```
+
+---
+👤 Vous : ajoute en console le choix de 2 nombres et affiches le résultats de chaque def avec ces 2 entiers a et b"
+🤖 Ollama :
+2025-09-15 21:01:42 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+```python
+# Choix des nombres
+a = float(input("Entrez le premier nombre: "))
+b = float(input("Entrez le deuxième nombre: "))
+
+# Affichage des résultats de chaque fonction
+print("Addition:", ajouter_entiers(a, b))
+print("Soustraction:", soustraire_entiers(a, b))
+print("Multiplication:", multiplier_entiers(a, b)) 
+``` 
+
+
+**Explication:**
+
+1. **Choix des nombres:**  Le code utilise `input()` pour demander à l'utilisateur de saisir deux nombres et les convertit en flottants (`float`) afin de pouvoir effectuer les calculs.
+2. **Appel des fonctions:** Les fonctions `ajouter_entiers`, `soustraire_entiers` et `multiplier_entiers` sont appelées avec les valeurs de `a` et `b`. 
+3. **Affichage des résultats:** Le
+

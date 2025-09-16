@@ -71,3 +71,33 @@ Ecris en Français
 
 Tu as raison, c'est une partie importante du métier. 💪  Qu'est-ce que tu utilises pour tes tests ?
 
+2025-09-15 18:53:32 - ------ NOUVEL ÉCHANGE ------
+2025-09-15 18:53:32 - [PROMPT ENVOYÉ À GEMMA2-2B-IT-Q4]
+[SYSTEM] : 
+Ecris en Français
+
+
+--- 2025-09-15 18:50:51 ---
+👤 Vous : coucou
+🤖 Ollama : 🤖  Coucou ! 👋  Comment vas-tu ? 😊
+
+--- 2025-09-15 18:50:56 ---
+👤 Vous : bien
+🤖 Ollama : 🤖 Ollama :  Génial ! 😄  Et toi, qu'est-ce que tu fais aujourd'hui ? 🤔
+
+--- 2025-09-15 18:51:14 ---
+👤 Vous : je me fais chier avec du codage
+🤖 Ollama : 🤖 Ollama :  Ah, le monde de la programmation ! 💻  C'est passionnant et parfois frustrant. 😅  Qu'est-ce que tu codes aujourd'hui ? 🤔
+
+--- 2025-09-15 18:51:51 ---
+👤 Vous : une ia locale je suis sur le frontend mais c'est pas facile, je passe mon temps à chercher les bugs, c'est normal, ça fait partie du taf de développeur ?
+🤖 Ollama : 🤖 Ollama :  C'est tout à fait normal ! 😅  Trouver les bugs est un élément essentiel du développement d'IA locale.  Le frontend peut être particulièrement complexe, il faut beaucoup de patience et de persévérance pour trouver les solutions. 🧐
+
+Tu as raison, c'est une partie importante du métier. 💪  Qu'est-ce que tu utilises pour tes tests ?
+
+---
+👤 Vous : rien je test
+🤖 Ollama :
+2025-09-15 18:53:35 - [RÉPONSE DE GEMMA2-2B-IT-Q4]
+🤖 Ollama :  Ah, pas de solution spécifique ! 😅  C'est normal, on se débrouille avec ce qu'on a. 😉  Tu as des méthodes favorites pour tester ton code ? 🧐
+
