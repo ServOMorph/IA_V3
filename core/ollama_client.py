@@ -38,7 +38,7 @@ class OllamaClient:
 
         # Contexte depuis l'historique interne
         context = self._get_saved_conversation()
-        full_prompt = f"{context}\n\n---\n👤 Vous : {prompt}\n🤖 Ollama :" if context else prompt
+        full_prompt = f"{context}\n\n---\n👤 Vous : {prompt}\n🤖 VertIA :" if context else prompt
 
         # Log prompt
         self.conv_logger.info("------ NOUVEL ÉCHANGE ------")
@@ -143,7 +143,7 @@ class OllamaClient:
             if "prompt" in ex:
                 lines.append(f"👤 Vous : {ex['prompt']}")
             if "response" in ex:
-                lines.append(f"🤖 Ollama : {ex['response']}\n")
+                lines.append(f"🤖 VertIA : {ex['response']}\n")
 
         return "\n".join(lines).strip()
 

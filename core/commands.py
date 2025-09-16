@@ -98,14 +98,14 @@ class CommandHandler:
         # 4) Messages pré-enregistrés
         if lower == f"{COMMAND_PREFIX}msg1":
             answer = self.client.send_prompt(PRESET_MESSAGES["msg1"])
-            print(f"🤖 Ollama : {answer}")
+            print(f"🤖 VertIA : {answer}")
             self.save_manager.save_md(self.client.history)
             self.save_manager.save_python_from_response(answer)
             return True, False
 
         if lower == f"{COMMAND_PREFIX}msg2":
             answer = self.client.send_prompt(PRESET_MESSAGES["msg2"])
-            print(f"🤖 Ollama : {answer}")
+            print(f"🤖 VertIA : {answer}")
             self.save_manager.save_md(self.client.history)
             self.save_manager.save_python_from_response(answer)
             return True, False

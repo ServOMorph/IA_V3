@@ -23863,3 +23863,105 @@ Résumé global structuré :
 
  **Points en suspens:**  L'utilisateur doit fournir plus d'informations sur les fonctionnalités souhaitées, les contraintes techniques et la sécurité du serveur local.
 
+2025-09-16 16:36:55 - ------ NOUVEL ÉCHANGE ------
+2025-09-16 16:36:55 - [PROMPT ENVOYÉ À GEMMA2:2B]
+Tu es un assistant chargé de condenser un extrait d'historique de conversation.
+Structure ton résumé en 4 sections claires en français (max 150 tokens) :
+- Faits clés
+- Intentions utilisateur
+- Réponses IA
+- Points en suspens
+
+=== Début du dialogue ===
+user: coucou
+assistant: Coucou ! 👋  Comment vas-tu ? 😊
+=== Fin du dialogue ===
+
+Résumé structuré :
+2025-09-16 16:37:04 - [RÉPONSE DE GEMMA2:2B]
+## Résumé de l'historique de conversation :
+
+**Faits clés:** 
+* L'utilisateur commence la conversation en utilisant "coucou".
+* L'assistant répond avec un "Coucou ! 👋  Comment vas-tu ? 😊"
+
+**Intentions utilisateur:** 
+* L'utilisateur souhaite simplement saluer l'assistant. 
+* Il cherche probablement une interaction simple et amicale.
+
+** Réponses IA:** 
+* L'assistant répond de manière courtoise et conviviale, en utilisant un langage familier. 
+* Il s'engage à répondre à la demande de l'utilisateur.
+
+**Points en suspens:**  
+* La conversation n'a pas avancé vers une demande spécifique ou un sujet particulier. 
+* L'utilisateur semble simplement souhaiter une interaction amicale.
+
+2025-09-16 16:37:49 - ------ NOUVEL ÉCHANGE ------
+2025-09-16 16:37:49 - [PROMPT ENVOYÉ À GEMMA2:2B]
+--- 2025-09-16 16:37:04 ---
+👤 Vous : Tu es un assistant chargé de condenser un extrait d'historique de conversation.
+Structure ton résumé en 4 sections claires en français (max 150 tokens) :
+- Faits clés
+- Intentions utilisateur
+- Réponses IA
+- Points en suspens
+
+=== Début du dialogue ===
+user: coucou
+assistant: Coucou ! 👋  Comment vas-tu ? 😊
+=== Fin du dialogue ===
+
+Résumé structuré :
+🤖 VertIA : ## Résumé de l'historique de conversation :
+
+**Faits clés:** 
+* L'utilisateur commence la conversation en utilisant "coucou".
+* L'assistant répond avec un "Coucou ! 👋  Comment vas-tu ? 😊"
+
+**Intentions utilisateur:** 
+* L'utilisateur souhaite simplement saluer l'assistant. 
+* Il cherche probablement une interaction simple et amicale.
+
+** Réponses IA:** 
+* L'assistant répond de manière courtoise et conviviale, en utilisant un langage familier. 
+* Il s'engage à répondre à la demande de l'utilisateur.
+
+**Points en suspens:**  
+* La conversation n'a pas avancé vers une demande spécifique ou un sujet particulier. 
+* L'utilisateur semble simplement souhaiter une interaction amicale.
+
+---
+👤 Vous : Tu es un assistant chargé de condenser un extrait d'historique de conversation.
+Structure ton résumé en 4 sections claires en français (max 150 tokens) :
+- Faits clés
+- Intentions utilisateur
+- Réponses IA
+- Points en suspens
+
+=== Début du dialogue ===
+user: bien
+assistant: C'est génial ! 😄  Et toi, qu'as-tu fait aujourd'hui ?
+=== Fin du dialogue ===
+
+Résumé structuré :
+🤖 VertIA :
+2025-09-16 16:37:55 - [RÉPONSE DE GEMMA2:2B]
+## Résumé de l'historique de conversation :
+
+**Faits clés:** 
+* L'utilisateur répond "bien" à la question de l'assistant.
+* L'assistant demande ensuite à l'utilisateur ce qu'il a fait aujourd'hui.
+
+**Intentions utilisateur:** 
+* L'utilisateur souhaite partager une information simple sur sa journée. 
+* Il cherche à initier une conversation plus approfondie avec l'assistant.
+
+** Réponses IA:** 
+* L'assistant s'engage à interagir avec l'utilisateur et lui demande des informations sur sa journée. 
+* Il utilise un langage amical et encourageant.
+
+**Points en suspens:**  
+* La conversation n'a pas avancé vers une demande spécifique ou un sujet particulier. 
+* L'utilisateur semble souhaiter partager son quotidien et explorer la conversation avec l'assistant.
+

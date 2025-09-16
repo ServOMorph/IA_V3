@@ -88,7 +88,7 @@ class ChatManager:
 
             # Requête IA
             answer = self.client.send_prompt(user_prompt)
-            print(f"🤖 Ollama : {answer}")
+            print(f"🤖 VertIA : {answer}")
 
             # Résumé glissant avec numérotation
             GLIDE_SIZE = 2
@@ -159,12 +159,14 @@ class ChatManager:
                     + self.client.history[-MAX_HISTORY_MESSAGES:]
                 )
 
+        """
         # === DEBUG ajouté ici ===
         print("====== DEBUG process_prompt ======")
         print("[PROMPT]", user_prompt)
         print("[ANSWER]", answer)
         print("[HISTORY]", self.client.history)
         print("====== END DEBUG ======")
+        """
 
         # Sauvegardes
         self.save_manager.save_md(self.client.history)
@@ -204,5 +206,5 @@ class ChatManager:
 
             # Nouveau : centralisation
             answer = self.process_prompt(user_prompt)
-            print(f"🤖 Ollama : {answer}")
+            print(f"🤖 VertIA : {answer}")
 
