@@ -21,7 +21,15 @@ class OllamaClient:
         session_name = self.session_file.parent.name if self.session_file else "conversation"
         self.conv_logger, self.conv_log_file = setup_conv_logger(session_name)
 
-    
+    @staticmethod
+    def check_server(base_url=OLLAMA_BASE_URL, timeout=5) -> bool:
+        """Vérifie si le serveur Ollama répond sur /api/tags"""
+        import requests
+        try:
+            resp = requests.get(f"{base_url}/api/tags", timeout=timeout)
+            return resp.status_code == 200
+        except requests.RequestException:
+            return False
 
     def send_prompt(self, prompt: str) -> str:
         if not prompt.strip():

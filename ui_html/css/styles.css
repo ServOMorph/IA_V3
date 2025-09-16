@@ -364,3 +364,13 @@ body {
   font-weight: bold;
 }
 
+.error-banner {
+  background-color: #ffdddd;
+  color: #a10000;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #a10000;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 # main.py
 from core.chat_manager import ChatManager
-from core.ollama_client import list_installed_models
+from core.ollama_client import list_installed_models, OllamaClient
 from config import DEV_MODE, DEFAULT_MODEL
 
 
@@ -39,16 +39,20 @@ def select_model():
 
 
 def main():
+    # Vérifier serveur Ollama
+    if not OllamaClient.check_server():
+        print("❌ Erreur : le serveur Ollama ne répond pas sur /api/tags")
+        print("👉 Lancez-le avec :  ollama serve")
+        return
+
     # Mode dev : choisir un modèle au démarrage
     if DEV_MODE:
         model = select_model()
     else:
         model = DEFAULT_MODEL
 
-    # Lancer le chat avec le modèle choisi
     chat = ChatManager(model=model)
     chat.start_chat()
-
 
 if __name__ == "__main__":
     main()

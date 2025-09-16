@@ -3,6 +3,24 @@
 const API_BASE_URL = "http://localhost:8001";
 let currentSession = null;
 
+// Vérifier disponibilité du serveur Ollama
+async function checkOllama() {
+  try {
+    const res = await fetch("http://localhost:11434/api/tags");
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    console.log("Ollama serveur OK");
+  } catch (e) {
+    const chatBox = document.getElementById("chat-box");
+    const div = document.createElement("div");
+    div.className = "error-banner";
+    div.textContent = "❌ Serveur Ollama non disponible. Lancez `ollama serve`.";
+    chatBox.prepend(div);
+
+    document.getElementById("chat-input").disabled = true;
+    document.getElementById("send-btn").disabled = true;
+  }
+}
+
 // ====== Utils DOM ======
 function addMessage(text, sender = "assistant", isTyping = false) {
   const chatBox = document.getElementById("chat-box");
@@ -258,8 +276,6 @@ function showToast(message) {
   }, 3000);
 }
 
-
-
 // ====== Menu contextuel conversation ======
 function openConvMenu(event, sessionName) {
   const oldMenu = document.querySelector(".conv-context-menu");
@@ -347,9 +363,11 @@ function openConvMenu(event, sessionName) {
   });
 }
 
-
 // ====== Events & Init ======
 window.addEventListener("DOMContentLoaded", async () => {
+  // Vérifie Ollama AVANT toute initialisation
+  await checkOllama();
+
   const chatInput = document.getElementById("chat-input");
   const sendBtn = document.getElementById("send-btn");
   const newSessionBtn = document.getElementById("new-session-btn");
@@ -376,5 +394,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  await createSession();
+  // ⚠️ Ne crée une session que si Ollama est disponible
+  if (!document.querySelector(".error-banner")) {
+    await createSession();
+  }
 });
