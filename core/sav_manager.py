@@ -1,3 +1,5 @@
+print(">>> DEBUG: core/sav_manager.py chargé depuis", __file__)
+
 import logging
 import re
 from pathlib import Path
@@ -20,6 +22,9 @@ class SaveManager:
     """
     def __init__(self, save_dir=SAVE_DIR):
         self.save_root = Path(save_dir)
+        # DEBUG
+        print(f"[DEBUG SaveManager] save_dir param = {save_dir}")
+        print(f"[DEBUG SaveManager] self.save_root = {self.save_root.resolve()}")
         self.save_root.mkdir(parents=True, exist_ok=True)
         stamp = datetime.now().strftime(SAVE_FILE_DATETIME_FORMAT)
         self.session_name = f"{SAVE_FILE_PREFIX}{stamp}"
@@ -95,7 +100,18 @@ class SaveManager:
 
     def rename_session_file(self, new_name):
         try:
+            print("========== DEBUG rename_session_file ==========")
+            print(f"session_name: {self.session_name}")
+            print(f"session_dir (raw): {self.session_dir}")
+            print(f"session_dir (absolute): {self.session_dir.resolve()}")
+            print(f"session_dir.exists(): {self.session_dir.exists()}")
+            print("==============================================")
+
             old_dir = self.session_dir
+            print(f"[DEBUG rename_session_file] self.session_dir = {self.session_dir}")
+            print(f"[DEBUG rename_session_file] absolute = {self.session_dir.resolve()}")
+            print(f"[DEBUG rename_session_file] exists = {self.session_dir.exists()}")
+
             if not old_dir.exists():
                 logging.error(f"Dossier source introuvable: {old_dir}")
                 return False
@@ -104,6 +120,10 @@ class SaveManager:
             if new_dir.exists():
                 logging.error(f"Le dossier '{new_dir.name}' existe déjà.")
                 return False
+
+            # DEBUG : afficher les chemins pour comprendre un éventuel échec
+            logging.info(f"[DEBUG] rename_session_file old_dir={old_dir} exists={old_dir.exists()}")
+            logging.info(f"[DEBUG] rename_session_file new_dir={new_dir}")
 
             # Renommer le dossier de session
             shutil.move(str(old_dir), str(new_dir))

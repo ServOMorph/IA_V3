@@ -29,7 +29,18 @@ class SessionManager:
             # Renommer le dossier de session
             shutil.move(str(old_dir), str(new_dir))
 
-            # Essayer de renommer le .log, mais ignorer si bloqué
+            # Fermer le logger si c’est la session active
+            if hasattr(chat_manager, "save_manager") and chat_manager.save_manager.session_name == old_name:
+                if hasattr(chat_manager.client, "conv_logger"):
+                    for h in list(chat_manager.client.conv_logger.handlers):
+                        try:
+                            h.flush()
+                            h.close()
+                        except Exception:
+                            pass
+                        chat_manager.client.conv_logger.removeHandler(h)
+
+            # Essayer de renommer le .log
             old_log = Path(LOGS_DIR) / f"{old_name}.log"
             if old_log.exists():
                 try:

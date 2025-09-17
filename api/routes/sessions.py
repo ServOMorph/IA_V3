@@ -5,6 +5,8 @@ from config import SAVE_DIR, LOGS_DIR
 import shutil
 import logging
 
+print(f"[DEBUG API] SAVE_DIR = {SAVE_DIR}")
+
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 # Dictionnaire de ChatManager par session
@@ -15,7 +17,16 @@ def new_session():
     cm = ChatManager()
     name = cm.save_manager.session_name
     chat_managers[name] = cm
-    print(f"[DEBUG] Session créée : {cm.save_manager.session_dir.resolve()}")
+
+    # Forcer la création du dossier et du fichier
+    cm.save_manager.session_dir.mkdir(parents=True, exist_ok=True)
+    cm.save_manager.session_md.write_text("", encoding="utf-8")
+
+    print(f"[DEBUG API] Session créée : {name}")
+    print(f"[DEBUG API] Dossier attendu : {cm.save_manager.session_dir.resolve()}")
+    print(f"[DEBUG API] exists() = {cm.save_manager.session_dir.exists()}")
+    print(f"[DEBUG API] conversation.md exists() = {cm.save_manager.session_md.exists()}")
+
     return {"session": name}
 
 @router.get("/")
@@ -32,10 +43,20 @@ def get_history(name: str):
 
 @router.put("/{name}/rename")
 def rename_session(name: str, new_name: str):
-    """
-    Renommer une session (dossier + log).
-    """
+    print("========== DEBUG API rename ==========")
+    print(f"name reçu = {name}, new_name = {new_name}")
+    print("Sessions présentes dans chat_managers:", list(chat_managers.keys()))
+
     cm = chat_managers.get(name)
+    print("cm trouvé ?", cm is not None)
+
+    if cm:
+        print("cm.save_manager.session_name =", cm.save_manager.session_name)
+        print("cm.save_manager.session_dir =", cm.save_manager.session_dir)
+        print("cm.save_manager.session_dir.exists() =", cm.save_manager.session_dir.exists())
+
+    print("======================================")
+
     if not cm:
         raise HTTPException(status_code=404, detail="Session introuvable")
 
@@ -43,7 +64,6 @@ def rename_session(name: str, new_name: str):
     if not ok:
         raise HTTPException(status_code=400, detail="Impossible de renommer la session")
 
-    # mettre à jour la clé dans le dictionnaire
     chat_managers[new_name] = chat_managers.pop(name)
     return {"old_name": name, "new_name": new_name}
 

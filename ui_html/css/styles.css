@@ -53,12 +53,29 @@ body {
 }
 
 .chat-box {
+  position: relative;
   flex: 1;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   overflow-y: auto;
+  background-color: var(--color-bg);
+}
+
+.chat-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/images/arbre.png") center/40% no-repeat;
+  opacity: 0.05;            /* ici tu règles la transparence */
+  pointer-events: none;    /* n’intercepte pas le scroll/clic */
+  z-index: 0;
+}
+
+.chat-box > * {
+  position: relative;
+  z-index: 1; /* messages par-dessus */
 }
 
 /* Messages */
@@ -374,3 +391,4 @@ body {
   font-weight: bold;
   text-align: center;
 }
+

@@ -25,7 +25,7 @@ COMMANDS = {
     f"{COMMAND_PREFIX}q": "Sauvegarder et quitter",
     f"{COMMAND_PREFIX}exit": "Quitter sans sauvegarder",
     f"{COMMAND_PREFIX}help": "Liste des commandes",
-    f"{COMMAND_PREFIX}rename": f"Renommer la session courante ({COMMAND_PREFIX}rename NOM)",
+    f"{COMMAND_PREFIX}rename": f"Renommer une session ({COMMAND_PREFIX}rename ANCIEN_NOM NOUVEAU_NOM ou {COMMAND_PREFIX}rename NOUVEAU_NOM pour la session active)",
     f"{COMMAND_PREFIX}msg1": "Demander : capitale de la France",
     f"{COMMAND_PREFIX}msg2": "Demander : histoire 20 caractères",
     f"{COMMAND_PREFIX}load": f"Charger une session ({COMMAND_PREFIX}load chemin/nom)",
@@ -82,17 +82,29 @@ class CommandHandler:
             show_commands()
             return True, False
 
-        # 3) Renommer la session courante
+        # 3) Renommer une session
         if lower.startswith(f"{COMMAND_PREFIX}rename"):
             if not arg:
-                print(f"⚠️ Usage : {COMMAND_PREFIX}rename NOM")
+                print(f"⚠️ Usage : {COMMAND_PREFIX}rename ANCIEN_NOM NOUVEAU_NOM")
                 return True, False
-            new_name = arg.replace(" ", "_")
-            ok = SessionManager.rename_session(self.chat_manager, new_name)
-            if ok:
-                print(f"✅ Conversation renommée en : {new_name}")
+
+            parts = arg.split()
+            if len(parts) == 1:
+                # compat : renommer la session courante
+                old_name = self.chat_manager.save_manager.session_name
+                new_name = parts[0].replace(" ", "_")
+            elif len(parts) == 2:
+                old_name = parts[0].replace(" ", "_")
+                new_name = parts[1].replace(" ", "_")
             else:
-                print("⚠️ Impossible de renommer la conversation.")
+                print(f"⚠️ Usage : {COMMAND_PREFIX}rename ANCIEN_NOM NOUVEAU_NOM")
+                return True, False
+
+            ok = SessionManager.rename_session(self.chat_manager, old_name, new_name)
+            if ok:
+                print(f"✅ Session '{old_name}' renommée en : {new_name}")
+            else:
+                print(f"⚠️ Impossible de renommer '{old_name}' → '{new_name}'")
             return True, False
 
         # 4) Messages pré-enregistrés

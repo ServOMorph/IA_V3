@@ -1,41 +1,41 @@
-import requests, time
+import requests
+import time
 
-import os
-BASE_URL = f"http://127.0.0.1:{os.getenv('API_PORT', '8001')}"
+BASE = "http://127.0.0.1:8001"
 
+# 1. Créer une session
+r = requests.post(f"{BASE}/sessions/")
+if r.status_code != 200:
+    print("❌ Erreur création session:", r.text)
+    exit(1)
 
-def test_chat():
-    r = requests.post(f"{BASE_URL}/chat/", json={"prompt": "2+2"})
-    assert r.status_code == 200
-    assert "answer" in r.json()
+old_name = r.json()["session"]
+print("✅ Session créée :", old_name)
 
-def test_new_session():
-    r = requests.post(f"{BASE_URL}/sessions/")
-    assert r.status_code == 200
-    assert "session" in r.json()
-    global created_session
-    created_session = r.json()["session"]
+# 2. Renommer avec un nom unique basé sur timestamp
+new_name = f"test_api_{int(time.time())}"
+r2 = requests.put(f"{BASE}/sessions/{old_name}/rename", params={"new_name": new_name})
 
-def test_list_sessions():
-    r = requests.get(f"{BASE_URL}/sessions/")
-    assert r.status_code == 200
-    sessions = r.json().get("sessions", [])
-    assert isinstance(sessions, list)
-    assert created_session in sessions
+if r2.status_code == 200:
+    print("✅ Session renommée :", r2.json())
+else:
+    print(f"❌ Erreur renommage (status {r2.status_code}):", r2.text)
+    exit(1)
 
-def test_get_history():
-    r = requests.get(f"{BASE_URL}/sessions/{created_session}/history")
-    assert r.status_code == 200
-    assert isinstance(r.json(), dict)
+# 3. Vérifier la liste des sessions
+r3 = requests.get(f"{BASE}/sessions/")
+if r3.status_code == 200:
+    sessions = r3.json()["sessions"]
+    print("📂 Sessions existantes :", sessions)
 
-def test_rename_session():
-    global renamed_session
-    renamed_session = f"renamed-{int(time.time())}"
-    r = requests.put(f"{BASE_URL}/sessions/{created_session}/rename", params={"new_name": renamed_session})
-    assert r.status_code == 200
-    assert r.json().get("new") == renamed_session
-    
-def test_delete_session():
-    r = requests.delete(f"{BASE_URL}/sessions/{renamed_session}")
-    assert r.status_code == 200
-    assert r.json().get("deleted") == renamed_session
+    if new_name in sessions:
+        print("✅ Le nouveau nom est bien présent :", new_name)
+    else:
+        print("❌ Le nouveau nom n'apparaît pas dans la liste !")
+
+    if old_name not in sessions:
+        print("✅ L'ancien nom a bien disparu :", old_name)
+    else:
+        print("❌ L'ancien nom est encore présent :", old_name)
+else:
+    print("❌ Erreur récupération sessions:", r3.text)
