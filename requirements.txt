@@ -1,0 +1,13 @@
+api
+client
+config
+core
+docx
+fastapi
+fpdf
+openpyxl
+pandas
+pydantic
+pyperclip
+pytest
+requests
