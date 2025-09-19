@@ -8,6 +8,10 @@ from pathlib import Path
 # Mode développeur
 DEV_MODE = False
 
+# Activer / désactiver les logs
+ENABLE_LOGS = False
+
+
 # Répertoire racine du projet (IA_V3)
 BASE_DIR = Path(__file__).resolve().parent
 
