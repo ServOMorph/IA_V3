@@ -27,8 +27,9 @@ body {
 }
 
 .conv-list li {
-  display: inline-block;     /* largeur selon le texte */
-  width: auto;               /* pas de largeur forcée */
+  display: block;     
+  width: fit-content;   
+  max-width: 100%;             
   padding: 0.3rem 0.6rem;    /* réduit un peu pour éviter un bloc trop large */
   margin: 0 0 0.5rem 0;      /* espace uniquement en bas */
   border-radius: var(--radius);
