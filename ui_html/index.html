@@ -6,6 +6,8 @@
   <title>Prototype Chat UI</title>
   <link rel="stylesheet" href="css/config_ui_html.css">
   <link rel="stylesheet" href="css/styles.css">
+  <!-- Ajout de marked.js pour le parsing Markdown -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.1.1/marked.min.js"></script>
 </head>
 <body>
 
@@ -23,25 +25,23 @@
   </ul>
 </aside>
 
-
-    <!-- Zone centrale -->
-    <main class="chat-container">
-      <div id="chat-box" class="chat-box">
-        <!-- Messages mock ajoutés via JS -->
-      </div>
-
-      <div class="input-container">
-        <textarea id="chat-input" placeholder="Écrire un message..." aria-label="Écrire un message"></textarea>
-        <button id="send-btn" aria-label="Envoyer">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M3.4 20.6L20.3 12 3.4 3.4l.1 7.2 10 1.4-10 1.4-.1 7.2z"/>
-            </svg>
-        </button>
-      </div>
-
-    </main>
+<!-- Zone centrale -->
+<main class="chat-container">
+  <div id="chat-box" class="chat-box">
+    <!-- Messages mock ajoutés via JS -->
   </div>
 
-  <script src="js/script.js"></script>
+  <div class="input-container">
+    <textarea id="chat-input" placeholder="Écrire un message..." aria-label="Écrire un message"></textarea>
+    <button id="send-btn" aria-label="Envoyer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <path d="M3.4 20.6L20.3 12 3.4 3.4l.1 7.2 10 1.4-10 1.4-.1 7.2z"/>
+        </svg>
+    </button>
+  </div>
+
+</main>
+
+<script src="js/script.js"></script>
 </body>
 </html>

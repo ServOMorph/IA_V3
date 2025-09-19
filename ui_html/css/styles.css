@@ -42,8 +42,6 @@ body {
   color: black;
 }
 
-
-
 /* Chat */
 .chat-container {
   flex: 1;
@@ -69,7 +67,7 @@ body {
   inset: 0;
   background: url("../assets/images/arbre.png") center/40% no-repeat;
   opacity: 0.05;            /* ici tu règles la transparence */
-  pointer-events: none;    /* n’intercepte pas le scroll/clic */
+  pointer-events: none;    /* n'intercepte pas le scroll/clic */
   z-index: 0;
 }
 
@@ -120,7 +118,6 @@ body {
   word-wrap: break-word;
 }
 
-
 /* Bot */
 .message.bot {
   align-self: stretch; /* occupe toute la largeur */
@@ -148,8 +145,112 @@ body {
   border-radius: var(--radius);
   border-bottom-left-radius: 4px;
   color: var(--msg-bot-text);
-  white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+/* ✅ NOUVEAU : Styles Markdown dans les bulles bot */
+.bot-bubble h1, .bot-bubble h2, .bot-bubble h3, 
+.bot-bubble h4, .bot-bubble h5, .bot-bubble h6 {
+  margin: 0.5em 0 0.3em 0;
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+.bot-bubble h1 { font-size: 1.3em; }
+.bot-bubble h2 { font-size: 1.2em; }
+.bot-bubble h3 { font-size: 1.1em; }
+.bot-bubble h4 { font-size: 1.05em; }
+.bot-bubble h5 { font-size: 1.02em; }
+.bot-bubble h6 { font-size: 1em; }
+
+.bot-bubble p {
+  margin: 0.4em 0;
+  line-height: 1.5;
+}
+
+.bot-bubble ul, .bot-bubble ol {
+  margin: 0.4em 0;
+  padding-left: 1.2em;
+}
+
+.bot-bubble ul li, .bot-bubble ol li {
+  margin: 0.2em 0;
+}
+
+.bot-bubble code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9em;
+  color: #b8e6d1;
+}
+
+.bot-bubble pre {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.8em;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.5em 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bot-bubble pre code {
+  background: none;
+  padding: 0;
+  color: #e0f2e9;
+}
+
+.bot-bubble strong {
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+.bot-bubble em {
+  font-style: italic;
+  color: #b8e6d1;
+}
+
+.bot-bubble blockquote {
+  border-left: 3px solid var(--color-accent);
+  margin: 0.5em 0;
+  padding-left: 0.8em;
+  font-style: italic;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bot-bubble a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.bot-bubble a:hover {
+  color: #3dd9a7;
+}
+
+.bot-bubble table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5em 0;
+}
+
+.bot-bubble th, .bot-bubble td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.4em 0.6em;
+  text-align: left;
+}
+
+.bot-bubble th {
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: bold;
+  color: var(--color-accent);
+}
+
+.bot-bubble hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1em 0;
 }
 
 /* Input */
@@ -303,7 +404,6 @@ body {
   opacity: 1;
 }
 
-
 .conv-menu {
   opacity: 0;
   font-weight: bold;
@@ -391,4 +491,3 @@ body {
   font-weight: bold;
   text-align: center;
 }
-

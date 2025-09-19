@@ -13,7 +13,7 @@ async function checkOllama() {
     const chatBox = document.getElementById("chat-box");
     const div = document.createElement("div");
     div.className = "error-banner";
-    div.textContent = "❌ Serveur Ollama non disponible. Lancez `ollama serve`.";
+    div.textContent = "⚠ Serveur Ollama non disponible. Lancez `ollama serve`.";
     chatBox.prepend(div);
 
     document.getElementById("chat-input").disabled = true;
@@ -38,7 +38,13 @@ function addMessage(text, sender = "assistant", isTyping = false) {
 
     const bubble = document.createElement("div");
     bubble.classList.add(isTyping ? "typing-indicator" : "bot-bubble");
-    bubble.textContent = isTyping ? "..." : text;
+    
+    if (isTyping) {
+      bubble.textContent = "...";
+    } else {
+      // ✅ CHANGEMENT : Utiliser innerHTML avec marked.parse() pour le markdown
+      bubble.innerHTML = marked.parse(text);
+    }
 
     wrapper.appendChild(logo);
     wrapper.appendChild(bubble);
@@ -55,8 +61,8 @@ function addMessage(text, sender = "assistant", isTyping = false) {
 
     const bubble = document.createElement("div");
     bubble.classList.add("user-bubble");
-    bubble.textContent = text;
-
+    bubble.textContent = text; // Les messages utilisateur restent en texte brut
+    
     wrapper.appendChild(logo);
     wrapper.appendChild(bubble);
     msgDiv.appendChild(wrapper);
@@ -106,7 +112,7 @@ async function loadSessions() {
     sessions.forEach(s => {
       const li = document.createElement("li");
 
-      // ✅ identifiant brut (avec underscores) pour l’API
+      // ✅ identifiant brut (avec underscores) pour l'API
       li.dataset.session = s;
 
       // affichage texte (tel quel)
@@ -118,7 +124,7 @@ async function loadSessions() {
       spanMenu.classList.add("conv-menu");
       spanMenu.textContent = "...";
       spanMenu.addEventListener("click", (e) => {
-        e.stopPropagation(); // empêche d’ouvrir l’historique
+        e.stopPropagation(); // empêche d'ouvrir l'historique
         openConvMenu(e, li.dataset.session); // ✅ toujours dataset
       });
 
@@ -244,7 +250,8 @@ async function sendMessage(prompt) {
     if (bubble) {
       bubble.classList.remove("typing-indicator");
       bubble.classList.add("bot-bubble");
-      bubble.textContent = answer;
+      // ✅ CHANGEMENT : Utiliser innerHTML avec marked.parse() au lieu de textContent
+      bubble.innerHTML = marked.parse(answer);
     }
   } catch (err) {
     console.error("Erreur envoi message :", err);
@@ -301,7 +308,7 @@ function openConvMenu(event, sessionName) {
           await loadSessions();               // recharge la sidebar
           currentSession = newName;           // mettre à jour la session active
           setActiveSession(newName);          // repère visuel
-          await loadHistory(newName);         // recharger l’historique
+          await loadHistory(newName);         // recharger l'historique
           showToast(`Session renommée en "${newName}" ✅`);
         }
         else {
