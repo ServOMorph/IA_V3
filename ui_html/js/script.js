@@ -36,18 +36,25 @@ function addMessage(text, sender = "assistant", isTyping = false) {
     logo.alt = "IA";
     logo.classList.add("bot-logo");
 
+    // Bulle IA
     const bubble = document.createElement("div");
     bubble.classList.add(isTyping ? "typing-indicator" : "bot-bubble");
-    
     if (isTyping) {
       bubble.textContent = "...";
     } else {
-      // ✅ CHANGEMENT : Utiliser innerHTML avec marked.parse() pour le markdown
       bubble.innerHTML = marked.parse(text);
     }
 
+    // Wrapper bulle + bouton
+    const bubbleWrapper = document.createElement("div");
+    bubbleWrapper.classList.add("bot-bubble-wrapper");
+    bubbleWrapper.appendChild(bubble);
+    if (!isTyping) {
+      bubbleWrapper.appendChild(createCopyButton(text, "Réponse IA copiée ✅"));
+    }
+
     wrapper.appendChild(logo);
-    wrapper.appendChild(bubble);
+    wrapper.appendChild(bubbleWrapper);
     msgDiv.appendChild(wrapper);
 
   } else if (sender === "user") {
@@ -59,12 +66,19 @@ function addMessage(text, sender = "assistant", isTyping = false) {
     logo.alt = "User";
     logo.classList.add("user-logo");
 
+    // Bulle
     const bubble = document.createElement("div");
     bubble.classList.add("user-bubble");
-    bubble.textContent = text; // Les messages utilisateur restent en texte brut
-    
+    bubble.textContent = text;
+
+    // Wrapper bulle + bouton
+    const bubbleWrapper = document.createElement("div");
+    bubbleWrapper.classList.add("user-bubble-wrapper");
+    bubbleWrapper.appendChild(bubble);
+    bubbleWrapper.appendChild(createCopyButton(text, "Message copié ✅"));
+
     wrapper.appendChild(logo);
-    wrapper.appendChild(bubble);
+    wrapper.appendChild(bubbleWrapper);
     msgDiv.appendChild(wrapper);
   }
 
@@ -77,12 +91,28 @@ function clearChat() {
   document.getElementById("chat-box").innerHTML = "";
 }
 
+// ====== Utils Copier ======
+function createCopyButton(text, successMsg) {
+  const copyBtn = document.createElement("img");
+  copyBtn.src = "assets/images/copier_icon.png";
+  copyBtn.alt = "Copier";
+  copyBtn.classList.add("copy-icon");
+  copyBtn.addEventListener("click", () => {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(successMsg);
+    });
+  });
+  return copyBtn;
+}
+
 function setActiveSession(name) {
   currentSession = name;
   document.querySelectorAll(".conv-list li").forEach(li => {
     li.classList.toggle("active", li.dataset.session === name);
   });
 }
+
+
 
 // ====== API calls ======
 async function apiGet(path) {
@@ -250,8 +280,13 @@ async function sendMessage(prompt) {
     if (bubble) {
       bubble.classList.remove("typing-indicator");
       bubble.classList.add("bot-bubble");
-      // ✅ CHANGEMENT : Utiliser innerHTML avec marked.parse() au lieu de textContent
       bubble.innerHTML = marked.parse(answer);
+      // ✅ Ajouter le bouton copier
+      const bubbleWrapper = bubble.parentElement;
+      if (bubbleWrapper && !bubbleWrapper.querySelector(".copy-icon")) {
+        bubbleWrapper.appendChild(createCopyButton(answer, "Réponse IA copiée ✅"));
+      }
+
     }
   } catch (err) {
     console.error("Erreur envoi message :", err);
