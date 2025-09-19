@@ -11,3 +11,8 @@ pydantic
 pyperclip
 pytest
 requests
+openpyxl
+pipreqs
+fpdf2
+fastapi
+uvicorn[standard]
