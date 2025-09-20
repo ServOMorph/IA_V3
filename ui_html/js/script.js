@@ -198,7 +198,35 @@ async function loadHistory(sessionName) {
 
     function flushBuffer() {
       if (currentRole && buffer.length > 0) {
-        history.push({ role: currentRole, content: buffer.join("\n").trim() });
+        // Ignorer les messages système
+        if (currentRole === "system") {
+          buffer = [];
+          currentRole = null;
+          return;
+        }
+
+        // Fusionner contenu
+        let content = buffer.join("\n").trim();
+
+        // ✅ CORRECTION : Supprimer TOUTES les lignes d'horodatage (avec ou sans **)
+        content = content.replace(/^\*\*\d{4}-\d{2}-\d{2}.*\*\*$/gm, "").trim();
+        content = content.replace(/^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$/gm, "").trim();
+
+        // ✅ CORRECTION : Supprimer les marqueurs de rôle
+        content = content.replace(/^(\*\*IA\*\*:?)/i, "").trim();
+        content = content.replace(/^(\*\*Vous\*\*:?)/i, "").trim();
+        content = content.replace(/^IA\s*:/i, "").trim();
+        content = content.replace(/^Vous\s*:/i, "").trim();
+
+        // ✅ NOUVEAU : Nettoyer les lignes vides au début et à la fin
+        content = content.replace(/^\n+|\n+$/g, "");
+        
+        // ✅ NOUVEAU : Nettoyer les lignes vides multiples
+        content = content.replace(/\n\s*\n\s*\n+/g, "\n\n").trim();
+
+        if (content) {
+          history.push({ role: currentRole, content });
+        }
       }
       buffer = [];
       currentRole = null;
@@ -206,8 +234,17 @@ async function loadHistory(sessionName) {
 
     for (let line of lines) {
       const lineStripped = line.trim();
+      
+      // ✅ NOUVEAU : Ignorer les lignes vides
       if (!lineStripped) continue;
 
+      // ✅ NOUVEAU : Ignorer les séparateurs "---"
+      if (lineStripped === "---") continue;
+
+      // ✅ NOUVEAU : Ignorer les lignes qui sont uniquement des horodatages
+      if (/^\*?\*?\d{4}-\d{2}-\d{2}.*\*?\*?$/.test(lineStripped)) continue;
+
+      // Détecter les sections ###
       if (lineStripped.startsWith("###")) {
         flushBuffer();
         expectRole = true;
@@ -221,30 +258,42 @@ async function loadHistory(sessionName) {
         continue;
       }
 
-      if (lineStripped.startsWith("**Vous**")) {
+      // ✅ CORRECTION : Détecter **Vous**: ou **Vous**
+      if (lineStripped.match(/^\*\*Vous\*\*:?$/i)) {
         flushBuffer();
         currentRole = "user";
         continue;
       }
-      if (lineStripped.startsWith("**IA**")) {
+
+      // ✅ CORRECTION : Détecter **IA**: ou **IA**
+      if (lineStripped.match(/^\*\*IA\*\*:?$/i)) {
         flushBuffer();
         currentRole = "assistant";
         continue;
       }
 
-      if (currentRole) buffer.push(lineStripped);
+      // Ajouter le contenu au buffer si on a un rôle actuel
+      if (currentRole) {
+        buffer.push(lineStripped);
+      }
     }
+    
+    // Traiter le dernier buffer
     flushBuffer();
 
+    // ✅ CORRECTION : Rendu des messages avec marked.parse pour l'assistant seulement
     history.forEach(msg => {
-      addMessage(msg.content, msg.role);
+      if (msg.role === "assistant") {
+        addMessage(msg.content, "assistant");
+      } else if (msg.role === "user") {
+        addMessage(msg.content, "user");
+      }
     });
 
   } catch (err) {
     console.error("Erreur chargement historique :", err);
   }
 }
-
 // ====== Chat ======
 async function apiSendMessage(prompt) {
   const response = await fetch(`${API_BASE_URL}/chat/${currentSession}`, {
