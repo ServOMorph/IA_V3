@@ -1,0 +1,200 @@
+# Refactorisation du Chat UI - Architecture Modulaire
+
+## 🎯 Objectif de la refactorisation
+
+Ce projet a été refactorisé pour passer d'un fichier JavaScript monolithique (`script.js`) à une architecture modulaire moderne utilisant les modules ES6. Cette restructuration améliore considérablement la maintenabilité, la lisibilité et l'extensibilité du code.
+
+## 📁 Nouvelle architecture
+
+### Structure des fichiers
+
+```
+projet/
+├── index.html                  # Page principale (mise à jour)
+├── js/
+│   ├── config.js              # Configuration globale
+│   ├── api.js                 # Gestion des appels API
+│   ├── ui-utils.js            # Utilitaires d'interface
+│   ├── messages.js            # Gestion des messages
+│   ├── sessions.js            # Gestion des sessions
+│   ├── chat.js                # Logique de chat
+│   └── main.js                # Point d'entrée principal
+├── css/
+└── assets/
+```
+
+## 🔧 Description des modules
+
+### `js/config.js` - Configuration centralisée
+**Responsabilités :**
+- URLs des APIs (serveur backend, Ollama)
+- Configuration des timeouts et durées
+- État global partagé (session courante)
+
+**Pourquoi séparé :** Centralise toute la configuration pour faciliter les modifications d'environnement.
+
+### `js/api.js` - Couche d'abstraction API
+**Responsabilités :**
+- Vérification de la disponibilité d'Ollama
+- Fonctions génériques HTTP (GET, POST, PUT, DELETE)
+- API spécifique pour le chat
+
+**Pourquoi séparé :** Isole toute la logique de communication réseau, facilite les tests et la maintenance des endpoints.
+
+### `js/ui-utils.js` - Utilitaires d'interface
+**Responsabilités :**
+- Création des boutons de copie
+- Gestion des notifications toast
+- Affichage des bannières d'erreur
+- Nettoyage de l'interface
+
+**Pourquoi séparé :** Regroupe les fonctions utilitaires réutilisables pour l'UI, évite la duplication de code.
+
+### `js/messages.js` - Gestion des messages
+**Responsabilités :**
+- Création et affichage des bulles de message
+- Parsing de l'historique au format Markdown
+- Gestion du rendu des messages utilisateur/IA
+
+**Pourquoi séparé :** La logique de rendu des messages est complexe et mérite son propre module pour la clarté.
+
+### `js/sessions.js` - Gestion des sessions
+**Responsabilités :**
+- CRUD des sessions (Create, Read, Update, Delete)
+- Chargement de l'historique
+- Menu contextuel des conversations
+- Navigation entre sessions
+
+**Pourquoi séparé :** Les sessions sont une fonctionnalité métier importante qui nécessite une logique dédiée.
+
+### `js/chat.js` - Logique de conversation
+**Responsabilités :**
+- Envoi de messages vers l'IA
+- Gestion des réponses et de l'état "en cours de frappe"
+- Intégration des réponses dans l'interface
+
+**Pourquoi séparé :** Isole la logique métier principale du chat pour une meilleure testabilité.
+
+### `js/main.js` - Point d'entrée et orchestration
+**Responsabilités :**
+- Initialisation de l'application
+- Configuration des événements DOM
+- Coordination entre les différents modules
+
+**Pourquoi séparé :** Fournit un point d'entrée clair et orchestre l'ensemble de l'application.
+
+## 🚀 Avantages de cette architecture
+
+### 1. **Séparation des responsabilités**
+- Chaque module a une mission claire et délimitée
+- Principe de responsabilité unique respecté
+- Code plus facile à comprendre et maintenir
+
+### 2. **Réutilisabilité**
+- Les modules peuvent être importés selon les besoins
+- Fonctions utilitaires centralisées et réutilisables
+- Évite la duplication de code
+
+### 3. **Facilité de maintenance**
+- Localisation rapide des bugs par module
+- Modifications isolées sans impact sur le reste
+- Structure prévisible et organisée
+
+### 4. **Extensibilité**
+- Ajout de nouvelles fonctionnalités facilité
+- Possibilité de remplacer un module sans affecter les autres
+- Architecture prête pour de futurs développements
+
+### 5. **Lisibilité**
+- Fichiers plus courts et focalisés
+- Import/export explicites montrent les dépendances
+- Documentation naturelle par la structure
+
+### 6. **Testabilité**
+- Modules isolés plus faciles à tester unitairement
+- Dépendances clairement identifiées
+- Mocking facilité pour les tests
+
+## 🔄 Migration depuis l'ancien code
+
+### Changements dans `index.html`
+```html
+<!-- Avant -->
+<script src="js/script.js"></script>
+
+<!-- Après -->
+<script type="module" src="js/main.js"></script>
+```
+
+### Principe des imports/exports
+```javascript
+// Export d'une fonction
+export function maFonction() { ... }
+
+// Export d'une constante
+export const CONFIG = { ... };
+
+// Import sélectif
+import { maFonction, CONFIG } from './module.js';
+
+// Import avec alias
+import { apiGet as get } from './api.js';
+```
+
+## 🛠 Instructions de déploiement
+
+### Étape 1 : Restructuration des fichiers
+1. Créer le dossier `js/` s'il n'existe pas
+2. Supprimer l'ancien `js/script.js`
+3. Créer les 7 nouveaux modules dans `js/`
+4. Mettre à jour `index.html`
+
+### Étape 2 : Vérification
+1. Ouvrir la console développeur
+2. Vérifier qu'il n'y a pas d'erreurs de modules
+3. Tester toutes les fonctionnalités
+
+### Étape 3 : Configuration (si nécessaire)
+Modifier `js/config.js` pour adapter les URLs à votre environnement :
+```javascript
+export const CONFIG = {
+  API_BASE_URL: "http://votre-serveur:8001",
+  OLLAMA_URL: "http://votre-ollama:11434",
+  // ...
+};
+```
+
+## 🔍 Points d'attention
+
+### Compatibilité navigateur
+- Les modules ES6 nécessitent un navigateur récent
+- Servir via HTTP/HTTPS (pas en `file://`)
+- Chrome 61+, Firefox 60+, Safari 10.1+
+
+### Performance
+- Les imports sont chargés de manière optimisée
+- Pas d'impact significatif sur les performances
+- Mise en cache des modules par le navigateur
+
+### Debugging
+- Les erreurs indiquent maintenant le module concerné
+- Stack traces plus précises
+- Outils de développement mieux intégrés
+
+## 📚 Ressources supplémentaires
+
+- [Modules JavaScript sur MDN](https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Modules)
+- [Architecture modulaire en JavaScript](https://javascript.info/modules-intro)
+- [Bonnes pratiques ES6 modules](https://exploringjs.com/es6/ch_modules.html)
+
+## 🤝 Contribution
+
+Cette nouvelle architecture facilite les contributions :
+1. Identifier le module concerné par votre modification
+2. Modifier uniquement ce qui est nécessaire
+3. Tester les imports/exports
+4. Vérifier que les autres modules ne sont pas impactés
+
+---
+
+**Note :** Cette refactorisation maintient 100% de la fonctionnalité existante tout en améliorant significativement la structure du code. Aucune fonctionnalité utilisateur n'est modifiée.
