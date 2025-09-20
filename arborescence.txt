@@ -1,10 +1,13 @@
 📁 IA_V3/
+    📄 .coverage
     📄 arborescence.txt
     📄 config.py
     📄 debug.log
     📄 main_cli.py
     📄 README.md
+    📄 requirements.txt
     📄 start_ui_html.bat
+    📄 __init__.py
     📁 .pytest_cache/
         📄 .gitignore
         📄 CACHEDIR.TAG
@@ -19,6 +22,7 @@
         📁 0.12.9/
             📄 11626746014999600723
             📄 6581020007822132774
+    📁 A classer/
     📁 api/
         📄 main_api.py
         📄 README_API.md
@@ -26,12 +30,11 @@
             📄 chat.py
             📄 files.py
             📄 sessions.py
-    📁 assets/
-        📁 images/
     📁 client/
         📄 ia_client.py
         📄 __init__.py
     📁 core/
+        📄 auto_titler.py
         📄 block_parser.py
         📄 chat_manager.py
         📄 commands.py
@@ -51,194 +54,54 @@
         📄 dev_responses.log
         📄 models_list.txt
         📁 generated/
-            📁 deepseek-coder_6.7b/
-                📁 is_prime/
-                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_162713.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_164953.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250819_233538.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250820_005134.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run1_20250820_011619.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run2_20250819_162756.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run2_20250819_165106.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run2_20250820_011635.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run3_20250819_162812.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run3_20250819_165156.py
-                    📄 solution_deepseek-coder_6.7b_is_prime_run3_20250820_011650.py
-                📁 long_code_test/
-                    📄 solution_deepseek-coder_6.7b_long_code_test_run1_20250820_024525.py
-            📁 deepseek-tests/
-                📁 is_prime/
-                    📄 solution_deepseek-tests_is_prime_run1_20250820_010112.py
-            📁 deepseek-tests_latest/
-                📁 is_prime/
-                    📄 solution_deepseek-tests_latest_is_prime_run1_20250820_011051.py
-                    📄 solution_deepseek-tests_latest_is_prime_run1_20250820_011427.py
-                    📄 solution_deepseek-tests_latest_is_prime_run2_20250820_011104.py
-                    📄 solution_deepseek-tests_latest_is_prime_run2_20250820_011437.py
-                    📄 solution_deepseek-tests_latest_is_prime_run3_20250820_011126.py
-                    📄 solution_deepseek-tests_latest_is_prime_run3_20250820_011448.py
-                📁 long_code_test/
-                    📄 solution_deepseek-tests_latest_long_code_test_run1_20250820_024200.py
-            📁 mistral-tests/
-                📁 is_prime/
-                    📄 solution_mistral-tests_is_prime_run1_20250820_004938.py
-            📁 mistral-tests_latest/
-                📁 is_prime/
-                    📄 solution_mistral-tests_latest_is_prime_run1_20250820_011503.py
-                    📄 solution_mistral-tests_latest_is_prime_run2_20250820_011513.py
-                    📄 solution_mistral-tests_latest_is_prime_run3_20250820_011522.py
-                📁 long_code_test/
-                    📄 solution_mistral-tests_latest_long_code_test_run1_20250820_024404.py
-            📁 mistral_7b-instruct-q4_K_M/
-                📁 is_prime/
-                    📄 solution_mistral_7b-instruct-q4_K_M_is_prime_run1_20250820_011533.py
-                    📄 solution_mistral_7b-instruct-q4_K_M_is_prime_run2_20250820_011545.py
-                    📄 solution_mistral_7b-instruct-q4_K_M_is_prime_run3_20250820_011555.py
-                📁 long_code_test/
-                    📄 solution_mistral_7b-instruct-q4_K_M_long_code_test_run1_20250820_024342.py
-            📁 mistral_latest/
-                📁 is_prime/
-                    📄 solution_mistral_latest_is_prime_run1_20250819_162911.py
-                    📄 solution_mistral_latest_is_prime_run1_20250819_165250.py
-                    📄 solution_mistral_latest_is_prime_run1_20250819_231935.py
-                    📄 solution_mistral_latest_is_prime_run1_20250819_232404.py
-                    📄 solution_mistral_latest_is_prime_run1_20250819_232701.py
-                    📄 solution_mistral_latest_is_prime_run2_20250819_163015.py
-                    📄 solution_mistral_latest_is_prime_run2_20250819_165337.py
-                    📄 solution_mistral_latest_is_prime_run3_20250819_163126.py
     📁 deprecated/
         📄 analyze_dev_logs.py
         📄 benchmark_responses.py
     📁 docs/
-        📁 divers/
-        📁 images/
-            📄 02d79791-c9a0-45f1-b8c8-16656ddc623d.png
-            📄 153d071e-8c15-4d0f-b3b6-9d3d4c4c1e01-1.png
-            📄 1f17a76d-45a1-4c2f-a36d-5af5ab77429b.png
-            📄 1fbdf2c2-d093-4ab0-84a8-15a84616dd98.png
-            📄 837c62ae-d324-40bf-bda2-63de5ddc0a9e.png
-            📄 9820ad76-8304-461f-ba8e-ef46b322e86a.png
-            📄 aaff1b3c-bdcb-4e2b-9b1d-feb574ba13d5.png
-            📄 c404e2ff-5a81-4277-996c-2a1fa2c29a7d.png
-            📄 cf7ff0c1-dd8a-4d7b-965f-6b210863e5ca.png
         📁 models_ia/
             📄 comparatif_mistral_vs_deepseek.md
             📄 ollama_models_readme.md
             📄 prompt_engineering_deepseek.md
             📄 prompt_engineering_mistral7b.md
     📁 logs/
-        📄 conversation.log
-        📄 sav_conv_2025-09-15_00-27-21.log
-        📄 sav_conv_2025-09-15_00-27-34.log
-        📄 sav_conv_2025-09-15_00-36-20.log
-        📄 sav_conv_2025-09-15_00-36-27.log
-        📄 sav_conv_2025-09-15_00-38-57.log
-        📄 sav_conv_2025-09-15_00-39-04.log
-        📄 sav_conv_2025-09-15_00-39-09.log
-        📄 sav_conv_2025-09-15_00-40-41.log
-        📄 sav_conv_2025-09-15_00-46-59.log
-        📄 sav_conv_2025-09-15_00-47-08.log
-        📄 sav_conv_2025-09-15_00-57-51.log
-        📄 sav_conv_2025-09-15_00-59-09.log
-        📄 sav_conv_2025-09-15_00-59-13.log
-        📄 sav_conv_2025-09-15_01-06-31.log
-        📄 sav_conv_2025-09-15_01-07-33.log
-        📄 sav_conv_2025-09-15_01-07-40.log
-        📄 sav_conv_2025-09-15_01-12-33.log
-        📄 sav_conv_2025-09-15_01-22-36.log
-        📄 sav_conv_2025-09-15_01-23-24.log
-        📄 sav_conv_2025-09-15_01-24-16.log
-        📄 sav_conv_2025-09-15_01-24-18.log
-        📄 sav_conv_2025-09-15_01-30-35.log
-        📄 sav_conv_2025-09-15_01-30-37.log
-        📄 sav_conv_2025-09-15_01-36-56.log
-        📄 sav_conv_2025-09-15_01-36-58.log
-        📄 sav_conv_2025-09-15_01-37-35.log
-        📄 sav_conv_2025-09-15_01-37-37.log
-        📄 sav_conv_2025-09-15_01-39-19.log
-        📄 sav_conv_2025-09-15_01-39-21.log
-        📄 sav_conv_2025-09-15_01-39-44.log
-        📄 sav_conv_2025-09-15_01-39-46.log
-        📄 sav_conv_2025-09-15_01-40-39.log
-        📄 sav_conv_2025-09-15_01-43-44.log
-        📄 sav_conv_2025-09-15_01-43-46.log
-        📄 sav_conv_2025-09-15_01-44-13.log
-        📄 sav_conv_2025-09-15_01-44-15.log
-        📄 sav_conv_2025-09-15_01-46-32.log
-        📄 sav_conv_2025-09-15_01-46-34.log
-        📄 sav_conv_2025-09-15_01-50-53.log
-        📄 sav_conv_2025-09-15_01-58-31.log
-        📄 sav_conv_2025-09-15_02-05-51.log
-        📄 sav_conv_2025-09-15_02-10-39.log
-        📄 sav_conv_2025-09-15_02-23-19.log
-        📄 sav_conv_2025-09-15_02-30-31.log
-        📄 sav_conv_2025-09-15_02-36-00.log
-        📄 sav_conv_2025-09-15_02-40-58.log
-        📄 sav_conv_2025-09-15_02-41-57.log
-        📄 sav_conv_2025-09-15_02-49-11.log
-        📄 sav_conv_2025-09-15_02-57-44.log
-        📄 sav_conv_2025-09-15_02-59-14.log
-        📄 sav_conv_2025-09-15_02-59-43.log
-        📄 sav_conv_2025-09-15_03-03-11.log
-        📄 sav_conv_2025-09-15_03-06-19.log
-        📄 sav_conv_2025-09-15_03-07-54.log
-        📄 sav_conv_2025-09-15_03-08-40.log
-        📄 sav_conv_2025-09-15_03-08-59.log
-        📄 sav_conv_2025-09-15_03-09-48.log
-        📄 sav_conv_2025-09-15_03-10-36.log
-        📄 sav_conv_2025-09-15_03-12-40.log
-        📄 sav_conv_2025-09-15_03-15-23.log
-        📄 sav_conv_2025-09-15_03-19-42.log
-        📄 sav_conv_2025-09-15_03-20-12.log
-        📄 sav_conv_2025-09-15_03-23-02.log
-        📄 sav_conv_2025-09-15_03-24-21.log
-        📄 sav_conv_2025-09-15_03-26-49.log
-        📄 sav_conv_2025-09-15_03-27-44.log
-        📄 sav_conv_2025-09-15_03-30-11.log
-        📄 sav_conv_2025-09-15_03-31-16.log
-        📄 sav_conv_2025-09-15_03-34-53.log
-        📄 sav_conv_2025-09-15_03-35-34.log
-        📄 sav_conv_2025-09-15_08-37-36.log
-        📄 sav_conv_2025-09-15_15-59-14.log
-        📄 sav_conv_2025-09-15_16-00-56.log
-        📄 sav_conv_2025-09-15_16-02-44.log
-        📄 sav_conv_2025-09-15_16-02-53.log
-        📄 sav_conv_2025-09-15_16-04-02.log
-        📄 sav_conv_2025-09-15_16-06-07.log
-        📄 sav_conv_2025-09-15_16-06-19.log
-        📄 sav_conv_2025-09-15_16-06-37.log
-        📄 sav_conv_2025-09-15_16-17-42.log
-        📄 sav_conv_2025-09-15_16-17-44.log
-        📄 sav_conv_2025-09-15_16-17-45.log
-        📄 sav_conv_2025-09-15_16-17-53.log
-        📄 sav_conv_2025-09-15_16-17-54.log
-        📄 sav_conv_2025-09-15_16-18-01.log
     📁 sav/
-        📁 sav_conv_2025-09-15_16-06-37/
+        📁 blagues/
             📄 conversation.md
-        📁 sav_conv_2025-09-15_16-17-42/
+        📁 code/
             📄 conversation.md
-        📁 sav_conv_2025-09-15_16-17-44/
+        📁 farte/
             📄 conversation.md
-        📁 sav_conv_2025-09-15_16-17-45/
+        📁 Liste de couleurs/
             📄 conversation.md
-        📁 sav_conv_2025-09-15_16-17-53/
+        📁 markdown/
             📄 conversation.md
-        📁 sav_conv_2025-09-15_16-17-54/
+        📁 sav_conv_2025-09-20_21-44-16/
             📄 conversation.md
-        📁 sav_conv_2025-09-15_16-18-01/
+        📁 sav_conv_2025-09-20_21-49-50/
+            📄 conversation.md
+        📁 sav_conv_2025-09-20_23-56-10/
+            📄 conversation.md
+        📁 sav_conv_2025-09-20_23-57-26/
+            📄 conversation.md
+        📁 sav_conv_2025-09-20_23-59-23/
+            📄 conversation.md
+        📁 test1/
             📄 conversation.md
     📁 tests/
         📄 test_api.py
+        📄 test_api_sessions.py
         📄 test_command_export.py
         📄 test_command_load.py
+        📄 test_command_rename.py
         📄 test_file_export.py
+        📄 test_sessions_rename.py
         📄 test_session_load.py
         📄 test_summary_complex.py
         📄 test_ui_load.py
         📄 __init__.py
     📁 tools/
         📄 calc_fond_dims.py
+        📄 clean_default_saves.py
         📄 init_conv_chatgpt.py
         📄 update_system_prompt.py
         📁 agents_ia_project/
@@ -264,7 +127,9 @@
         📄 index.html
         📄 README_UI_HTML.md
         📁 assets/
+            📄 conseils.py
             📁 images/
+                📄 arbre.png
                 📄 coche_icon.png
                 📄 copier_icon.png
                 📄 fond_window.png
@@ -279,4 +144,12 @@
             📄 config_ui_html.css
             📄 styles.css
         📁 js/
+            📄 api.js
+            📄 chat.js
+            📄 config.js
+            📄 main.js
+            📄 messages.js
+            📄 README_js
             📄 script.js
+            📄 sessions.js
+            📄 ui-utils.js

@@ -12,7 +12,9 @@ REM Fermer http.server s'il est déjà actif sur le port 8082
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr :8082') do taskkill /PID %%a /F >nul 2>&1
 
 echo [INFO] Lancement de l'API FastAPI...
-start cmd /k "uvicorn api.main_api:app --port 8001 --reload"
+"start cmd /k "uvicorn api.main_api:app --port 8001 --reload"
+start cmd /k "uvicorn api.main_api:app --port 8001"
+
 
 REM Attendre un peu pour laisser l'API démarrer
 timeout /t 2 >nul

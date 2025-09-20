@@ -17,6 +17,15 @@ class SessionManager:
 
         old_dir = Path(SAVE_DIR) / old_name
         new_dir = Path(SAVE_DIR) / new_name
+        
+        print("=== DEBUG session_manager.rename_session ===")
+        print("old_name =", old_name)
+        print("new_name =", new_name)
+        print("old_dir =", old_dir)
+        print("new_dir =", new_dir)
+        print("old_dir.exists? =", old_dir.exists())
+        print("===========================================")
+
 
         if not old_dir.exists():
             print(f"[ERREUR RENAME] Session '{old_name}' introuvable")

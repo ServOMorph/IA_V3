@@ -16,6 +16,9 @@ class AutoTitler:
         self.done = False  # évite de renommer plusieurs fois
 
     def maybe_generate_title(self, history: list[dict]) -> str | None:
+        print("=== DEBUG AutoTitler appelé ===")
+        print("history =", history)
+
         if self.done:
             return None
 
@@ -59,5 +62,7 @@ class AutoTitler:
             title = title[:AUTO_TITLE_MAX_CHARS].rstrip()
 
         self.done = True
+        print("=== DEBUG AutoTitler result ===", title)
+
         return title or None
 

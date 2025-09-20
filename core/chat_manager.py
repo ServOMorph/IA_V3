@@ -173,8 +173,8 @@ class ChatManager:
         self.save_manager.save_blocks_from_response(answer, "python", "py")
         self.save_manager.save_blocks_from_response(answer, "txt", "txt")
         
-        # === Nouveau : renommage automatique après 1 user + 1 assistant ===
         new_title = self.auto_titler.maybe_generate_title(self.client.history)
+        print("=== DEBUG process_prompt: retour AutoTitler ===", new_title)
         if new_title:
             old_name = self.save_manager.session_name
 
