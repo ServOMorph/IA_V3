@@ -1,1 +1,0 @@
-La fonction de vérification du nombre premier ci-dessous utilise une approche similaire à la précédente mais avec une boucle plus courte et un décalage différent pour les facteurs. Elle continue jusqu'à atteindre la racine carrée du nombre:

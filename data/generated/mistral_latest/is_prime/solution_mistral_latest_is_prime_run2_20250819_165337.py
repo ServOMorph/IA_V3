@@ -1,1 +1,0 @@
-Voici la version optimisée de la fonction pour vérifier si un nombre `n` est premier ou non :

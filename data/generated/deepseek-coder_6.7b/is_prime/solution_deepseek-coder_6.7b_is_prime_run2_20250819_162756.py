@@ -1,1 +1,0 @@
-Voici une autre version plus simple de la même fonction :

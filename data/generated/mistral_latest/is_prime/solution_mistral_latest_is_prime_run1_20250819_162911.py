@@ -1,1 +1,0 @@
-Voici une implantation de la fonction en Python pour vérifier si un nombre est premier :

@@ -4,18 +4,16 @@ from core.sav_manager import SaveManager
 from core.commands import CommandHandler
 from core.logging.conv_logger import setup_conv_logger
 from core.summarizer import Summarizer
+from core.auto_titler import AutoTitler
+from core.session_manager import SessionManager
 from config import (
     DEFAULT_MODEL,
     SAVE_DIR,
-    PRESET_MESSAGES,
     WELCOME_MESSAGE,
     EMPTY_PROMPT_WARNING,
     DEFAULT_SYSTEM_PROMPT,
-    LOGS_DIR,
     MAX_HISTORY_MESSAGES,
 )
-from pathlib import Path
-import shutil
 
 
 class ChatManager:
@@ -48,6 +46,8 @@ class ChatManager:
 
         # === DEBUG ===
         print(f"[DEBUG] Nouvelle session créée : {self.save_manager.session_dir.name}")
+        # Nouveau : compteur pour détecter les 2 premiers échanges
+        self.auto_titler = AutoTitler(self.save_manager.session_dir)
 
     def start_chat(self):
         print(WELCOME_MESSAGE)
@@ -172,6 +172,27 @@ class ChatManager:
         self.save_manager.save_md(self.client.history)
         self.save_manager.save_blocks_from_response(answer, "python", "py")
         self.save_manager.save_blocks_from_response(answer, "txt", "txt")
+        
+        # === Nouveau : renommage automatique après 1 user + 1 assistant ===
+        new_title = self.auto_titler.maybe_generate_title(self.client.history)
+        if new_title:
+            old_name = self.save_manager.session_name
+
+            # Vérifier collisions
+            base_title = new_title
+            counter = 1
+            from pathlib import Path
+            from config import SAVE_DIR
+            while (Path(SAVE_DIR) / new_title).exists():
+                new_title = f"{base_title}_{counter}"
+                counter += 1
+
+            if new_title != old_name:
+                success = SessionManager.rename_session(self, old_name, new_title)
+                if success:
+                    print(f"[DEBUG] Session renommée automatiquement → {new_title}")
+
+
 
         return answer
 

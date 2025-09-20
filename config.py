@@ -76,3 +76,7 @@ SUMMARY_MAX_TOKENS = 150
 
 # Extensions autorisées pour export
 ALLOWED_FILE_TYPES_OUT = ["py", "txt", "md", "json", "csv", "docx", "pdf", "xlsx"]
+
+# === Renommage automatique de session ===
+AUTO_TITLE_MAX_CHARS = 30           # Longueur max du titre généré pour s'adapter à l'UI
+AUTO_TITLE_MODEL = SUMMARY_MODEL    # Modèle utilisé pour générer le titre
