@@ -1,5 +1,3 @@
-print(">>> DEBUG: core/sav_manager.py chargé depuis", __file__)
-
 import logging
 import re
 from pathlib import Path
@@ -99,6 +97,12 @@ class SaveManager:
         return created
 
     def rename_session_file(self, new_name):
+        print("=== DEBUG sav_manager.rename_session_file ===")
+        print("self.session_name =", self.session_name)
+        print("new_name =", new_name)
+        print("session_dir =", self.session_dir)
+        print("session_dir.exists? =", self.session_dir.exists())
+        print("=============================================")
         try:
             print("========== DEBUG rename_session_file ==========")
             print(f"session_name: {self.session_name}")
