@@ -1,8 +1,10 @@
 📁 IA_V3/
     📄 .coverage
+    📄 a effacer.txt
     📄 arborescence.txt
     📄 config.py
     📄 debug.log
+    📄 kill_8001.bat
     📄 main_cli.py
     📄 README.md
     📄 requirements.txt
@@ -22,7 +24,6 @@
         📁 0.12.9/
             📄 11626746014999600723
             📄 6581020007822132774
-    📁 A classer/
     📁 api/
         📄 main_api.py
         📄 README_API.md
@@ -58,34 +59,16 @@
         📄 analyze_dev_logs.py
         📄 benchmark_responses.py
     📁 docs/
-        📁 models_ia/
-            📄 comparatif_mistral_vs_deepseek.md
-            📄 ollama_models_readme.md
-            📄 prompt_engineering_deepseek.md
-            📄 prompt_engineering_mistral7b.md
+        📄 test uvicorn.txt
     📁 logs/
     📁 sav/
-        📁 blagues/
+        📁 123/
             📄 conversation.md
-        📁 code/
+        📁 azeaze/
             📄 conversation.md
-        📁 farte/
+        📁 dddd/
             📄 conversation.md
-        📁 Liste de couleurs/
-            📄 conversation.md
-        📁 markdown/
-            📄 conversation.md
-        📁 sav_conv_2025-09-20_21-44-16/
-            📄 conversation.md
-        📁 sav_conv_2025-09-20_21-49-50/
-            📄 conversation.md
-        📁 sav_conv_2025-09-20_23-56-10/
-            📄 conversation.md
-        📁 sav_conv_2025-09-20_23-57-26/
-            📄 conversation.md
-        📁 sav_conv_2025-09-20_23-59-23/
-            📄 conversation.md
-        📁 test1/
+        📁 qsdqs/
             📄 conversation.md
     📁 tests/
         📄 test_api.py
@@ -97,6 +80,7 @@
         📄 test_sessions_rename.py
         📄 test_session_load.py
         📄 test_summary_complex.py
+        📄 test_ui_autotitle.py
         📄 test_ui_load.py
         📄 __init__.py
     📁 tools/
