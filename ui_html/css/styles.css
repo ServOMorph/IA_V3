@@ -15,13 +15,17 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 380px; 
+  width: 380px;
   background: linear-gradient(to bottom, #0d1f1a, #123227, #1a4736);
   padding: 1rem;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .conv-list {
+  flex: 1;
+  overflow-y: auto;
   padding: 0;
   margin: 0;
 }
