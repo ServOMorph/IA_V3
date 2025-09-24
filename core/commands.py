@@ -371,7 +371,7 @@ class CommandHandler:
 
             return True, False
         
-        # 14) Copier un fichier dans le dossier de la session active et l'utiliser comme contexte
+        # 14) Copier un fichier dans le dossier de la session active et l'utiliser comme contexte système
         if lower.startswith(f"{COMMAND_PREFIX}copyfile"):
             if not arg:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}copyfile chemin/fichier")
@@ -387,15 +387,15 @@ class CommandHandler:
             try:
                 shutil.copy(src, dst)
                 print(f"✅ Fichier copié dans la session : {dst.as_posix()}")
-                # Charger le contenu comme contexte utilisateur
+                # Charger le contenu comme contexte système (non visible dans l'UI)
                 try:
                     text = dst.read_text(encoding="utf-8", errors="ignore")
                     if text.strip():
                         self.client.history.append({
-                            "role": "user",
+                            "role": "system",
                             "content": f"[Contexte importé depuis {src.name}]\n{text}"
                         })
-                        print(f"📥 Contenu de {src.name} ajouté au contexte de la conversation.")
+                        print(f"📥 Contenu de {src.name} ajouté au contexte système.")
                     else:
                         print(f"⚠️ Fichier {src.name} vide, rien ajouté au contexte.")
                 except Exception as e:

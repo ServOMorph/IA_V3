@@ -16,8 +16,8 @@ class AutoTitler:
         self.done = False  # évite de renommer plusieurs fois
 
     def maybe_generate_title(self, history: list[dict]) -> str | None:
-        print("=== DEBUG AutoTitler appelé ===")
-        print("history =", history)
+        #print("=== DEBUG AutoTitler appelé ===")
+        #print("history =", history)
 
         if self.done:
             return None
@@ -52,8 +52,11 @@ class AutoTitler:
         prompt = (
             f"Donne un titre très court et clair à cette conversation, en français.\n"
             f"- Maximum {AUTO_TITLE_MAX_CHARS} caractères.\n"
-            f"- Écris uniquement le titre, sans guillemets.\n\n"
+            "- Écris uniquement le titre, sans guillemets.\n"
+            "- Utilise uniquement lettres, chiffres, espaces ou tirets.\n"
+            "- Ne mets pas d'émojis, symboles ou caractères spéciaux (pas de : ? ! / \\ * < > |).\n\n"
             "Messages initiaux :\n" + "\n".join(first_msgs)
+
         )
 
         title = self.client.send_prompt(prompt).strip()
@@ -62,7 +65,12 @@ class AutoTitler:
             title = title[:AUTO_TITLE_MAX_CHARS].rstrip()
 
         self.done = True
-        print("=== DEBUG AutoTitler result ===", title)
+        #print("=== DEBUG AutoTitler result ===", title)
 
         return title or None
+
+    def sanitize_filename(name: str) -> str:
+        # Remplacer les caractères interdits Windows par "_"
+        return re.sub(r'[<>:"/\\|?*]', "_", name)
+
 
