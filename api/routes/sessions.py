@@ -37,9 +37,17 @@ def list_sessions():
 @router.get("/{name}/history")
 def get_history(name: str):
     cm = chat_managers.get(name)
-    if not cm:
-        raise HTTPException(status_code=404, detail="Session introuvable")
-    return {"history": cm.save_manager.session_dir.joinpath("conversation.md").read_text(encoding="utf-8")}
+
+    if cm:
+        # Cas normal (session gérée par l'API)
+        return {"history": cm.save_manager.session_md.read_text(encoding="utf-8")}
+
+    # Cas CLI : session pas connue de l'API, mais dossier présent
+    file_path = Path(SAVE_DIR) / name / "conversation.md"
+    if file_path.exists():
+        return {"history": file_path.read_text(encoding="utf-8")}
+
+    raise HTTPException(status_code=404, detail="Session introuvable")
 
 @router.put("/{name}/rename")
 def rename_session(name: str, new_name: str):
