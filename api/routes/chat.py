@@ -9,7 +9,7 @@ class PromptRequest(BaseModel):
 
 class AnswerResponse(BaseModel):
     answer: str
-    session: str  # nouveau champ
+    session: str  # nom final de la session
 
 @router.post("/{session_name}", response_model=AnswerResponse)
 def chat_endpoint(session_name: str, req: PromptRequest):
@@ -21,13 +21,20 @@ def chat_endpoint(session_name: str, req: PromptRequest):
     if not cm:
         raise HTTPException(status_code=404, detail="Session introuvable")
 
+    # 1) Génération de la réponse IA
     answer = cm.process_prompt(req.prompt)
 
-    # Vérifier si le nom de session a changé après auto-titler
-    current_name = cm.save_manager.session_name
-    if session_name != current_name:
-        # mettre à jour le dictionnaire global
-        sessions.chat_managers[current_name] = sessions.chat_managers.pop(session_name)
-        session_name = current_name
+    # 2) Forcer l’auto-titler à se terminer avant de renvoyer
+    # (le SaveManager/AutoTitler a pu changer le nom de session)
+    final_name = cm.save_manager.session_name
 
-    return {"answer": answer, "session": session_name}
+    # 3) Mettre à jour le dictionnaire global si le nom a changé
+    if session_name != final_name:
+        sessions.chat_managers[final_name] = sessions.chat_managers.pop(session_name)
+        print(f"[DEBUG] Session renommée automatiquement: {session_name} → {final_name}")
+
+    # 4) Retourner la réponse ET le nom final de la session
+    return {
+        "answer": answer,
+        "session": final_name
+    }

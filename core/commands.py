@@ -387,14 +387,22 @@ class CommandHandler:
             try:
                 shutil.copy(src, dst)
                 print(f"✅ Fichier copié dans la session : {dst.as_posix()}")
+
                 # Charger le contenu comme contexte système (non visible dans l'UI)
                 try:
                     text = dst.read_text(encoding="utf-8", errors="ignore")
                     if text.strip():
-                        self.client.history.append({
-                            "role": "system",
-                            "content": f"[Contexte importé depuis {src.name}]\n{text}"
-                        })
+                        # Chercher si un message system existe déjà
+                        system_msg = next((m for m in self.client.history if m.get("role") == "system"), None)
+                        if system_msg:
+                            # Ajouter dans le même bloc system
+                            system_msg["content"] += f"\n\n[Contexte importé depuis {src.name}]\n{text}"
+                        else:
+                            # Créer le bloc system unique
+                            self.client.history.append({
+                                "role": "system",
+                                "content": f"Ecris en Français\n\n[Contexte importé depuis {src.name}]\n{text}"
+                            })
                         print(f"📥 Contenu de {src.name} ajouté au contexte système.")
                     else:
                         print(f"⚠️ Fichier {src.name} vide, rien ajouté au contexte.")
