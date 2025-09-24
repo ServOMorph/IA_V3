@@ -551,3 +551,30 @@ body {
   opacity: 1;
 }
 
+/* Tooltip pour bouton Plus */
+#plus-btn {
+  position: relative;
+}
+
+#plus-btn::after {
+  content: "Envoi de fichier";
+  position: absolute;
+  bottom: -28px;  /* distance sous le bouton */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a4736;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+#plus-btn:hover::after {
+  opacity: 1;
+}
+
