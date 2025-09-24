@@ -1,5 +1,6 @@
 # core/auto_titler.py
 from pathlib import Path
+import re
 from core.ollama_client import OllamaClient
 from config import AUTO_TITLE_MODEL, AUTO_TITLE_MAX_CHARS
 
@@ -16,9 +17,6 @@ class AutoTitler:
         self.done = False  # évite de renommer plusieurs fois
 
     def maybe_generate_title(self, history: list[dict]) -> str | None:
-        #print("=== DEBUG AutoTitler appelé ===")
-        #print("history =", history)
-
         if self.done:
             return None
 
@@ -48,7 +46,7 @@ class AutoTitler:
         if len(first_msgs) < 2 or not {"user", "assistant"}.issubset(roles_seen):
             return None
 
-        # Génération du titre
+        # Génération du titre par IA
         prompt = (
             f"Donne un titre très court et clair à cette conversation, en français.\n"
             f"- Maximum {AUTO_TITLE_MAX_CHARS} caractères.\n"
@@ -56,21 +54,33 @@ class AutoTitler:
             "- Utilise uniquement lettres, chiffres, espaces ou tirets.\n"
             "- Ne mets pas d'émojis, symboles ou caractères spéciaux (pas de : ? ! / \\ * < > |).\n\n"
             "Messages initiaux :\n" + "\n".join(first_msgs)
-
         )
 
-        title = self.client.send_prompt(prompt).strip()
-        title = " ".join(title.splitlines()).strip()
-        if len(title) > AUTO_TITLE_MAX_CHARS:
-            title = title[:AUTO_TITLE_MAX_CHARS].rstrip()
+        raw_title = self.client.send_prompt(prompt).strip()
+        raw_title = " ".join(raw_title.splitlines()).strip()
+
+        # Nettoyage pour Windows
+        safe_title = self.sanitize_filename(raw_title)
+
+        # Tronquer si nécessaire
+        if len(safe_title) > AUTO_TITLE_MAX_CHARS:
+            safe_title = safe_title[:AUTO_TITLE_MAX_CHARS].rstrip()
 
         self.done = True
-        #print("=== DEBUG AutoTitler result ===", title)
+        return safe_title or None
 
-        return title or None
-
+    @staticmethod
     def sanitize_filename(name: str) -> str:
-        # Remplacer les caractères interdits Windows par "_"
-        return re.sub(r'[<>:"/\\|?*]', "_", name)
+        """
+        Nettoie un nom pour qu'il soit valide comme nom de dossier/fichier sous Windows.
+        """
+        # Remplacer caractères interdits par "_"
+        safe = re.sub(r'[<>:"/\\|?*]', "_", name)
 
+        # Supprimer autres symboles indésirables (ex: émojis, ponctuation exotique)
+        safe = re.sub(r'[^\w\s-]', "", safe, flags=re.UNICODE)
 
+        # Réduire espaces multiples
+        safe = re.sub(r"\s+", " ", safe).strip()
+
+        return safe
