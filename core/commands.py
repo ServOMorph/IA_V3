@@ -37,6 +37,7 @@ COMMANDS = {
     f"{COMMAND_PREFIX}move": f"Déplacer une session ({COMMAND_PREFIX}move NOM dossier_cible)",
     f"{COMMAND_PREFIX}run": "Exécuter le dernier script Python sauvegardé de la conversation en cours",
     f"{COMMAND_PREFIX}export": f"Exporter le dernier message IA en fichier ({COMMAND_PREFIX}export NOM EXT)",
+    f"{COMMAND_PREFIX}copyfile": f"Copier un fichier dans la session courante ({COMMAND_PREFIX}copyfile chemin/fichier)",
 
 }
 
@@ -369,6 +370,40 @@ class CommandHandler:
                 print(f"❌ Erreur export : {e}")
 
             return True, False
+        
+        # 14) Copier un fichier dans le dossier de la session active et l'utiliser comme contexte
+        if lower.startswith(f"{COMMAND_PREFIX}copyfile"):
+            if not arg:
+                print(f"⚠️ Usage : {COMMAND_PREFIX}copyfile chemin/fichier")
+                return True, False
+
+            import shutil
+            src = Path(arg).expanduser().resolve()
+            if not src.exists() or not src.is_file():
+                print(f"⚠️ Fichier introuvable : {src}")
+                return True, False
+
+            dst = self.save_manager.session_dir / src.name
+            try:
+                shutil.copy(src, dst)
+                print(f"✅ Fichier copié dans la session : {dst.as_posix()}")
+                # Charger le contenu comme contexte utilisateur
+                try:
+                    text = dst.read_text(encoding="utf-8", errors="ignore")
+                    if text.strip():
+                        self.client.history.append({
+                            "role": "user",
+                            "content": f"[Contexte importé depuis {src.name}]\n{text}"
+                        })
+                        print(f"📥 Contenu de {src.name} ajouté au contexte de la conversation.")
+                    else:
+                        print(f"⚠️ Fichier {src.name} vide, rien ajouté au contexte.")
+                except Exception as e:
+                    print(f"⚠️ Erreur lecture fichier copié : {e}")
+            except Exception as e:
+                print(f"❌ Erreur copie : {e}")
+            return True, False
+
 
         # --- Si aucune commande reconnue ---
         return False, False
