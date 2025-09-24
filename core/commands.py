@@ -37,6 +37,7 @@ COMMANDS = {
     f"{COMMAND_PREFIX}move": f"Déplacer une session ({COMMAND_PREFIX}move NOM dossier_cible)",
     f"{COMMAND_PREFIX}run": "Exécuter le dernier script Python sauvegardé de la conversation en cours",
     f"{COMMAND_PREFIX}export": f"Exporter le dernier message IA en fichier ({COMMAND_PREFIX}export NOM EXT)",
+
 }
 
 def show_commands() -> None:

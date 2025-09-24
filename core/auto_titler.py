@@ -50,7 +50,7 @@ class AutoTitler:
 
         # Génération du titre
         prompt = (
-            f"Donne un titre très court et clair à cette conversation.\n"
+            f"Donne un titre très court et clair à cette conversation, en français.\n"
             f"- Maximum {AUTO_TITLE_MAX_CHARS} caractères.\n"
             f"- Écris uniquement le titre, sans guillemets.\n\n"
             "Messages initiaux :\n" + "\n".join(first_msgs)
