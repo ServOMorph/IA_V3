@@ -513,3 +513,37 @@ body {
   opacity: 1;
 }
 
+/* Bouton Plus (envoie fichiers */
+.input-container #plus-btn {
+  margin-right: 0.8rem;
+  width: 48px;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius);
+  background: #1a4736;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.input-container #plus-btn img {
+  max-width: 20px;
+  max-height: 20px;
+  object-fit: contain;
+  display: block;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.input-container #plus-btn:hover {
+  background: var(--color-accent);
+  transform: scale(1.05);
+}
+
+.input-container #plus-btn:hover img {
+  opacity: 1;
+}
+

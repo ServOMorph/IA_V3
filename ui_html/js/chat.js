@@ -42,3 +42,11 @@ export async function sendMessage(prompt) {
     if (bubble) bubble.textContent = "⚠️ Erreur API";
   }
 }
+
+// Gestion du bouton Plus
+const plusBtn = document.getElementById("plus-btn");
+if (plusBtn) {
+  plusBtn.addEventListener("click", () => {
+    console.log("Plus icon cliqué");
+  });
+}
