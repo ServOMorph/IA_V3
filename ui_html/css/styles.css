@@ -578,3 +578,18 @@ body {
   opacity: 1;
 }
 
+/* Zone des fichiers injectés */
+.files-zone {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.files-zone strong {
+  color: var(--color-accent);
+  font-size: 0.8rem; /* réduit la taille */
+  font-weight: bold;
+}
