@@ -3,6 +3,8 @@ import { sendChatMessage } from './api.js';
 import { addMessage } from './messages.js';
 import { createSession, loadSessions, setActiveSession } from './sessions.js';
 import { createCopyButton } from './ui-utils.js';
+import { showToast } from './ui-utils.js';
+import { CONFIG } from './config.js';
 
 export async function sendMessage(prompt) {
   if (!appState.currentSession) {
@@ -46,7 +48,47 @@ export async function sendMessage(prompt) {
 // Gestion du bouton Plus
 const plusBtn = document.getElementById("plus-btn");
 if (plusBtn) {
+  // Créer dynamiquement un input file caché
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.style.display = "none";
+  document.body.appendChild(fileInput);
+
   plusBtn.addEventListener("click", () => {
-    console.log("Plus icon cliqué");
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!appState.currentSession) {
+      await createSession();
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch(`${CONFIG.API_BASE_URL}/files/${appState.currentSession}/upload`, {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`Erreur upload: ${errText}`);
+      }
+
+      await res.json();
+      // ✅ Affiche un toast succès
+      showToast(`📎 ${file.name} ajouté au contexte`);
+    } catch (err) {
+      console.error("Erreur upload fichier:", err);
+      // ⚠️ Affiche un toast erreur
+      showToast("⚠️ Erreur lors de l’upload du fichier");
+    } finally {
+      fileInput.value = ""; // reset
+    }
   });
 }
