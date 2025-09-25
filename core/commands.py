@@ -17,6 +17,7 @@ from core.logging.conv_logger import setup_conv_logger
 from core.session_manager import SessionManager
 from core.file_exporter import export_file
 from core.block_parser import extract_code_blocks
+from core.file_manager import copy_file_to_session, add_file_as_system_context
 
 # --- Préfixe configurable ---
 COMMAND_PREFIX = "&"
@@ -377,39 +378,21 @@ class CommandHandler:
                 print(f"⚠️ Usage : {COMMAND_PREFIX}copyfile chemin/fichier")
                 return True, False
 
-            import shutil
             src = Path(arg).expanduser().resolve()
             if not src.exists() or not src.is_file():
                 print(f"⚠️ Fichier introuvable : {src}")
                 return True, False
 
-            dst = self.save_manager.session_dir / src.name
             try:
-                shutil.copy(src, dst)
+                # 1. Copier dans la session courante
+                dst = copy_file_to_session(self.save_manager.session_dir.name, src)
                 print(f"✅ Fichier copié dans la session : {dst.as_posix()}")
 
-                # Charger le contenu comme contexte système (non visible dans l'UI)
-                try:
-                    text = dst.read_text(encoding="utf-8", errors="ignore")
-                    if text.strip():
-                        # Chercher si un message system existe déjà
-                        system_msg = next((m for m in self.client.history if m.get("role") == "system"), None)
-                        if system_msg:
-                            # Ajouter dans le même bloc system
-                            system_msg["content"] += f"\n\n[Contexte importé depuis {src.name}]\n{text}"
-                        else:
-                            # Créer le bloc system unique
-                            self.client.history.append({
-                                "role": "system",
-                                "content": f"Ecris en Français\n\n[Contexte importé depuis {src.name}]\n{text}"
-                            })
-                        print(f"📥 Contenu de {src.name} ajouté au contexte système.")
-                    else:
-                        print(f"⚠️ Fichier {src.name} vide, rien ajouté au contexte.")
-                except Exception as e:
-                    print(f"⚠️ Erreur lecture fichier copié : {e}")
+                # 2. Ajouter son contenu comme contexte système
+                add_file_as_system_context(self.client, dst)
+                print(f"📥 Contenu de {dst.name} ajouté au contexte système.")
             except Exception as e:
-                print(f"❌ Erreur copie : {e}")
+                print(f"❌ Erreur lors de la copie/ajout : {e}")
             return True, False
 
 
